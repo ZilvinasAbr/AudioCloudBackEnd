@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,7 @@ namespace SaitynoProjektasBackEnd
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddCors();
 
 //            services.Configure<MvcOptions>(options =>
 //            {
@@ -46,6 +48,8 @@ namespace SaitynoProjektasBackEnd
 
             app.UseMvc();
 
+            app.UseCors(builder =>
+                builder.WithOrigins("https://audiocloud.surge.sh"));
 //            var options = new RewriteOptions()
 //                .AddRedirectToHttps();
 //            app.UseRewriter(options);
