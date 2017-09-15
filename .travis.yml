@@ -1,6 +1,5 @@
-language: node_js
-node_js:
-  - 6
-  - 8
-after_success:
-  - surge --project ./SaitynoProjektasFrontEnd/build --domain audiocloud.surge.sh
+install: ./SaitynoProjektasFrontEnd/build.sh
+deploy:
+  provider: surge
+  project: ./SaitynoProjektasFrontEnd/build/
+  domain: audiocloud.surge.sh
