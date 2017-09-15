@@ -26,13 +26,9 @@ namespace SaitynoProjektasBackEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
             services.AddCors();
 
-//            services.Configure<MvcOptions>(options =>
-//            {
-//                options.Filters.Add(new RequireHttpsAttribute());
-//            });
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,13 +42,13 @@ namespace SaitynoProjektasBackEnd
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            app.UseMvc();
-
             app.UseCors(builder =>
-                builder.WithOrigins("https://audiocloud.surge.sh"));
-//            var options = new RewriteOptions()
-//                .AddRedirectToHttps();
-//            app.UseRewriter(options);
+                builder.WithOrigins(
+                    "http://localhost:3000",
+                    "https://audiocloud.surge.sh"
+                ));
+
+            app.UseMvc();
         }
     }
 }
