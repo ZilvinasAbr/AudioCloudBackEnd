@@ -1,4 +1,7 @@
-install: ./SaitynoProjektasFrontEnd/build.sh
+install:
+  - cd SaitynoProjektasFrontEnd
+  - npm install
+  - npm build
 deploy:
   provider: surge
   project: ./SaitynoProjektasFrontEnd/build/
