@@ -13,5 +13,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://saitynoprojektas.azurewebsites.net/"
+  "devDependencies": {
+    "surge": "^0.19.0"
+  }
 }
