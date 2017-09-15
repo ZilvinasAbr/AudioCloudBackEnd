@@ -27,10 +27,10 @@ namespace SaitynoProjektasBackEnd
         {
             services.AddMvc();
 
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Filters.Add(new RequireHttpsAttribute());
-            });
+//            services.Configure<MvcOptions>(options =>
+//            {
+//                options.Filters.Add(new RequireHttpsAttribute());
+//            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,9 +46,9 @@ namespace SaitynoProjektasBackEnd
 
             app.UseMvc();
 
-            var options = new RewriteOptions()
-                .AddRedirectToHttps();
-            app.UseRewriter(options);
+//            var options = new RewriteOptions()
+//                .AddRedirectToHttps();
+//            app.UseRewriter(options);
         }
     }
 }
