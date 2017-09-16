@@ -1,0 +1,47 @@
+﻿Parengta kliento-serverio infrastruktūra (lokaliai ar "debesyje")
+Parengta programavimo aplinka leidžianti patogiai paleisti sprendimą 
+Suprojektuota ir realizuota REST principais paremta sąsaja 
+Turi būti galima iškviesti sąsajos funkcijas (su naršykle, postman ar kitu įrankiu) ir gauti teisingai suformuotą atsakymą (teisingas turinio tipas (json, xml, atom, text ar kt.)).
+// Pastaba: realizuoti funkcionalumą (serverio dalies logiką) pirmam laboratoriniam darbui *nereikia*. Grąžinamo atsakymo turinys nesvarbus.
+
+Users
+
+User:
+	Name
+	Location
+	Description
+	ProfilePicture
+	Following
+	Followers
+Songs
+
+Song:
+	Title
+	Description	
+	UploadDate
+	Picture
+	Genre
+	Duration
+	Plays
+	Likes
+	Tags
+
+Playlists
+	Name
+	Description
+	Songs
+	IsPublic
+	Tags
+
+Likes
+
+Followers
+
+Following
+
+Pictures
+
+
+Problems:
+http://docs.identityserver.io/en/release/quickstarts/0_overview.html
+  For production scenarios you need a persistent or shared store like a database or cache for that

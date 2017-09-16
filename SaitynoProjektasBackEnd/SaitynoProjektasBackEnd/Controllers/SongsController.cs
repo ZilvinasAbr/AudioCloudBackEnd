@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SaitynoProjektasBackEnd.Controllers
 {
     [Route("api/[controller]")]
-    public class SongController : Controller
+    public class SongsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public SongController(ApplicationDbContext context)
+        public SongsController(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -31,6 +31,12 @@ namespace SaitynoProjektasBackEnd
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            // configure identity server with in-memory stores, keys, clients and resources
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddInMemoryApiResources(Config.GetApiResources())
+                .AddInMemoryClients(Config.GetClients());
+
             services.AddCors();
             services.AddMvc();
         }
@@ -43,6 +49,7 @@ namespace SaitynoProjektasBackEnd
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseIdentityServer();
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
