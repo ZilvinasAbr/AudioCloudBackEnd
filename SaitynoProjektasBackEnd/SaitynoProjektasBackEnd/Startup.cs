@@ -31,16 +31,8 @@ namespace SaitynoProjektasBackEnd
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
-            // configure identity server with in-memory stores, keys, clients and resources
-
             services.AddCors();
             services.AddMvc();
-
-            services.AddAuthentication().AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
