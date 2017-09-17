@@ -45,3 +45,5 @@ Pictures
 Problems:
 http://docs.identityserver.io/en/release/quickstarts/0_overview.html
   For production scenarios you need a persistent or shared store like a database or cache for that
+  Again this might be useful to get started, but needs to be replaced by some persistent key material for production scenarios.
+

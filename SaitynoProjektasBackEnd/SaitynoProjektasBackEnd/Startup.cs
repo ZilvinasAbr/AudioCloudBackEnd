@@ -32,13 +32,15 @@ namespace SaitynoProjektasBackEnd
                 options.UseSqlServer(connectionString));
 
             // configure identity server with in-memory stores, keys, clients and resources
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddInMemoryClients(Config.GetClients());
 
             services.AddCors();
             services.AddMvc();
+
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +51,6 @@ namespace SaitynoProjektasBackEnd
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseIdentityServer();
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
