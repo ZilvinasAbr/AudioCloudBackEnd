@@ -12,7 +12,6 @@ User:
 	Description
 	ProfilePicture
 	Following
-	Followers
 Songs
 
 Song:
@@ -31,8 +30,6 @@ Playlists
 	Description
 	Songs
 	IsPublic
-	Tags
-
 Likes
 
 Followers
@@ -40,6 +37,8 @@ Followers
 Following
 
 Pictures
+
+Genres
 
 
 Problems:

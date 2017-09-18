@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SaitynoProjektasBackEnd.Data;
+using SaitynoProjektasBackEnd.Models;
 
 namespace SaitynoProjektasBackEnd
 {
@@ -24,7 +22,9 @@ namespace SaitynoProjektasBackEnd
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    DbInitializer.Initialize(context);
+                    var userManager = services.GetRequiredService<UserManager<User>>();
+
+                    DbInitializer.Initialize(context, userManager);
                 }
                 catch (Exception ex)
                 {
