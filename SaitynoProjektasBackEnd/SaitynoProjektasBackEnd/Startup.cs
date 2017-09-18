@@ -68,12 +68,6 @@ namespace SaitynoProjektasBackEnd
                 options.SlidingExpiration = true;
             });
 
-            services.AddAuthentication().AddGoogle(googleOptions =>
-            {
-                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
-            });
-
             services.AddCors();
             services.AddMvc();
         }
