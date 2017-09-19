@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
 using SaitynoProjektasBackEnd.Services;
@@ -41,26 +40,54 @@ namespace SaitynoProjektasBackEnd.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]AddSongRequestModel song)
         {
-            var result = _songsService.AddSong(song);
-
-            if (!result)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _songsService.AddSong(song);
+
+            if (errorMessages != null)
+            {
+                return Forbid(errorMessages);
             }
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Song song)
+        public IActionResult Put(int id, [FromBody]EditSongRequestModel song)
         {
-            return Ok("Not Implemented");
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _songsService.EditSong(id, song);
+
+            if (errorMessages != null)
+            {
+                return Forbid(errorMessages);
+            }
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok("Not Implemented");
+            var errorMessages = _songsService.DeleteSong(id);
+
+            if (errorMessages != null)
+            {
+                return Forbid(errorMessages);
+            }
+
+            return NoContent();
         }
     }
 }

@@ -94,13 +94,13 @@ namespace SaitynoProjektasBackEnd.Data
         {
             var playlists = new[]
             {
-                new Playlist {Description = "Lorem ipsum", IsPublic = true, Name = "Playlist 1"},
-                new Playlist {Description = "Lorem ipsum", IsPublic = false, Name = "Playlist 2"},
-                new Playlist {Description = "Lorem ipsum", IsPublic = true, Name = "Playlist 3"},
-                new Playlist {Description = "Lorem ipsum", IsPublic = false, Name = "Playlist 4"},
-                new Playlist {Description = "Lorem ipsum", IsPublic = true, Name = "Playlist 5"},
-                new Playlist {Description = "Lorem ipsum", IsPublic = false, Name = "Playlist 6"},
-                new Playlist {Description = "Lorem ipsum", IsPublic = true, Name = "Playlist 7"}
+                new Playlist {User=users[0], Description = "Lorem ipsum", IsPublic = true, Name = "Playlist 1"},
+                new Playlist {User=users[0], Description = "Lorem ipsum", IsPublic = false, Name = "Playlist 2"},
+                new Playlist {User=users[1], Description = "Lorem ipsum", IsPublic = true, Name = "Playlist 3"},
+                new Playlist {User=users[1], Description = "Lorem ipsum", IsPublic = false, Name = "Playlist 4"},
+                new Playlist {User=users[2], Description = "Lorem ipsum", IsPublic = true, Name = "Playlist 5"},
+                new Playlist {User=users[3], Description = "Lorem ipsum", IsPublic = false, Name = "Playlist 6"},
+                new Playlist {User=users[4], Description = "Lorem ipsum", IsPublic = true, Name = "Playlist 7"}
             };
 
             context.Playlists.AddRange(playlists);

@@ -8,6 +8,8 @@ namespace SaitynoProjektasBackEnd.Services
     {
         IEnumerable<PlaylistResponseModel> GetPlaylists();
         PlaylistResponseModel GetPlaylistById(int id);
-        bool AddPlaylist(AddPlaylistRequestModel playlist);
+        string[] AddPlaylist(AddPlaylistRequestModel playlist);
+        string[] EditPlaylist(int id, EditPlaylistRequestModel playlist);
+        string[] DeletePlaylist(int id);
     }
 }

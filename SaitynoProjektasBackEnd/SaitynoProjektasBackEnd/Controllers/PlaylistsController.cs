@@ -41,26 +41,54 @@ namespace SaitynoProjektasBackEnd.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]AddPlaylistRequestModel playlist)
         {
-            var result = _playlistsService.AddPlaylist(playlist);
-
-            if (!result)
+            if (!ModelState.IsValid)
             {
-                return BadRequest();
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.AddPlaylist(playlist);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
             }
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Playlist song)
+        public IActionResult Put(int id, [FromBody]EditPlaylistRequestModel playlist)
         {
-            return Ok("Not Implemented");
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.EditPlaylist(id, playlist);
+
+            if (errorMessages != null)
+            {
+                return Forbid(errorMessages);
+            }
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return Ok("Not Implemented");
+            var errorMessages = _playlistsService.DeletePlaylist(id);
+
+            if (errorMessages != null)
+            {
+                return Forbid(errorMessages);
+            }
+
+            return NoContent();
         }
     }
 }
