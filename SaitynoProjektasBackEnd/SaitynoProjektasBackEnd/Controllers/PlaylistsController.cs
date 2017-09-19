@@ -8,40 +8,40 @@ using SaitynoProjektasBackEnd.Services;
 namespace SaitynoProjektasBackEnd.Controllers
 {
     [Route("api/[controller]")]
-    public class SongsController : Controller
+    public class PlaylistsController : Controller
     {
-        private readonly ISongsService _songsService;
+        private readonly IPlaylistsService _playlistsService;
 
-        public SongsController(ISongsService songsService)
+        public PlaylistsController(IPlaylistsService playlistsService)
         {
-            _songsService = songsService;
+            _playlistsService = playlistsService;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var songs = _songsService.GetSongs();
+            var playlists = _playlistsService.GetPlaylists();
 
-            return Ok(songs);
+            return Ok(playlists);
         }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var song = _songsService.GetSongById(id);
-            
-            if (song == null)
+            var playlist = _playlistsService.GetPlaylistById(id);
+
+            if (playlist == null)
             {
                 return NotFound();
             }
 
-            return Ok(song);
+            return Ok(playlist);
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]AddSongRequestModel song)
+        public IActionResult Post([FromBody]AddPlaylistRequestModel playlist)
         {
-            var result = _songsService.AddSong(song);
+            var result = _playlistsService.AddPlaylist(playlist);
 
             if (!result)
             {
@@ -52,7 +52,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]Song song)
+        public IActionResult Put(int id, [FromBody]Playlist song)
         {
             return Ok("Not Implemented");
         }

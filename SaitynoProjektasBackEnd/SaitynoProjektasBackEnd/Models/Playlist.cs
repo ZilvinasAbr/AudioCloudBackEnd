@@ -11,7 +11,6 @@ namespace SaitynoProjektasBackEnd.Models
 
         public User User { get; set; }
         public ICollection<PlaylistSong> PlaylistSongs { get; set; }
-        public ICollection<Song> Songs { get; set; }
         public ICollection<Like> Likes { get; set; }
     }
 }

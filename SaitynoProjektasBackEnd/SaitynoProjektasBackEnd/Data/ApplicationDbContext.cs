@@ -22,16 +22,6 @@ namespace SaitynoProjektasBackEnd.Data
 
             modelBuilder.Entity<PlaylistSong>()
                 .HasKey(ps => new {ps.PlaylistId, ps.SongId});
-
-            modelBuilder.Entity<Playlist>()
-                .HasMany(p => p.PlaylistSongs)
-                .WithOne(ps => ps.Playlist)
-                .HasForeignKey(ps => ps.PlaylistId);
-
-            modelBuilder.Entity<Song>()
-                .HasMany(p => p.PlaylistSongs)
-                .WithOne(ps => ps.Song)
-                .HasForeignKey(ps => ps.PlaylistId);
         }
     }
 }

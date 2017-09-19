@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
+using SaitynoProjektasBackEnd.Services;
 
 namespace SaitynoProjektasBackEnd
 {
@@ -70,6 +71,9 @@ namespace SaitynoProjektasBackEnd
 
             services.AddCors();
             services.AddMvc();
+
+            services.AddTransient<ISongsService, SongsService>();
+            services.AddTransient<IPlaylistsService, PlaylistsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
