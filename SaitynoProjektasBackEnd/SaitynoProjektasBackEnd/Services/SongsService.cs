@@ -26,18 +26,7 @@ namespace SaitynoProjektasBackEnd.Services
                 .Include(s => s.Likes)
                 .ToList();
 
-            var songResponseModels = songs.Select(song => new SongResponseModel
-            {
-                Description = song.Description,
-                Duration = song.Duration,
-                Genre = song.Genre.Name,
-                Likes = song.Likes.Count,
-                PictureUrl = song.PictureUrl,
-                Plays = song.Plays,
-                Title = song.Title,
-                UploadDate = song.UploadDate,
-                UploaderName = song.User.UserName
-            });
+            var songResponseModels = songs.Select(Mappers.SongToSongResponseModel);
 
             return songResponseModels;
         }
@@ -55,18 +44,7 @@ namespace SaitynoProjektasBackEnd.Services
                 return null;
             }
 
-            var songResponseModel = new SongResponseModel
-            {
-                Description = song.Description,
-                Duration = song.Duration,
-                Genre = song.Genre.Name,
-                Likes = song.Likes.Count,
-                PictureUrl = song.PictureUrl,
-                Plays = song.Plays,
-                Title = song.Title,
-                UploadDate = song.UploadDate,
-                UploaderName = song.User.UserName
-            };
+            var songResponseModel = Mappers.SongToSongResponseModel(song);
 
             return songResponseModel;
         }

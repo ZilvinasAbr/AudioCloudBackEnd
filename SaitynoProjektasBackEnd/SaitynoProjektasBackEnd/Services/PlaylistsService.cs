@@ -40,19 +40,7 @@ namespace SaitynoProjektasBackEnd.Services
                 IsPublic = playlist.IsPublic,
                 UserName = playlist.User.UserName,
                 Likes = playlist.Likes.Count,
-                Songs = playlist.PlaylistSongs.Select(ps => new SongResponseModel
-                {
-                    TrackNumber = ps.Number,
-                    Title = ps.Song.Title,
-                    Description = ps.Song.Description,
-                    UploadDate = ps.Song.UploadDate,
-                    PictureUrl = ps.Song.PictureUrl,
-                    Duration = ps.Song.Duration,
-                    Plays = ps.Song.Plays,
-                    UploaderName = ps.Song.User.UserName,
-                    Genre = ps.Song.Genre.Name,
-                    Likes = ps.Song.Likes.Count
-                })
+                Songs = playlist.PlaylistSongs.Select(Mappers.PlaylistSongToSongResponseModel)
             })
             .ToList();
 
@@ -87,19 +75,7 @@ namespace SaitynoProjektasBackEnd.Services
                 IsPublic = playlist.IsPublic,
                 UserName = playlist.User.UserName,
                 Likes = playlist.Likes.Count,
-                Songs = playlist.PlaylistSongs.Select(ps => new SongResponseModel
-                {
-                    TrackNumber = ps.Number,
-                    Title = ps.Song.Title,
-                    Description = ps.Song.Description,
-                    UploadDate = ps.Song.UploadDate,
-                    PictureUrl = ps.Song.PictureUrl,
-                    Duration = ps.Song.Duration,
-                    Plays = ps.Song.Plays,
-                    UploaderName = ps.Song.User.UserName,
-                    Genre = ps.Song.Genre.Name,
-                    Likes = ps.Song.Likes.Count
-                })
+                Songs = playlist.PlaylistSongs.Select(Mappers.PlaylistSongToSongResponseModel)
             };
 
             return playlistResponseModel;
