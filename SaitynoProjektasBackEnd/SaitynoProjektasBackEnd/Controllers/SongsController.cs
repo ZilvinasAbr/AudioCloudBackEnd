@@ -89,5 +89,20 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("search")]
+        public IActionResult Search([FromBody] SongSearchRequestModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var songs = _songsService.SearchSongs(model.Query);
+
+            return Ok(songs);
+        }
     }
 }

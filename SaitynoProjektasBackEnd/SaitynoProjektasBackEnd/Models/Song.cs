@@ -28,6 +28,9 @@ namespace SaitynoProjektasBackEnd.Models
         public int Plays { get; set; }
 
         public User User { get; set; }
+
+        [Required]
+        public int GenreId { get; set; }
         public Genre Genre { get; set; }
   
         public ICollection<PlaylistSong> PlaylistSongs { get; set; }

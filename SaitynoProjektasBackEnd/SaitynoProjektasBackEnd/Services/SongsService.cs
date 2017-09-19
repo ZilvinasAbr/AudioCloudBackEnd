@@ -24,11 +24,9 @@ namespace SaitynoProjektasBackEnd.Services
                 .Include(s => s.User)
                 .Include(s => s.Genre)
                 .Include(s => s.Likes)
-                .ToList();
+                .Select(Mappers.SongToSongResponseModel);
 
-            var songResponseModels = songs.Select(Mappers.SongToSongResponseModel);
-
-            return songResponseModels;
+            return songs;
         }
 
         public SongResponseModel GetSongById(int id)
@@ -73,12 +71,7 @@ namespace SaitynoProjektasBackEnd.Services
             _context.Songs.Add(song);
             var result = _context.SaveChanges();
 
-            if (result == 0)
-            {
-                return new[] {"Could not add song"};
-            }
-
-            return null;
+            return result == 0 ? new[] {"Could not add song"} : null;
         }
 
         public string[] EditSong(int id, EditSongRequestModel songRequestModel)
@@ -128,5 +121,17 @@ namespace SaitynoProjektasBackEnd.Services
 
             return null;
         }
+
+        public IEnumerable<SongResponseModel> SearchSongs(string query) =>
+            _context.Songs
+                .Include(s => s.User)
+                .Include(s => s.Genre)
+                .Include(s => s.Likes)
+                .Where(song => IsFoundByQuery(song, query.ToUpperInvariant()))
+                .AsEnumerable()
+                .Select(Mappers.SongToSongResponseModel);
+
+        private static bool IsFoundByQuery(Song song, string query) =>
+            song.Title.ToUpperInvariant().Contains(query) || song.Description.ToUpperInvariant().Contains(query);
     }
 }

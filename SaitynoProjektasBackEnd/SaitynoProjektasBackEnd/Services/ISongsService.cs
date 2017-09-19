@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using SaitynoProjektasBackEnd.RequestModels;
 using SaitynoProjektasBackEnd.ResponseModels;
 
@@ -14,5 +11,6 @@ namespace SaitynoProjektasBackEnd.Services
         string[] AddSong(AddSongRequestModel song);
         string[] EditSong(int id, EditSongRequestModel song);
         string[] DeleteSong(int id);
+        IEnumerable<SongResponseModel> SearchSongs(string query);
     }
 }
