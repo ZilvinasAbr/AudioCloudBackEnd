@@ -1,10 +1,12 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.Services;
@@ -33,7 +35,10 @@ namespace SaitynoProjektasBackEnd
             }
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlite("Data Source=C:\\Users\\ZilvinasAbromavicius\\Desktop\\SaitynoProjektas\\AudioCloud.db;"));
+
+            // services.AddDbContext<ApplicationDbContext>(options =>
+            //     options.UseSqlServer(connectionString));
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -70,6 +75,16 @@ namespace SaitynoProjektasBackEnd
             });
 
             services.AddCors();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Audience = "http://localhost:3000";
+                options.Authority = "https://accounts.google.com";
+            });
+
             services.AddMvc();
 
             services.AddTransient<ISongsService, SongsService>();
