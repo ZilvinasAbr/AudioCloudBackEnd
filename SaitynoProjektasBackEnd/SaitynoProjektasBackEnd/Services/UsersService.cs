@@ -45,7 +45,6 @@ namespace SaitynoProjektasBackEnd.Services
             if (!string.IsNullOrEmpty(userRequestModel.Name))
             {
                 user.UserName = userRequestModel.Name;
-                user.NormalizedUserName = userRequestModel.Name.Normalize();
             }
 
             if (!string.IsNullOrEmpty(userRequestModel.Location))
