@@ -40,6 +40,9 @@ Pictures
 
 Genres
 
+Events
+	Rodis news feed'e, kokį kūrinį kas įkėlė.
+
 
 Problems:
 http://docs.identityserver.io/en/release/quickstarts/0_overview.html
