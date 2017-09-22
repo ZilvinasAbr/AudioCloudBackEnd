@@ -24,6 +24,8 @@ namespace SaitynoProjektasBackEnd.Services
                 .Include(s => s.User)
                 .Include(s => s.Genre)
                 .Include(s => s.Likes)
+                .Include(s => s.Comments)
+                    .ThenInclude(c => c.User)
                 .Select(Mappers.SongToSongResponseModel);
 
             return songs;

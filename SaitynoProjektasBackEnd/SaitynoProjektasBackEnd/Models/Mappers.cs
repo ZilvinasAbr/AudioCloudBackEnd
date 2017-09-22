@@ -1,4 +1,5 @@
-﻿using SaitynoProjektasBackEnd.ResponseModels;
+﻿using System.Linq;
+using SaitynoProjektasBackEnd.ResponseModels;
 
 namespace SaitynoProjektasBackEnd.Models
 {
@@ -15,7 +16,8 @@ namespace SaitynoProjektasBackEnd.Models
                 Plays = song.Plays,
                 Title = song.Title,
                 UploadDate = song.UploadDate,
-                UploaderName = song.User.UserName
+                UploaderName = song.User.UserName,
+                Comments = song.Comments.Select(CommentToCommentResponseModel)
             };
 
         public static SongResponseModel PlaylistSongToSongResponseModel(PlaylistSong playlistSong) =>
@@ -40,6 +42,14 @@ namespace SaitynoProjektasBackEnd.Models
                 Location = user.Location,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 Description = user.Description
+            };
+
+        public static CommentResponseModel CommentToCommentResponseModel(Comment comment) =>
+            new CommentResponseModel
+            {
+                Message = comment.Message,
+                CreatedOn = comment.CreatedOn,
+                UserName = comment.User.UserName
             };
     }
 }

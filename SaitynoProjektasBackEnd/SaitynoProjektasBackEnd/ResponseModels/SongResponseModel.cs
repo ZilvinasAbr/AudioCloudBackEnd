@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using SaitynoProjektasBackEnd.Models;
 
 namespace SaitynoProjektasBackEnd.ResponseModels
 {
@@ -14,5 +16,6 @@ namespace SaitynoProjektasBackEnd.ResponseModels
         public string UploaderName { get; set; }
         public string Genre { get; set; }
         public int Likes { get; set; }
+        public IEnumerable<CommentResponseModel> Comments { get; set; }
     }
 }
