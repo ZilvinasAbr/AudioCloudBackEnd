@@ -26,7 +26,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int id, [FromHeader] string userName)
         {
             var playlist = _playlistsService.GetPlaylistById(id);
 
