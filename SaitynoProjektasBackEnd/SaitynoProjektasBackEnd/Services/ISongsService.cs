@@ -8,7 +8,7 @@ namespace SaitynoProjektasBackEnd.Services
     {
         SongResponseModel GetSongById(int id);
         IEnumerable<SongResponseModel> GetSongs();
-        string[] AddSong(AddSongRequestModel song);
+        string[] AddSong(AddSongRequestModel song, string userName);
         string[] EditSong(int id, EditSongRequestModel song);
         string[] DeleteSong(int id);
         IEnumerable<SongResponseModel> SearchSongs(string query);

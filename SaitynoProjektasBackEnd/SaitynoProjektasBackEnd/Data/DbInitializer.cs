@@ -230,6 +230,28 @@ namespace SaitynoProjektasBackEnd.Data
                     UploadDate = DateTime.Now,
                     Duration = 300,
                     Plays = 1000
+                },
+                new Song
+                {
+                    Genre = genres[0],
+                    User = users[0],
+                    Title = "Song 6",
+                    Description =
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    UploadDate = DateTime.Now,
+                    Duration = 300,
+                    Plays = 1000
+                },
+                new Song
+                {
+                    Genre = genres[0],
+                    User = users[1],
+                    Title = "Song 7",
+                    Description =
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    UploadDate = DateTime.Now,
+                    Duration = 300,
+                    Plays = 1000
                 }
             };
 

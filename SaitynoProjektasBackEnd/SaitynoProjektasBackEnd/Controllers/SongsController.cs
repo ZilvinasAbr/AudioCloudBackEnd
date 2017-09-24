@@ -38,7 +38,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]AddSongRequestModel song)
+        public IActionResult Post([FromBody]AddSongRequestModel song, [FromHeader]string userName)
         {
             if (!ModelState.IsValid)
             {
@@ -47,7 +47,7 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _songsService.AddSong(song);
+            var errorMessages = _songsService.AddSong(song, userName);
 
             if (errorMessages != null)
             {

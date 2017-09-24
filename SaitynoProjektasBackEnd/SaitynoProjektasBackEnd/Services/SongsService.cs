@@ -49,15 +49,17 @@ namespace SaitynoProjektasBackEnd.Services
             return songResponseModel;
         }
 
-        public string[] AddSong(AddSongRequestModel songRequestModel)
+        public string[] AddSong(AddSongRequestModel songRequestModel, string userName)
         {
             var genre = _context.Genres
                 .SingleOrDefault(g => g.Name == songRequestModel.Genre);
+            var user = _context.Users
+                .SingleOrDefault(u => u.UserName == userName);
 
             if (genre == null)
-            {
                 return new[] {"Genre is not found"};
-            }
+            if (user == null)
+                return new[] {"User is not found"};
 
             var song = new Song
             {
@@ -67,7 +69,8 @@ namespace SaitynoProjektasBackEnd.Services
                 PictureUrl = songRequestModel.PictureUrl,
                 Duration = 0,
                 Plays = 0,
-                Genre = genre
+                Genre = genre,
+                User = user
             };
 
             _context.Songs.Add(song);

@@ -148,5 +148,98 @@ namespace SaitynoProjektasBackEnd.Services
 
             return null;
         }
+
+        public string[] AddSong(int playlistId, int songId, string userName)
+        {
+            var user = _context.Users
+                .SingleOrDefault(u => u.UserName == userName);
+
+            if (user == null)
+                return new[] {"User is not found"};
+
+            var playlist = _context.Playlists
+                .Include(p => p.User)
+                .SingleOrDefault(p => p.Id == playlistId);
+            var song = _context.Songs
+                .SingleOrDefault(s => s.Id == songId);
+
+            if (playlist == null)
+                return new[] {"Playlist is not found"};
+            if (playlist.User.UserName != userName)
+                return new[] {"You are not the owner of this playlist"};
+            if (song == null)
+                return new[] {"Song is not found"};
+
+            var playlistSongs = _context.PlaylistSongs
+                .Where(ps => ps.PlaylistId == playlistId);
+
+            var isAlreadyInPlaylist = playlistSongs
+                .Any(ps => ps.SongId == songId);
+
+            if (isAlreadyInPlaylist)
+                return new[] {"Song is already in the playlist"};
+
+            var lastPlaylistSong = playlistSongs
+                .OrderByDescending(ps => ps.Number)
+                .FirstOrDefault();
+
+            var playlistSong = new PlaylistSong
+            {
+                Playlist = playlist,
+                Song = song,
+                Number = lastPlaylistSong?.Number + 1 ?? 1
+            };
+
+            _context.PlaylistSongs.Add(playlistSong);
+            _context.SaveChanges();
+
+            return null;
+        }
+
+        public string[] RemoveSong(int playlistId, int songId, string userName)
+        {
+            var user = _context.Users
+                .SingleOrDefault(u => u.UserName == userName);
+
+            if (user == null)
+                return new[] { "User is not found" };
+
+            var playlist = _context.Playlists
+                .Include(p => p.User)
+                .SingleOrDefault(p => p.Id == playlistId);
+            var song = _context.Songs
+                .SingleOrDefault(s => s.Id == songId);
+
+            if (playlist == null)
+                return new[] { "Playlist is not found" };
+            if (playlist.User.UserName != userName)
+                return new[] { "You are not the owner of this playlist" };
+            if (song == null)
+                return new[] { "Song is not found" };
+
+            var playlistSongToRemove = _context.PlaylistSongs
+                .Where(ps => ps.PlaylistId == playlistId)
+                .SingleOrDefault(ps => ps.SongId == songId);
+
+            if (playlistSongToRemove == null)
+                return new[] {"Song is not in the playlist"};
+
+            _context.PlaylistSongs.Remove(playlistSongToRemove);
+            _context.SaveChanges();
+
+            var playlistSongs = _context.PlaylistSongs
+                .Where(ps => ps.PlaylistId == playlistId)
+                .OrderBy(ps => ps.Number)
+                .ToList();
+
+            for (var i = 0; i < playlistSongs.Count; i++)
+            {
+                playlistSongs[i].Number = i + 1;
+            }
+
+            _context.SaveChanges();
+
+            return null;
+        }
     }
 }

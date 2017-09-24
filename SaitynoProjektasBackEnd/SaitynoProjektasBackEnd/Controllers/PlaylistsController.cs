@@ -90,5 +90,45 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{playlistId}/song/{songId}")]
+        public IActionResult AddSong(int playlistId, int songId, [FromHeader]string userName)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.AddSong(playlistId, songId, userName);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{playlistId}/song/{songId}")]
+        public IActionResult RemoveSong(int playlistId, int songId, [FromHeader] string userName)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.RemoveSong(playlistId, songId, userName);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
+
+            return NoContent();
+        }
     }
 }
