@@ -9,7 +9,7 @@ namespace SaitynoProjektasBackEnd.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(50)]
         public string Title { get; set; }
 
         [Required]
@@ -27,6 +27,7 @@ namespace SaitynoProjektasBackEnd.Models
         [Required]
         public int Plays { get; set; }
 
+        public int UserId { get; set; }
         public User User { get; set; }
 
         [Required]
@@ -35,5 +36,7 @@ namespace SaitynoProjektasBackEnd.Models
   
         public ICollection<PlaylistSong> PlaylistSongs { get; set; }
         public ICollection<Like> Likes { get; set; }
+        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Event> Events { get; set; }
     }
 }

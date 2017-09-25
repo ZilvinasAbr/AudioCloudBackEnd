@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
+using SaitynoProjektasBackEnd.ResponseModels;
 using SaitynoProjektasBackEnd.Services;
 
 namespace SaitynoProjektasBackEnd.Controllers
@@ -18,17 +20,41 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromHeader]string userName)
         {
-            var playlists = _playlistsService.GetPlaylists();
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.GetPlaylists(userName, out IEnumerable<PlaylistResponseModel> playlists);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
 
             return Ok(playlists);
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int id, [FromHeader] string userName)
         {
-            var playlist = _playlistsService.GetPlaylistById(id);
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.GetPlaylistById(id, userName, out PlaylistResponseModel playlist);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
 
             if (playlist == null)
             {
@@ -89,6 +115,63 @@ namespace SaitynoProjektasBackEnd.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost("{playlistId}/song/{songId}")]
+        public IActionResult AddSong(int playlistId, int songId, [FromHeader]string userName)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.AddSong(playlistId, songId, userName);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete("{playlistId}/song/{songId}")]
+        public IActionResult RemoveSong(int playlistId, int songId, [FromHeader] string userName)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.RemoveSong(playlistId, songId, userName);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
+
+            return NoContent();
+        }
+
+        [HttpGet("{user}/{userNameOfPlaylists}")]
+        public IActionResult GetUserPlaylists(string userNameOfPlaylists, [FromHeader] string userName)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            IEnumerable<PlaylistResponseModel> playlists = null;
+            
+            var errorMessages = _playlistsService.GetUserPlaylists(userNameOfPlaylists, userName, out playlists);
+
+            return Ok(playlists);
         }
     }
 }

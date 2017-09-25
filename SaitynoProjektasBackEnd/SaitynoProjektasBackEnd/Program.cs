@@ -22,9 +22,8 @@ namespace SaitynoProjektasBackEnd
                 try
                 {
                     var context = services.GetRequiredService<ApplicationDbContext>();
-                    var userManager = services.GetRequiredService<UserManager<User>>();
 
-                    DbInitializer.Initialize(context, userManager);
+                    DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)
                 {

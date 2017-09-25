@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
 using SaitynoProjektasBackEnd.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace SaitynoProjektasBackEnd.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(ApplicationDbContext context, UserManager<User> userManager)
+        public static void Initialize(ApplicationDbContext context)
         {
             context.Database.EnsureCreated();
 
@@ -18,12 +17,68 @@ namespace SaitynoProjektasBackEnd.Data
                 return;
             }
 
-            var users = AddUsers(userManager);
+            var users = AddUsers(context);
+            var followings = AddFollowings(context, users);
             var genres = AddGenres(context);
             var playlists = AddPlaylists(context, users);
             var songs = AddSongs(context, users, genres);
+            var comments = AddComments(context, users, songs);
             var playlistSongs = AddPlaylistSongs(context, songs, playlists);
             var likes = AddLikes(context, users, songs, playlists);
+
+            GenerateEvents(context);
+        }
+
+        private static Following[] AddFollowings(ApplicationDbContext context, User[] users)
+        {
+            var followings = new []
+            {
+                new Following {Follower=users[0], Followed=users[1]},
+                new Following {Follower=users[0], Followed=users[2]},
+                new Following {Follower=users[0], Followed=users[3]},
+                new Following {Follower=users[0], Followed=users[4]}
+            };
+
+            context.Followings.AddRange(followings);
+            context.SaveChanges();
+
+            return followings;
+        }
+
+        private static void GenerateEvents(ApplicationDbContext context)
+        {
+            var songs = context.Songs
+                .Include(s => s.User)
+                .ToList();
+
+            var events = songs.Select(s => new Event
+            {
+                CreatedOn = s.UploadDate,
+                EventType = Event.SongAdded,
+                Song = s,
+                User = s.User
+            });
+
+            context.Events.AddRange(events);
+            context.SaveChanges();
+        }
+
+        private static Comment[] AddComments(ApplicationDbContext context, User[] users, Song[] songs)
+        {
+            var comments = new[]
+            {
+                new Comment{Song = songs[0], User = users[3], Message = "Message 1", CreatedOn = DateTime.Now},
+                new Comment{Song = songs[0], User = users[4], Message = "Message 2", CreatedOn = DateTime.Now},
+                new Comment{Song = songs[0], User = users[3], Message = "Message 3", CreatedOn = DateTime.Now},
+                new Comment{Song = songs[0], User = users[4], Message = "Message 4", CreatedOn = DateTime.Now},
+                new Comment{Song = songs[0], User = users[3], Message = "Message 5", CreatedOn = DateTime.Now},
+                new Comment{Song = songs[0], User = users[4], Message = "Message 6", CreatedOn = DateTime.Now}
+            };
+
+            context.Comments.AddRange(comments);
+            context.SaveChanges();
+
+            return comments;
         }
 
         private static PlaylistSong[] AddPlaylistSongs(ApplicationDbContext context, Song[] songs, Playlist[] playlists)
@@ -109,35 +164,33 @@ namespace SaitynoProjektasBackEnd.Data
             return playlists;
         }
 
-        public static User[] AddUsers(UserManager<User> userManager)
+        public static User[] AddUsers(ApplicationDbContext context)
         {
             var users = new[]
             {
-                new User {Email = "antanas@gmail.com", UserName = "Antanas", Description = "Description", Location = "Location"},
-                new User {Email = "petras.sakys@gmail.com", UserName = "Petras", Description = "Description", Location = "Location"},
-                new User {Email = "petras2@gmail.com", UserName = "Petras2", Description = "Description", Location = "Location"},
-                new User {Email = "jonas.jonaitis@gmail.com", UserName = "Jonas", Description = "Description", Location = "Location"},
-                new User {Email = "antanas2@gmail.com", UserName = "Antanas2", Description = "Description", Location = "Location"},
-                new User {Email = "petras3@gmail.com", UserName = "Petras3", Description = "Description", Location = "Location"},
-                new User {Email = "vardenis.pav@gmail.com", UserName = "Vardenis", Description = "Description", Location = "Location"},
-                new User {Email = "antanas3@gmail.com", UserName = "Antanas3", Description = "Description", Location = "Location"},
-                new User {Email = "tadas1@gmail.com", UserName = "tadas1", Description = "Description", Location = "Location"},
-                new User {Email = "tadas2@gmail.com", UserName = "tadas2", Description = "Description", Location = "Location"},
-                new User {Email = "tadas3.pav@gmail.com", UserName = "tadas3", Description = "Description", Location = "Location"},
-                new User {Email = "tadas4@gmail.com", UserName = "tadas4", Description = "Description", Location = "Location"},
-                new User {Email = "user1@gmail.com", UserName = "user1", Description = "Description", Location = "Location"},
-                new User {Email = "user2@gmail.com", UserName = "user2", Description = "Description", Location = "Location"},
-                new User {Email = "user3@gmail.com", UserName = "user3", Description = "Description", Location = "Location"},
-                new User {Email = "user4@gmail.com", UserName = "user4", Description = "Description", Location = "Location"},
-                new User {Email = "user5@gmail.com", UserName = "user5", Description = "Description", Location = "Location"},
-                new User {Email = "user6@gmail.com", UserName = "user6", Description = "Description", Location = "Location"},
-                new User {Email = "user7@gmail.com", UserName = "user7", Description = "Description", Location = "Location"}
+                new User {UserName = "Antanas", Description = "Description", Location = "Location"},
+                new User {UserName = "Petras", Description = "Description", Location = "Location"},
+                new User {UserName = "Petras2", Description = "Description", Location = "Location"},
+                new User {UserName = "Jonas", Description = "Description", Location = "Location"},
+                new User {UserName = "Antanas2", Description = "Description", Location = "Location"},
+                new User {UserName = "Petras3", Description = "Description", Location = "Location"},
+                new User {UserName = "Vardenis", Description = "Description", Location = "Location"},
+                new User {UserName = "Antanas3", Description = "Description", Location = "Location"},
+                new User {UserName = "tadas1", Description = "Description", Location = "Location"},
+                new User {UserName = "tadas2", Description = "Description", Location = "Location"},
+                new User {UserName = "tadas3", Description = "Description", Location = "Location"},
+                new User {UserName = "tadas4", Description = "Description", Location = "Location"},
+                new User {UserName = "user1", Description = "Description", Location = "Location"},
+                new User {UserName = "user2", Description = "Description", Location = "Location"},
+                new User {UserName = "user3", Description = "Description", Location = "Location"},
+                new User {UserName = "user4", Description = "Description", Location = "Location"},
+                new User {UserName = "user5", Description = "Description", Location = "Location"},
+                new User {UserName = "user6", Description = "Description", Location = "Location"},
+                new User {UserName = "user7", Description = "Description", Location = "Location"}
             };
 
-            foreach (var user in users)
-            {
-                var result = userManager.CreateAsync(user, "Testas123?").Result;
-            }
+            context.Users.AddRange(users);
+            context.SaveChanges();
 
             return users;
         }
@@ -217,6 +270,39 @@ namespace SaitynoProjektasBackEnd.Data
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
+                    Duration = 300,
+                    Plays = 1000
+                },
+                new Song
+                {
+                    Genre = genres[0],
+                    User = users[0],
+                    Title = "Song 6",
+                    Description =
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    UploadDate = DateTime.Now,
+                    Duration = 300,
+                    Plays = 1000
+                },
+                new Song
+                {
+                    Genre = genres[0],
+                    User = users[1],
+                    Title = "Song 7",
+                    Description =
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    UploadDate = DateTime.Now,
+                    Duration = 300,
+                    Plays = 1000
+                },
+                new Song
+                {
+                    Genre = genres[0],
+                    User = users[1],
+                    Title = "Song 8 Should not appear event",
+                    Description =
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    UploadDate = DateTime.Now - TimeSpan.FromDays(8),
                     Duration = 300,
                     Plays = 1000
                 }

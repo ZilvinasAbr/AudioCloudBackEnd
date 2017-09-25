@@ -41,9 +41,10 @@ Pictures
 Genres
 
 Events
-	Rodis news feed'e, kokį kūrinį kas įkėlė.
-
-
+	Eventai gali buti kad useris ikele nauja daina
+	Kad useris pridėjo dainą
+	Kad useris palikino dainą
+	Kad useris palikino grojaraštį
 Problems:
 http://docs.identityserver.io/en/release/quickstarts/0_overview.html
   For production scenarios you need a persistent or shared store like a database or cache for that

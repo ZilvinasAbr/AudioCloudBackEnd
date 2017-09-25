@@ -1,12 +1,12 @@
 ﻿using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SaitynoProjektasBackEnd.Data;
-using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.Services;
 
 namespace SaitynoProjektasBackEnd
@@ -32,49 +32,33 @@ namespace SaitynoProjektasBackEnd
                 connectionString = Configuration.GetConnectionString("Production");
             }
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+             services.AddDbContext<ApplicationDbContext>(options =>
+                 options.UseSqlServer(connectionString));
 
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.Configure<IdentityOptions>(options =>
-            {
-                // Password settings
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 4;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequiredUniqueChars = 0;
-
-                // Lockout settings
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 10;
-                options.Lockout.AllowedForNewUsers = true;
-
-                // User settings
-                options.User.RequireUniqueEmail = true;
-            });
-
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.Cookie.Expiration = TimeSpan.FromDays(150);
-                options.LoginPath = "/Account/Login"; // If the LoginPath is not set here, ASP.NET Core will default to /Account/Login
-                options.LogoutPath = "/Account/Logout"; // If the LogoutPath is not set here, ASP.NET Core will default to /Account/Logout
-                options.AccessDeniedPath = "/Account/AccessDenied"; // If the AccessDeniedPath is not set here, ASP.NET Core will default to /Account/AccessDenied
-                options.SlidingExpiration = true;
-            });
+//            connectionString = $"Data Source={Environment.CurrentDirectory}\\AudioCloud.db";
+//            services.AddDbContext<ApplicationDbContext>(options =>
+//                options.UseSqlite(connectionString));
 
             services.AddCors();
+
             services.AddMvc();
+
+            string domain = $"https://{Configuration["Auth0:Domain"]}/";
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = domain;
+                options.Audience = Configuration["Auth0:ApiIdentifier"];
+            });
 
             services.AddTransient<ISongsService, SongsService>();
             services.AddTransient<IPlaylistsService, PlaylistsService>();
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<ILikesService, LikesService>();
+            services.AddTransient<IEventsService, EventsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,6 +71,7 @@ namespace SaitynoProjektasBackEnd
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
             app.UseAuthentication();
 
             app.UseCors(builder =>
@@ -94,6 +79,7 @@ namespace SaitynoProjektasBackEnd
                     "http://localhost:3000",
                     "https://audiocloud.surge.sh"
                 ));
+
 
             app.UseMvc();
         }

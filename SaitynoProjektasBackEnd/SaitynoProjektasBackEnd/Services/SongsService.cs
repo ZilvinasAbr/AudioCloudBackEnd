@@ -24,9 +24,32 @@ namespace SaitynoProjektasBackEnd.Services
                 .Include(s => s.User)
                 .Include(s => s.Genre)
                 .Include(s => s.Likes)
+                .Include(s => s.Comments)
+                    .ThenInclude(c => c.User)
                 .Select(Mappers.SongToSongResponseModel);
 
             return songs;
+        }
+
+        public string[] GetSongsByGenre(string genreName, out IEnumerable<SongResponseModel> songsResult)
+        {
+            songsResult = null;
+            var genre = _context.Genres
+                .SingleOrDefault(g => g.Name == genreName);
+
+            if (genre == null)
+                return new[] { "Genre is not found" };
+
+            songsResult = _context.Songs
+                .Include(s => s.User)
+                .Include(s => s.Genre)
+                .Include(s => s.Likes)
+                .Include(s => s.Comments)
+                    .ThenInclude(c => c.User)
+                .Where(s => s.Genre.Name == genreName)
+                .Select(Mappers.SongToSongResponseModel);
+
+            return null;
         }
 
         public SongResponseModel GetSongById(int id)
@@ -47,15 +70,17 @@ namespace SaitynoProjektasBackEnd.Services
             return songResponseModel;
         }
 
-        public string[] AddSong(AddSongRequestModel songRequestModel)
+        public string[] AddSong(AddSongRequestModel songRequestModel, string userName)
         {
             var genre = _context.Genres
                 .SingleOrDefault(g => g.Name == songRequestModel.Genre);
+            var user = _context.Users
+                .SingleOrDefault(u => u.UserName == userName);
 
             if (genre == null)
-            {
                 return new[] {"Genre is not found"};
-            }
+            if (user == null)
+                return new[] {"User is not found"};
 
             var song = new Song
             {
@@ -65,7 +90,8 @@ namespace SaitynoProjektasBackEnd.Services
                 PictureUrl = songRequestModel.PictureUrl,
                 Duration = 0,
                 Plays = 0,
-                Genre = genre
+                Genre = genre,
+                User = user
             };
 
             _context.Songs.Add(song);
