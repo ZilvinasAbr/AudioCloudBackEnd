@@ -31,6 +31,27 @@ namespace SaitynoProjektasBackEnd.Services
             return songs;
         }
 
+        public string[] GetSongsByGenre(string genreName, out IEnumerable<SongResponseModel> songsResult)
+        {
+            songsResult = null;
+            var genre = _context.Genres
+                .SingleOrDefault(g => g.Name == genreName);
+
+            if (genre == null)
+                return new[] { "Genre is not found" };
+
+            songsResult = _context.Songs
+                .Include(s => s.User)
+                .Include(s => s.Genre)
+                .Include(s => s.Likes)
+                .Include(s => s.Comments)
+                    .ThenInclude(c => c.User)
+                .Where(s => s.Genre.Name == genreName)
+                .Select(Mappers.SongToSongResponseModel);
+
+            return null;
+        }
+
         public SongResponseModel GetSongById(int id)
         {
             var song = _context.Songs

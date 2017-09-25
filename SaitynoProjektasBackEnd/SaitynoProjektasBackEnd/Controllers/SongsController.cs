@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
+using SaitynoProjektasBackEnd.ResponseModels;
 using SaitynoProjektasBackEnd.Services;
 
 namespace SaitynoProjektasBackEnd.Controllers
@@ -20,6 +22,26 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult Get()
         {
             var songs = _songsService.GetSongs();
+
+            return Ok(songs);
+        }
+
+        [HttpGet("genre")]
+        public IActionResult GetByGenre([FromQuery] string genreName)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _songsService.GetSongsByGenre(genreName, out IEnumerable<SongResponseModel> songs);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
 
             return Ok(songs);
         }
