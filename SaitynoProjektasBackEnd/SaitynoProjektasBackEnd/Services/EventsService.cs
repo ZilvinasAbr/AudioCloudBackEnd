@@ -24,16 +24,18 @@ namespace SaitynoProjektasBackEnd.Services
             if (user == null)
                 return new[] {"User is not found"};
 
-            var followedUsers = _context.Followings
+            var followedUserNames = _context.Followings
                 .Include(f => f.Follower)
                 .Include(f => f.Followed)
                 .Where(f => f.Follower == user)
-                .Select(f => f.Followed)
+                .Select(f => f.Followed.UserName)
                 .ToList();
 
             eventsResult = _context.Events
                 .Include(e => e.User)
-                .Where(e => followedUsers.Contains(e.User))
+                .Include(e => e.Song)
+                .Where(e => followedUserNames.Contains(e.User.UserName))
+                .AsEnumerable()
                 .Select(Mappers.EventToEventResponseModel);
 
             return null;

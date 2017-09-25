@@ -2,7 +2,6 @@ using System;
 
 namespace SaitynoProjektasBackEnd.Models
 {
-
     public class Event
     {
         public static string SongAdded = "Song Added";
