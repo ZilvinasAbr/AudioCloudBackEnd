@@ -40,6 +40,12 @@ Pictures
 
 Genres
 
+Events
+	Eventai gali buti kad useris ikele nauja daina
+	Kad useris pridėjo dainą
+	Kad useris palikino dainą
+	Kad useris palikino grojaraštį
+
 
 Problems:
 http://docs.identityserver.io/en/release/quickstarts/0_overview.html
