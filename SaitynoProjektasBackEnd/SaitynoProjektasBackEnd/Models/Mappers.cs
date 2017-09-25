@@ -51,5 +51,16 @@ namespace SaitynoProjektasBackEnd.Models
                 CreatedOn = comment.CreatedOn,
                 UserName = comment.User.UserName
             };
+
+        public static PlaylistResponseModel PlaylistToPlaylistResponseModel(Playlist playlist) =>
+            new PlaylistResponseModel
+            {
+                Name = playlist.Name,
+                Description = playlist.Description,
+                IsPublic = playlist.IsPublic,
+                UserName = playlist.User.UserName,
+                Likes = playlist.Likes.Count,
+                Songs = playlist.PlaylistSongs.Select(PlaylistSongToSongResponseModel)
+            };
     }
 }

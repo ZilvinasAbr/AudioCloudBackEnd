@@ -17,8 +17,15 @@ namespace SaitynoProjektasBackEnd.Services
             _context = context;
         }
 
-        public IEnumerable<PlaylistResponseModel> GetPlaylists()
+        public string[] GetPlaylists(string userName, out IEnumerable<PlaylistResponseModel> playlistsResult)
         {
+            playlistsResult = null;
+            var user = _context.Users
+                .SingleOrDefault(u => u.UserName == userName);
+
+            if (user == null)
+                return new[] { "User is not found" };
+
             var playlists = _context.Playlists
                 .Include(p => p.User)
                 .Include(p => p.PlaylistSongs)
@@ -31,24 +38,24 @@ namespace SaitynoProjektasBackEnd.Services
                     .ThenInclude(ps => ps.Song)
                         .ThenInclude(s => s.Likes)
                 .Include(p => p.Likes)
+                .Where(p => p.IsPublic || p.User.UserName == userName)
                 .ToList();
 
-            var playlistResponseModels = playlists.Select(playlist => new PlaylistResponseModel
-            {
-                Name = playlist.Name,
-                Description = playlist.Description,
-                IsPublic = playlist.IsPublic,
-                UserName = playlist.User.UserName,
-                Likes = playlist.Likes.Count,
-                Songs = playlist.PlaylistSongs.Select(Mappers.PlaylistSongToSongResponseModel)
-            })
-            .ToList();
+            playlistsResult = playlists.Select(Mappers.PlaylistToPlaylistResponseModel)
+                .ToList();
 
-            return playlistResponseModels;
+            return null;
         }
 
-        public PlaylistResponseModel GetPlaylistById(int id)
+        public string[] GetPlaylistById(int id, string userName, out PlaylistResponseModel playlistResult)
         {
+            playlistResult = null;
+            var user = _context.Users
+                .SingleOrDefault(u => u.UserName == userName);
+
+            if (user == null)
+                return new[] { "User is not found" };
+
             var playlist = _context.Playlists
                 .Include(p => p.User)
                 .Include(p => p.PlaylistSongs)
@@ -61,24 +68,14 @@ namespace SaitynoProjektasBackEnd.Services
                     .ThenInclude(ps => ps.Song)
                         .ThenInclude(s => s.Likes)
                 .Include(p => p.Likes)
-                .SingleOrDefault(p => p.Id == id);
+                .SingleOrDefault(p => p.Id == id && (p.IsPublic || p.User.UserName == userName));
 
             if (playlist == null)
-            {
-                return null;
-            }
+                return new[] {"Playlist is not found"};
 
-            var playlistResponseModel = new PlaylistResponseModel
-            {
-                Name = playlist.Name,
-                Description = playlist.Description,
-                IsPublic = playlist.IsPublic,
-                UserName = playlist.User.UserName,
-                Likes = playlist.Likes.Count,
-                Songs = playlist.PlaylistSongs.Select(Mappers.PlaylistSongToSongResponseModel)
-            };
+            playlistResult = Mappers.PlaylistToPlaylistResponseModel(playlist);
 
-            return playlistResponseModel;
+            return null;
         }
 
         public string[] AddPlaylist(AddPlaylistRequestModel playlistRequestModel)

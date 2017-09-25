@@ -20,9 +20,21 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromHeader]string userName)
         {
-            var playlists = _playlistsService.GetPlaylists();
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.GetPlaylists(userName, out IEnumerable<PlaylistResponseModel> playlists);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
 
             return Ok(playlists);
         }
@@ -30,7 +42,19 @@ namespace SaitynoProjektasBackEnd.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id, [FromHeader] string userName)
         {
-            var playlist = _playlistsService.GetPlaylistById(id);
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _playlistsService.GetPlaylistById(id, userName, out PlaylistResponseModel playlist);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
 
             if (playlist == null)
             {
