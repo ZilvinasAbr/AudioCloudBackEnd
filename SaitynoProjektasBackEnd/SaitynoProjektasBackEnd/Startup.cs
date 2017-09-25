@@ -32,8 +32,12 @@ namespace SaitynoProjektasBackEnd
                 connectionString = Configuration.GetConnectionString("Production");
             }
 
+            // services.AddDbContext<ApplicationDbContext>(options =>
+            //     options.UseSqlServer(connectionString));
+
+            connectionString = $"Data Source={System.Environment.CurrentDirectory}\\AudioCloud.db";
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseSqlite(connectionString));
 
             services.AddCors();
 
