@@ -36,5 +36,6 @@ namespace SaitynoProjektasBackEnd.Models
         public ICollection<PlaylistSong> PlaylistSongs { get; set; }
         public ICollection<Like> Likes { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        public ICollection<Event> Events { get; set; }
     }
 }

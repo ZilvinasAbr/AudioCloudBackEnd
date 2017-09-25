@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using SaitynoProjektasBackEnd.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SaitynoProjektasBackEnd.Data
 {
@@ -22,6 +23,26 @@ namespace SaitynoProjektasBackEnd.Data
             var comments = AddComments(context, users, songs);
             var playlistSongs = AddPlaylistSongs(context, songs, playlists);
             var likes = AddLikes(context, users, songs, playlists);
+
+            GenerateEvents(context);
+        }
+
+        private static void GenerateEvents(ApplicationDbContext context)
+        {
+            var songs = context.Songs
+                .Include(s => s.User)
+                .ToList();
+
+            var events = songs.Select(s => new Event
+            {
+                CreatedOn = s.UploadDate,
+                EventType = Event.SongAdded,
+                Song = s,
+                User = s.User
+            });
+
+            context.Events.AddRange(events);
+            context.SaveChanges();
         }
 
         private static Comment[] AddComments(ApplicationDbContext context, User[] users, Song[] songs)
