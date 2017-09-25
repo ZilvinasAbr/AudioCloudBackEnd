@@ -29,12 +29,26 @@ namespace SaitynoProjektasBackEnd.Data
             modelBuilder.Entity<Following>()
                 .HasOne(f => f.Follower)
                 .WithMany(u => u.Following)
-                .HasForeignKey(f => f.FollowerId);
+                .HasForeignKey(f => f.FollowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Comments)
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Event>()
+                .HasOne(e => e.User)
+                .WithMany(u => u.Events)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Following>()
                 .HasOne(f => f.Followed)
                 .WithMany(u => u.Followers)
-                .HasForeignKey(f => f.FollowedId);
+                .HasForeignKey(f => f.FollowedId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<PlaylistSong>()
                 .HasKey(ps => new {ps.PlaylistId, ps.SongId});
