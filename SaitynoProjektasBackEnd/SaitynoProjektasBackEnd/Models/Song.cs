@@ -9,7 +9,7 @@ namespace SaitynoProjektasBackEnd.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(20)]
+        [MaxLength(50)]
         public string Title { get; set; }
 
         [Required]

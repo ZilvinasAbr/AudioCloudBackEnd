@@ -294,6 +294,17 @@ namespace SaitynoProjektasBackEnd.Data
                     UploadDate = DateTime.Now,
                     Duration = 300,
                     Plays = 1000
+                },
+                new Song
+                {
+                    Genre = genres[0],
+                    User = users[1],
+                    Title = "Song 8 Should not appear event",
+                    Description =
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                    UploadDate = DateTime.Now - TimeSpan.FromDays(8),
+                    Duration = 300,
+                    Plays = 1000
                 }
             };
 

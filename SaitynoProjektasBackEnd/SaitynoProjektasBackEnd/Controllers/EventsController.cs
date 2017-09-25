@@ -28,7 +28,27 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _eventsService.GetEvents(userName, out IEnumerable<EventResponseModel> events);
+            var errorMessages = _eventsService.GetEvents(userName, out var events);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
+
+            return Ok(events);
+        }
+
+        [HttpGet("lastWeek")]
+        public IActionResult GetLastWeek([FromHeader] string userName)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _eventsService.GetEventsLastWeek(userName, out var events);
 
             if (errorMessages != null)
             {
