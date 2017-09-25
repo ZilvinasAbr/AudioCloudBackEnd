@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
+using SaitynoProjektasBackEnd.ResponseModels;
 using SaitynoProjektasBackEnd.Services;
 
 namespace SaitynoProjektasBackEnd.Controllers
@@ -129,6 +131,23 @@ namespace SaitynoProjektasBackEnd.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpGet("{user}/{userNameOfPlaylists}")]
+        public IActionResult GetUserPlaylists(string userNameOfPlaylists, [FromHeader] string userName)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            IEnumerable<PlaylistResponseModel> playlists = null;
+            
+            var errorMessages = _playlistsService.GetUserPlaylists(userNameOfPlaylists, userName, out playlists);
+
+            return Ok(playlists);
         }
     }
 }

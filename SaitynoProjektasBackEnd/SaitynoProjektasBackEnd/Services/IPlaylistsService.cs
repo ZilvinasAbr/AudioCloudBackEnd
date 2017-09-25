@@ -11,6 +11,7 @@ namespace SaitynoProjektasBackEnd.Services
         string[] AddPlaylist(AddPlaylistRequestModel playlist);
         string[] EditPlaylist(int id, EditPlaylistRequestModel playlist);
         string[] DeletePlaylist(int id);
+        string[] GetUserPlaylists(string userNameOfPlaylists, string userName, out IEnumerable<PlaylistResponseModel> playlists);
         string[] AddSong(int playlistId, int songId, string userName);
         string[] RemoveSong(int playlistId, int songId, string userName);
     }

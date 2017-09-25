@@ -149,6 +149,56 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
+        public string[] GetUserPlaylists(string userNameOfPlaylists, string userName, out IEnumerable<PlaylistResponseModel> playlistsResult)
+        {
+            playlistsResult = null;
+            var returnPrivatePlaylists = userNameOfPlaylists == userName;
+
+            var userOfPlaylists = _context.Users
+                .SingleOrDefault(u => u.UserName == userNameOfPlaylists);
+
+            var user = _context.Users
+                .SingleOrDefault(u => u.UserName == userName);
+
+            if (userOfPlaylists == null)
+                return new[] { "User of playlists is not found" };
+            if (user == null)
+                return new[] { "User is not found" };
+
+            var playlists = _context.Playlists
+                .Include(p => p.User)
+                .Include(p => p.PlaylistSongs)
+                    .ThenInclude(ps => ps.Song)
+                        .ThenInclude(s => s.User)
+                .Include(p => p.PlaylistSongs)
+                    .ThenInclude(ps => ps.Song)
+                        .ThenInclude(s => s.Genre)
+                .Include(p => p.PlaylistSongs)
+                    .ThenInclude(ps => ps.Song)
+                        .ThenInclude(s => s.Likes)
+                .Include(p => p.Likes)
+                .ToList();
+
+            if (!returnPrivatePlaylists) {
+                playlists = playlists.Where(p => p.IsPublic).ToList();
+            }
+
+            var playlistResponseModels = playlists.Select(p => new PlaylistResponseModel
+            {
+                Name = p.Name,
+                Description = p.Description,
+                IsPublic = p.IsPublic,
+                UserName = p.User.UserName,
+                Likes = p.Likes.Count,
+                Songs = p.PlaylistSongs.Select(Mappers.PlaylistSongToSongResponseModel)
+            })
+            .ToList();
+
+            playlistsResult = playlistResponseModels;
+
+            return null;
+        }
+
         public string[] AddSong(int playlistId, int songId, string userName)
         {
             var user = _context.Users
