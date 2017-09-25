@@ -9,6 +9,7 @@ namespace SaitynoProjektasBackEnd.Models
         public string Message { get; set; }
         public DateTime CreatedOn { get; set; }
 
+        public int UserId { get; set; }
         public User User { get; set; }
 
         public int SongId { get; set; }

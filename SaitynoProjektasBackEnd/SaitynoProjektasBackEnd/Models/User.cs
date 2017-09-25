@@ -20,7 +20,8 @@ namespace SaitynoProjektasBackEnd.Models
 
         public ICollection<Song> Songs { get; set; }
         public ICollection<Playlist> Playlists { get; set; }
-        public ICollection<User> Following { get; set; }
+        public ICollection<Following> Followers { get; set; }
+        public ICollection<Following> Following { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Event> Events { get; set; }
     }

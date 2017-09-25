@@ -27,6 +27,7 @@ namespace SaitynoProjektasBackEnd.Models
         [Required]
         public int Plays { get; set; }
 
+        public int UserId { get; set; }
         public User User { get; set; }
 
         [Required]

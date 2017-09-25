@@ -62,5 +62,14 @@ namespace SaitynoProjektasBackEnd.Models
                 Likes = playlist.Likes.Count,
                 Songs = playlist.PlaylistSongs.Select(PlaylistSongToSongResponseModel)
             };
+
+        public static EventResponseModel EventToEventResponseModel(Event e) =>
+            new EventResponseModel
+            {
+                CreatedOn = e.CreatedOn,
+                EventType = e.EventType,
+                SongTitle = e.Song.Title,
+                UserName = e.User.UserName
+            };
     }
 }

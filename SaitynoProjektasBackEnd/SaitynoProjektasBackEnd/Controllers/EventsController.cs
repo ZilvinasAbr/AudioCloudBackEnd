@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
+using SaitynoProjektasBackEnd.ResponseModels;
 using SaitynoProjektasBackEnd.Services;
 
 namespace SaitynoProjektasBackEnd.Controllers
@@ -16,6 +18,24 @@ namespace SaitynoProjektasBackEnd.Controllers
             _eventsService = eventsService;
         }
 
-        
+        [HttpGet]
+        public IActionResult Get([FromHeader]string userName)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var errorMessages = _eventsService.GetEvents(userName, out IEnumerable<EventResponseModel> events);
+
+            if (errorMessages != null)
+            {
+                return BadRequest(errorMessages);
+            }
+
+            return Ok(events);
+        }
     }
 }

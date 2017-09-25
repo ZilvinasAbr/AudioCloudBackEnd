@@ -2,6 +2,7 @@
 using System.Linq;
 using SaitynoProjektasBackEnd.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace SaitynoProjektasBackEnd.Data
 {
@@ -16,7 +17,8 @@ namespace SaitynoProjektasBackEnd.Data
                 return;
             }
 
-            var users = AddUsers();
+            var users = AddUsers(context);
+            var followings = AddFollowings(context, users);
             var genres = AddGenres(context);
             var playlists = AddPlaylists(context, users);
             var songs = AddSongs(context, users, genres);
@@ -25,6 +27,22 @@ namespace SaitynoProjektasBackEnd.Data
             var likes = AddLikes(context, users, songs, playlists);
 
             GenerateEvents(context);
+        }
+
+        private static Following[] AddFollowings(ApplicationDbContext context, User[] users)
+        {
+            var followings = new []
+            {
+                new Following {Follower=users[0], Followed=users[1]},
+                new Following {Follower=users[0], Followed=users[2]},
+                new Following {Follower=users[0], Followed=users[3]},
+                new Following {Follower=users[0], Followed=users[4]}
+            };
+
+            context.Followings.AddRange(followings);
+            context.SaveChanges();
+
+            return followings;
         }
 
         private static void GenerateEvents(ApplicationDbContext context)
@@ -146,7 +164,7 @@ namespace SaitynoProjektasBackEnd.Data
             return playlists;
         }
 
-        public static User[] AddUsers()
+        public static User[] AddUsers(ApplicationDbContext context)
         {
             var users = new[]
             {
@@ -170,6 +188,9 @@ namespace SaitynoProjektasBackEnd.Data
                 new User {UserName = "user6", Description = "Description", Location = "Location"},
                 new User {UserName = "user7", Description = "Description", Location = "Location"}
             };
+
+            context.Users.AddRange(users);
+            context.SaveChanges();
 
             return users;
         }
