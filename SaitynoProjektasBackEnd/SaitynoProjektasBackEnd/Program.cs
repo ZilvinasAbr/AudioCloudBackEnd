@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SaitynoProjektasBackEnd.Data;
-using SaitynoProjektasBackEnd.Models;
 
 namespace SaitynoProjektasBackEnd
 {

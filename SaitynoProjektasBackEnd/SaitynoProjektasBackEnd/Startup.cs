@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,6 +58,7 @@ namespace SaitynoProjektasBackEnd
             services.AddTransient<IUsersService, UsersService>();
             services.AddTransient<ILikesService, LikesService>();
             services.AddTransient<IEventsService, EventsService>();
+            services.AddTransient<IDropBoxService, DropBoxService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
