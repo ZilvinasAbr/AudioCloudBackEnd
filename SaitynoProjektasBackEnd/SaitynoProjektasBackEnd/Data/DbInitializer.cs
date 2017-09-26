@@ -168,25 +168,25 @@ namespace SaitynoProjektasBackEnd.Data
         {
             var users = new[]
             {
-                new User {UserName = "Antanas", Description = "Description", Location = "Location"},
-                new User {UserName = "Petras", Description = "Description", Location = "Location"},
-                new User {UserName = "Petras2", Description = "Description", Location = "Location"},
-                new User {UserName = "Jonas", Description = "Description", Location = "Location"},
-                new User {UserName = "Antanas2", Description = "Description", Location = "Location"},
-                new User {UserName = "Petras3", Description = "Description", Location = "Location"},
-                new User {UserName = "Vardenis", Description = "Description", Location = "Location"},
-                new User {UserName = "Antanas3", Description = "Description", Location = "Location"},
-                new User {UserName = "tadas1", Description = "Description", Location = "Location"},
-                new User {UserName = "tadas2", Description = "Description", Location = "Location"},
-                new User {UserName = "tadas3", Description = "Description", Location = "Location"},
-                new User {UserName = "tadas4", Description = "Description", Location = "Location"},
-                new User {UserName = "user1", Description = "Description", Location = "Location"},
-                new User {UserName = "user2", Description = "Description", Location = "Location"},
-                new User {UserName = "user3", Description = "Description", Location = "Location"},
-                new User {UserName = "user4", Description = "Description", Location = "Location"},
-                new User {UserName = "user5", Description = "Description", Location = "Location"},
-                new User {UserName = "user6", Description = "Description", Location = "Location"},
-                new User {UserName = "user7", Description = "Description", Location = "Location"}
+                new User {UserName = "Antanas", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "Petras", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "Petras2", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "Jonas", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "Antanas2", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "Petras3", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "Vardenis", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "Antanas3", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "tadas1", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "tadas2", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "tadas3", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "tadas4", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "user1", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "user2", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "user3", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "user4", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "user5", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "user6", Description = "Description", Location = "Location", AuthId = ""},
+                new User {UserName = "user7", Description = "Description", Location = "Location", AuthId = ""}
             };
 
             context.Users.AddRange(users);

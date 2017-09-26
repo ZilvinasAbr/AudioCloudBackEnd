@@ -66,5 +66,24 @@ namespace SaitynoProjektasBackEnd.Services
 
             return null;
         }
+
+        public string[] RegisterUser(string authId)
+        {
+            var userIsFound = _context.Users
+                .SingleOrDefault(u => u.AuthId == authId);
+
+            if (userIsFound!= null)
+                return new[] {"User is already registered"};
+
+            var user = new User
+            {
+                AuthId = authId
+            };
+
+            _context.Users.Add(user);
+            _context.SaveChanges();
+
+            return null;
+        }
     }
 }

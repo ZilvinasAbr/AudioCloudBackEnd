@@ -11,5 +11,6 @@ namespace SaitynoProjektasBackEnd.Services
         IEnumerable<UserResponseModel> GetUsers();
         UserResponseModel GetUserByName(string name);
         string[] EditUser(string name, EditUserRequestModel user);
+        string[] RegisterUser(string authId);
     }
 }

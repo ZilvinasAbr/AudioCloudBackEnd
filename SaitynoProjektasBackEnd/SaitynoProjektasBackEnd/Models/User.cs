@@ -8,12 +8,12 @@ namespace SaitynoProjektasBackEnd.Models
         public int Id { get; set; }
 
         [Required]
+        public string AuthId { get; set; }
+        
         public string UserName { get; set; }
-
-        [Required]
+        
         public string Location { get; set; }
-
-        [Required]
+        
         public string Description { get; set; }
 
         public string ProfilePictureUrl { get; set; }

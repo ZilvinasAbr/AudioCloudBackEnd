@@ -32,9 +32,35 @@ namespace SaitynoProjektasBackEnd.Controllers
             return User.Claims.Select(c =>
                 new
                 {
-                    Type = c.Type,
-                    Value = c.Value
+                    c.Type,
+                    c.Value
                 });
+        }
+
+        [Authorize]
+        [HttpPost("register")]
+        public IActionResult Register()
+        {
+            var type = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+
+            var claims = User.Claims.Select(c =>
+                new
+                {
+                    c.Type,
+                    c.Value
+                });
+
+            var authId = claims.SingleOrDefault(c => c.Type == type)?.Value;
+
+            if (authId == null)
+                return BadRequest("Invalid token provided");
+
+            var errorMessages = _usersService.RegisterUser(authId);
+
+            if (errorMessages != null)
+                return BadRequest(errorMessages);
+
+            return NoContent();
         }
 
         [HttpGet("{name}")]
@@ -51,7 +77,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpPut("{name}")]
-        public IActionResult Put(string name, [FromBody]EditUserRequestModel user)
+        public IActionResult Put(string name, [FromBody] EditUserRequestModel user)
         {
             if (!ModelState.IsValid)
             {
