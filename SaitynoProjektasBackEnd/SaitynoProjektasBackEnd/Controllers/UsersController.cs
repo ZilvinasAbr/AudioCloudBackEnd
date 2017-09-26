@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
@@ -22,6 +23,18 @@ namespace SaitynoProjektasBackEnd.Controllers
             var users = _usersService.GetUsers();
 
             return Ok(users);
+        }
+
+        [Authorize]
+        [HttpGet("claims")]
+        public object Claims()
+        {
+            return User.Claims.Select(c =>
+                new
+                {
+                    Type = c.Type,
+                    Value = c.Value
+                });
         }
 
         [HttpGet("{name}")]
