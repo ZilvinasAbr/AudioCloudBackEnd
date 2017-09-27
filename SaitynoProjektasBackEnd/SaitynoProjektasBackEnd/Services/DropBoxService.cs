@@ -17,7 +17,7 @@ namespace SaitynoProjektasBackEnd.Services
             _accessToken = "<INSERT HERE DROPBOX ACCESS TOKEN>";
         }
 
-        public async Task<string[]> DeleteFile(string filePath)
+        public async Task<string[]> DeleteFileAsync(string filePath)
         {
             using (var dbx = new DropboxClient(_accessToken))
             {
@@ -33,7 +33,7 @@ namespace SaitynoProjektasBackEnd.Services
             }
         }
 
-        public async Task<bool> DoesFileExist(string filePath)
+        public async Task<bool> DoesFileExistAsync(string filePath)
         {
             using (var dbx = new DropboxClient(_accessToken))
             {
@@ -47,7 +47,19 @@ namespace SaitynoProjektasBackEnd.Services
             }
         }
 
-        public async Task<FileMetadata> UploadFile(IFormFile file)
+        public async Task<Stream> DownloadFileAsync(string filePath)
+        {
+            using (var dbx = new DropboxClient(_accessToken))
+            {
+                var response = await dbx.Files.DownloadAsync($"/{filePath}");
+
+                var stream = await response.GetContentAsStreamAsync();
+
+                return stream;
+            }
+        }
+
+        public async Task<FileMetadata> UploadFileAsync(IFormFile file)
         {
             using (var dbx = new DropboxClient(_accessToken))
             {

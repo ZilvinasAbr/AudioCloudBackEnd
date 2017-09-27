@@ -90,7 +90,7 @@ namespace SaitynoProjektasBackEnd.Services
             if (isFilePathUsed)
                 return new[] {"Invalid file path"};
 
-            var fileIsFound = await _dropBoxService.DoesFileExist(songRequestModel.FilePath);
+            var fileIsFound = await _dropBoxService.DoesFileExistAsync(songRequestModel.FilePath);
 
             if (!fileIsFound)
                 return new[] {"File specified is not found in the file storage"};
@@ -169,7 +169,7 @@ namespace SaitynoProjektasBackEnd.Services
 
             _context.SaveChanges();
 
-            var result = await _dropBoxService.DeleteFile(song.FilePath);
+            var result = await _dropBoxService.DeleteFileAsync(song.FilePath);
 
             return null;
         }

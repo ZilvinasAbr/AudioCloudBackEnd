@@ -32,7 +32,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (toUpload == null)
                 return BadRequest(new[] {"File is not attached"});
 
-            var fileMetadata = await _dropBoxService.UploadFile(toUpload);
+            var fileMetadata = await _dropBoxService.UploadFileAsync(toUpload);
 
             if (fileMetadata == null)
             {
@@ -42,6 +42,17 @@ namespace SaitynoProjektasBackEnd.Controllers
             var fileName = fileMetadata.Name;
 
             return Ok(fileName);
+        }
+
+        [HttpGet("{filePath}")]
+        [Authorize]
+        public async Task<IActionResult> Download(string filePath)
+        {
+            var stream = await _dropBoxService.DownloadFileAsync(filePath);
+            
+            var response = File(stream, "application/octet-stream");
+
+            return response;
         }
 
         // TODO: Remove completely if not needed.
