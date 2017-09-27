@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using SaitynoProjektasBackEnd.Data;
@@ -45,6 +46,11 @@ namespace SaitynoProjektasBackEnd.Services
 
             if (!string.IsNullOrEmpty(userRequestModel.Name))
             {
+                var isUserNameUsed = _context.Users.Any(u => u.UserName == userRequestModel.Name);
+
+                if (isUserNameUsed)
+                    return new[] {"UserName is already used"};
+
                 user.UserName = userRequestModel.Name;
             }
 
@@ -92,9 +98,11 @@ namespace SaitynoProjektasBackEnd.Services
             if (userIsFound!= null)
                 return new[] {"User is already registered"};
 
+            // TODO: Generates random username. Might need to change logic of this.
             var user = new User
             {
-                AuthId = authId
+                AuthId = authId,
+                UserName = $"user-{Guid.NewGuid()}"
             };
 
             _context.Users.Add(user);
