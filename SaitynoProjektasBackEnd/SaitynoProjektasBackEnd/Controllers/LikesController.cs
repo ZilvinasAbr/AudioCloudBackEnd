@@ -15,7 +15,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             _likesService = likesService;
         }
 
-        [HttpPost("song/{songId}")]
+        [HttpPost("Song/{songId}")]
         public IActionResult LikeASong(int songId, [FromHeader] string userName)
         {
             if (!ModelState.IsValid)
@@ -35,7 +35,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
-        [HttpDelete("song/{songId}")]
+        [HttpDelete("Song/{songId}")]
         public IActionResult DislikeASong(int songId, [FromHeader] string userName)
         {
             if (!ModelState.IsValid)
@@ -56,7 +56,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
 
-        [HttpPost("playlist/{playlistId}")]
+        [HttpPost("Playlist/{playlistId}")]
         public IActionResult LikeAPlaylist(int playlistId, [FromHeader]string userName)
         {
             if (!ModelState.IsValid)
@@ -76,7 +76,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
-        [HttpDelete("playlist/{playlistId}")]
+        [HttpDelete("Playlist/{playlistId}")]
         public IActionResult DislikeAPlaylist(int playlistId, [FromHeader] string userName)
         {
             if (!ModelState.IsValid)

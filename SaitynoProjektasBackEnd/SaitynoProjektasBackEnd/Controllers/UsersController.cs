@@ -26,7 +26,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [Authorize]
-        [HttpGet("claims")]
+        [HttpGet("Claims")]
         public object Claims()
         {
             return User.Claims.Select(c =>
@@ -38,7 +38,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [Authorize]
-        [HttpPost("register")]
+        [HttpPost("Register")]
         public IActionResult Register()
         {
             var type = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";

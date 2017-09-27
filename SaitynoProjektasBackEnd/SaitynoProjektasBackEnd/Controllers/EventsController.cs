@@ -35,7 +35,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return Ok(events);
         }
 
-        [HttpGet("lastWeek")]
+        [HttpGet("LastWeek")]
         public IActionResult GetLastWeek([FromHeader] string userName)
         {
             if (!ModelState.IsValid)

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Services;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace SaitynoProjektasBackEnd
 {
@@ -35,9 +36,9 @@ namespace SaitynoProjektasBackEnd
             //  services.AddDbContext<ApplicationDbContext>(options =>
             //      options.UseSqlServer(connectionString));
 
-           connectionString = $"Data Source={Environment.CurrentDirectory}\\AudioCloud.db";
-           services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlite(connectionString));
+            connectionString = $"Data Source={Environment.CurrentDirectory}\\AudioCloud.db";
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlite(connectionString));
 
             services.AddCors();
 
@@ -53,6 +54,11 @@ namespace SaitynoProjektasBackEnd
                 options.Authority = domain;
                 options.Audience = Configuration["Auth0:ApiIdentifier"];
             });
+
+            if (_environment.IsDevelopment())
+            {
+                services.AddSwaggerGen(c => c.SwaggerDoc("AudioCloud", new Info()));
+            }
 
             services.AddTransient<ISongsService, SongsService>();
             services.AddTransient<IPlaylistsService, PlaylistsService>();
@@ -83,6 +89,17 @@ namespace SaitynoProjektasBackEnd
 
 
             app.UseMvc();
+
+            if (env.IsDevelopment())
+            {
+                const string swaggerUrl = "/swagger/AudioCloud/swagger.json";
+                app.UseSwagger()
+                    .UseSwaggerUI(c =>
+                    {
+                        c.DocExpansion("none");
+                        c.SwaggerEndpoint(swaggerUrl, "AudioCloud");
+                    });
+            }
         }
     }
 }

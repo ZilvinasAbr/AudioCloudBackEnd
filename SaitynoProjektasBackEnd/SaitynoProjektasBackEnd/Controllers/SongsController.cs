@@ -27,7 +27,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return Ok(songs);
         }
 
-        [HttpGet("genre")]
+        [HttpGet("Genre")]
         public IActionResult GetByGenre([FromQuery] string genreName)
         {
             if (!ModelState.IsValid)
@@ -120,7 +120,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
-        [HttpPost("search")]
+        [HttpPost("Search")]
         public IActionResult Search([FromBody] SongSearchRequestModel model)
         {
             if (!ModelState.IsValid)

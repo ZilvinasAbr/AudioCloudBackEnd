@@ -37,18 +37,19 @@ namespace SaitynoProjektasBackEnd.Controllers
             return Ok(fileName);
         }
 
-        [HttpGet("{query}")]
-        public async Task<IActionResult> DoesFileExist(string query)
-        {
-            if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+        // TODO: Remove completely if not needed.
+        // [HttpGet("{query}")]
+        // public async Task<IActionResult> DoesFileExist(string query)
+        // {
+        //     if (!ModelState.IsValid)
+        //     {
+        //         var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
 
-                return BadRequest(modelErrors.ToArray());
-            }
+        //         return BadRequest(modelErrors.ToArray());
+        //     }
 
-            var result = await _dropBoxService.DoesFileExist(query);
-            return Ok(result);
-        }
+        //     var result = await _dropBoxService.DoesFileExist(query);
+        //     return Ok(result);
+        // }
     }
 }

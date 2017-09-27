@@ -116,7 +116,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
-        [HttpPost("{playlistId}/song/{songId}")]
+        [HttpPost("{playlistId}/Song/{songId}")]
         public IActionResult AddSong(int playlistId, int songId, [FromHeader]string userName)
         {
             if (!ModelState.IsValid)
@@ -136,7 +136,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{playlistId}/song/{songId}")]
+        [HttpDelete("{playlistId}/Song/{songId}")]
         public IActionResult RemoveSong(int playlistId, int songId, [FromHeader] string userName)
         {
             if (!ModelState.IsValid)
@@ -156,7 +156,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
-        [HttpGet("{user}/{userNameOfPlaylists}")]
+        [HttpGet("User/{userNameOfPlaylists}")]
         public IActionResult GetUserPlaylists(string userNameOfPlaylists, [FromHeader] string userName)
         {
             if (!ModelState.IsValid)
