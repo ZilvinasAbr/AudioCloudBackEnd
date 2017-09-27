@@ -8,6 +8,7 @@ namespace SaitynoProjektasBackEnd.Models
         public static SongResponseModel SongToSongResponseModel(Song song) =>
             new SongResponseModel
             {
+                Id = song.Id,
                 Description = song.Description,
                 Duration = song.Duration,
                 Genre = song.Genre.Name,
@@ -24,6 +25,7 @@ namespace SaitynoProjektasBackEnd.Models
         public static SongResponseModel PlaylistSongToSongResponseModel(PlaylistSong playlistSong) =>
             new SongResponseModel
             {
+                Id = playlistSong.Song.Id,
                 TrackNumber = playlistSong.Number,
                 Title = playlistSong.Song.Title,
                 Description = playlistSong.Song.Description,
@@ -49,6 +51,7 @@ namespace SaitynoProjektasBackEnd.Models
         public static CommentResponseModel CommentToCommentResponseModel(Comment comment) =>
             new CommentResponseModel
             {
+                Id = comment.Id,
                 Message = comment.Message,
                 CreatedOn = comment.CreatedOn,
                 UserName = comment.User.UserName
@@ -57,6 +60,7 @@ namespace SaitynoProjektasBackEnd.Models
         public static PlaylistResponseModel PlaylistToPlaylistResponseModel(Playlist playlist) =>
             new PlaylistResponseModel
             {
+                Id = playlist.Id,
                 Name = playlist.Name,
                 Description = playlist.Description,
                 IsPublic = playlist.IsPublic,
@@ -68,6 +72,7 @@ namespace SaitynoProjektasBackEnd.Models
         public static EventResponseModel EventToEventResponseModel(Event e) =>
             new EventResponseModel
             {
+                Id = e.Id,
                 CreatedOn = e.CreatedOn,
                 EventType = e.EventType,
                 SongTitle = e.Song.Title,
