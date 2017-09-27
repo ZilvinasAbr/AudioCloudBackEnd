@@ -222,6 +222,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[0],
+                    FilePath = "",
                     Title = "Song 1",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -233,6 +234,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[0],
+                    FilePath = "",
                     Title = "Song 2",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -244,6 +246,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[1],
                     User = users[1],
+                    FilePath = "",
                     Title = "Song 3",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -255,6 +258,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[2],
                     User = users[2],
+                    FilePath = "",
                     Title = "Song 4",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -266,6 +270,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[3],
                     User = users[3],
+                    FilePath = "",
                     Title = "Song 5",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -277,6 +282,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[0],
+                    FilePath = "",
                     Title = "Song 6",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -288,6 +294,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[1],
+                    FilePath = "",
                     Title = "Song 7",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -299,6 +306,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[1],
+                    FilePath = "",
                     Title = "Song 8 Should not appear event",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",

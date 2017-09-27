@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.Services;
 
 namespace SaitynoProjektasBackEnd.Controllers
@@ -10,6 +12,7 @@ namespace SaitynoProjektasBackEnd.Controllers
     public class FilesController : Controller
     {
         private readonly IDropBoxService _dropBoxService;
+        private readonly ISongsService _songsService;
 
         public FilesController(IDropBoxService dropBoxService)
         {
@@ -17,21 +20,35 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Upload()
+        public async Task<IActionResult> Upload(IFormFile toUpload)
         {
-            var files = Request.Form.Files.ToList();
-            var file = files.SingleOrDefault();
-            if (file == null)
+            if (toUpload == null)
                 return BadRequest("File is not attached");
 
-            var errorMessages = await _dropBoxService.UploadFile(file);
+            var fileMetadata = await _dropBoxService.UploadFile(toUpload);
 
-            if (errorMessages != null)
+            if (fileMetadata == null)
             {
-                return BadRequest(errorMessages);
+                return BadRequest();
             }
 
-            return NoContent();
+            var fileName = fileMetadata.Name;
+
+            return Ok(fileName);
+        }
+
+        [HttpGet("{query}")]
+        public async Task<IActionResult> DoesFileExist(string query)
+        {
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+
+            var result = await _dropBoxService.DoesFileExist(query);
+            return Ok(result);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -31,12 +32,12 @@ namespace SaitynoProjektasBackEnd
                 connectionString = Configuration.GetConnectionString("Production");
             }
 
-             services.AddDbContext<ApplicationDbContext>(options =>
-                 options.UseSqlServer(connectionString));
+            //  services.AddDbContext<ApplicationDbContext>(options =>
+            //      options.UseSqlServer(connectionString));
 
-//            connectionString = $"Data Source={Environment.CurrentDirectory}\\AudioCloud.db";
-//            services.AddDbContext<ApplicationDbContext>(options =>
-//                options.UseSqlite(connectionString));
+           connectionString = $"Data Source={Environment.CurrentDirectory}\\AudioCloud.db";
+           services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseSqlite(connectionString));
 
             services.AddCors();
 

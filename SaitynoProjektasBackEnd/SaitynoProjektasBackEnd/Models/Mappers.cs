@@ -17,7 +17,8 @@ namespace SaitynoProjektasBackEnd.Models
                 Title = song.Title,
                 UploadDate = song.UploadDate,
                 UploaderName = song.User.UserName,
-                Comments = song.Comments.Select(CommentToCommentResponseModel)
+                Comments = song.Comments.Select(CommentToCommentResponseModel),
+                FilePath = song.FilePath
             };
 
         public static SongResponseModel PlaylistSongToSongResponseModel(PlaylistSong playlistSong) =>
@@ -32,7 +33,8 @@ namespace SaitynoProjektasBackEnd.Models
                 Plays = playlistSong.Song.Plays,
                 UploaderName = playlistSong.Song.User.UserName,
                 Genre = playlistSong.Song.Genre.Name,
-                Likes = playlistSong.Song.Likes.Count
+                Likes = playlistSong.Song.Likes.Count,
+                FilePath = playlistSong.Song.FilePath
             };
 
         public static UserResponseModel UserToUserResponseModel(User user) =>

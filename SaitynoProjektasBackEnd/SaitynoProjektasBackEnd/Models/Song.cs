@@ -19,6 +19,9 @@ namespace SaitynoProjektasBackEnd.Models
         [Required]
         public DateTime UploadDate { get; set; }
 
+        [Required]
+        public string FilePath { get; set; }
+
         public string PictureUrl { get; set; }
 
         [Required]

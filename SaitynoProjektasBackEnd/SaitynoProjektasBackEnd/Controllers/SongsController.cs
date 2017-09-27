@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
@@ -60,7 +61,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody]AddSongRequestModel song, [FromHeader]string userName)
+        public async Task<IActionResult> Post([FromBody]AddSongRequestModel song, [FromHeader]string userName)
         {
             if (!ModelState.IsValid)
             {
@@ -69,7 +70,7 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _songsService.AddSong(song, userName);
+            var errorMessages = await _songsService.AddSong(song, userName);
 
             if (errorMessages != null)
             {
@@ -80,7 +81,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody]EditSongRequestModel song)
+        public IActionResult Put(int id, [FromBody]EditSongRequestModel song, [FromHeader] string userName)
         {
             if (!ModelState.IsValid)
             {
@@ -89,7 +90,7 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _songsService.EditSong(id, song);
+            var errorMessages = _songsService.EditSong(id, song, userName);
 
             if (errorMessages != null)
             {
@@ -100,9 +101,16 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id, [FromHeader] string userName)
         {
-            var errorMessages = _songsService.DeleteSong(id);
+            if (!ModelState.IsValid)
+            {
+                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
+
+                return BadRequest(modelErrors.ToArray());
+            }
+            
+            var errorMessages = await _songsService.DeleteSong(id, userName);
 
             if (errorMessages != null)
             {

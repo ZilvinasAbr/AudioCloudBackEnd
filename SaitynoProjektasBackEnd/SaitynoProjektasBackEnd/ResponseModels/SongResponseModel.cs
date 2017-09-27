@@ -9,6 +9,7 @@ namespace SaitynoProjektasBackEnd.ResponseModels
         public int? TrackNumber { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string FilePath { get; set; }
         public DateTime UploadDate { get; set; }
         public string PictureUrl { get; set; }
         public int Duration { get; set; }

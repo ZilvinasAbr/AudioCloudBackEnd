@@ -7,5 +7,7 @@ namespace SaitynoProjektasBackEnd.Services
     public interface IDropBoxService
     {
         Task<FileMetadata> UploadFile(IFormFile file);
+        Task<bool> DoesFileExist(string filePath);
+        Task<string[]> DeleteFile(string filePath);
     }
 }

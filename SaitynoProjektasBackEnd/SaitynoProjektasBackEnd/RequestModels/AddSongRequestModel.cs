@@ -13,6 +13,9 @@ namespace SaitynoProjektasBackEnd.RequestModels
         public string PictureUrl { get; set; }
 
         [Required]
+        public string FilePath { get; set; }
+
+        [Required]
         public string Genre { get; set; }
     }
 }
