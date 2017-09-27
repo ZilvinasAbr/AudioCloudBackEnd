@@ -2,9 +2,9 @@
 {
     public interface ILikesService
     {
-        string[] LikeASong(int songId, string userName);
-        string[] LikeAPlaylist(int playlistId, string userName);
-        string[] DislikeASong(int songId, string userName);
-        string[] DislikeAPlaylist(int playlistId, string userName);
+        string[] LikeASong(int songId, string authId);
+        string[] LikeAPlaylist(int playlistId, string authId);
+        string[] DislikeASong(int songId, string authId);
+        string[] DislikeAPlaylist(int playlistId, string authId);
     }
 }

@@ -1,4 +1,5 @@
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.Services;
@@ -9,14 +10,17 @@ namespace SaitynoProjektasBackEnd.Controllers
     public class EventsController : Controller
     {
         private readonly IEventsService _eventsService;
+        private readonly IUsersService _usersService;
 
-        public EventsController(IEventsService eventsService)
+        public EventsController(IEventsService eventsService, IUsersService usersService)
         {
             _eventsService = eventsService;
+            _usersService = usersService;
         }
 
         [HttpGet]
-        public IActionResult Get([FromHeader]string userName)
+        [Authorize]
+        public IActionResult Get()
         {
             if (!ModelState.IsValid)
             {
@@ -25,7 +29,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _eventsService.GetEvents(userName, out var events);
+            string authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new []{"Invalid access token"});
+
+            var errorMessages = _eventsService.GetEvents(authId, out var events);
 
             if (errorMessages != null)
             {
@@ -36,7 +44,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpGet("LastWeek")]
-        public IActionResult GetLastWeek([FromHeader] string userName)
+        public IActionResult GetLastWeek()
         {
             if (!ModelState.IsValid)
             {
@@ -45,7 +53,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _eventsService.GetEventsLastWeek(userName, out var events);
+            string authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new []{"Invalid access token"});
+
+            var errorMessages = _eventsService.GetEventsLastWeek(authId, out var events);
 
             if (errorMessages != null)
             {

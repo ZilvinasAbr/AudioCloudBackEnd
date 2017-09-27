@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.Services;
@@ -9,14 +10,17 @@ namespace SaitynoProjektasBackEnd.Controllers
     public class LikesController : Controller
     {
         private readonly ILikesService _likesService;
+        private readonly IUsersService _usersService;
 
-        public LikesController(ILikesService likesService)
+        public LikesController(ILikesService likesService, IUsersService usersService)
         {
             _likesService = likesService;
+            _usersService = usersService;
         }
 
+        [Authorize]
         [HttpPost("Song/{songId}")]
-        public IActionResult LikeASong(int songId, [FromHeader] string userName)
+        public IActionResult LikeASong(int songId)
         {
             if (!ModelState.IsValid)
             {
@@ -25,7 +29,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _likesService.LikeASong(songId, userName);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _likesService.LikeASong(songId, authId);
 
             if (errorMessages != null)
             {
@@ -35,8 +43,9 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete("Song/{songId}")]
-        public IActionResult DislikeASong(int songId, [FromHeader] string userName)
+        public IActionResult DislikeASong(int songId)
         {
             if (!ModelState.IsValid)
             {
@@ -45,7 +54,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _likesService.DislikeASong(songId, userName);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _likesService.DislikeASong(songId, authId);
 
             if (errorMessages != null)
             {
@@ -55,9 +68,9 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
-
+        [Authorize]
         [HttpPost("Playlist/{playlistId}")]
-        public IActionResult LikeAPlaylist(int playlistId, [FromHeader]string userName)
+        public IActionResult LikeAPlaylist(int playlistId)
         {
             if (!ModelState.IsValid)
             {
@@ -66,7 +79,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _likesService.LikeAPlaylist(playlistId, userName);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _likesService.LikeAPlaylist(playlistId, authId);
 
             if (errorMessages != null)
             {
@@ -76,8 +93,9 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete("Playlist/{playlistId}")]
-        public IActionResult DislikeAPlaylist(int playlistId, [FromHeader] string userName)
+        public IActionResult DislikeAPlaylist(int playlistId)
         {
             if (!ModelState.IsValid)
             {
@@ -86,7 +104,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _likesService.DislikeAPlaylist(playlistId, userName);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _likesService.DislikeAPlaylist(playlistId, authId);
 
             if (errorMessages != null)
             {

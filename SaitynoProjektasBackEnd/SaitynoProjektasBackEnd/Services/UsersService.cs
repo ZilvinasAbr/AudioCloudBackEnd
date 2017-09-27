@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
@@ -32,10 +33,10 @@ namespace SaitynoProjektasBackEnd.Services
             return user == null ? null : Mappers.UserToUserResponseModel(user);
         }
 
-        public string[] EditUser(string name, EditUserRequestModel userRequestModel)
+        public string[] EditUser(string authId, EditUserRequestModel userRequestModel)
         {
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == name);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
             {
@@ -65,6 +66,22 @@ namespace SaitynoProjektasBackEnd.Services
             _context.SaveChanges();
 
             return null;
+        }
+
+        public string GetUserAuthId(ClaimsPrincipal claimsPrincipal)
+        {
+            var type = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
+
+            var claims = claimsPrincipal.Claims.Select(c =>
+                new
+                {
+                    c.Type,
+                    c.Value
+                });
+
+            var authId = claims.SingleOrDefault(c => c.Type == type)?.Value;
+
+            return authId;
         }
 
         public string[] RegisterUser(string authId)

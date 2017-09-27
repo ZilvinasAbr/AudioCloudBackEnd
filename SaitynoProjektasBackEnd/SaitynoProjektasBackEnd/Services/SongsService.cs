@@ -73,12 +73,12 @@ namespace SaitynoProjektasBackEnd.Services
             return songResponseModel;
         }
 
-        public async Task<string[]> AddSong(AddSongRequestModel songRequestModel, string userName)
+        public async Task<string[]> AddSong(AddSongRequestModel songRequestModel, string authId)
         {
             var genre = _context.Genres
                 .SingleOrDefault(g => g.Name == songRequestModel.Genre);
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
             var isFilePathUsed = _context.Songs
                 .Where(s => s.FilePath == songRequestModel.FilePath)
                 .Any();
@@ -114,19 +114,19 @@ namespace SaitynoProjektasBackEnd.Services
             return result == 0 ? new[] {"Could not add song"} : null;
         }
 
-        public string[] EditSong(int id, EditSongRequestModel songRequestModel, string userName)
+        public string[] EditSong(int id, EditSongRequestModel songRequestModel, string authId)
         {
             var song = _context.Songs
                 .Include(s => s.User)
                 .SingleOrDefault(s => s.Id == id);
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (song == null)
                 return new[] {"Song is not found"};
             if (user == null)
                 return new[] {"User is not found"};
-            if (song.User.UserName != userName)
+            if (song.User.AuthId != authId)
                 return new[] {"User is not the owner of the song"};
 
             if (!string.IsNullOrEmpty(songRequestModel.Title))
@@ -144,19 +144,19 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public async Task<string[]> DeleteSong(int id, string userName)
+        public async Task<string[]> DeleteSong(int id, string authId)
         {
             var song = _context.Songs
                 .Include(s => s.User)
                 .SingleOrDefault(s => s.Id == id);
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (song == null)
                 return new[] {"Song is not found"};
             if (user == null)
                 return new[] {"User is not found"};
-            if (song.User.UserName != userName)
+            if (song.User.AuthId != authId)
                 return new[] {"User is not the owner of the song"};
 
             var playlistSongs = _context.PlaylistSongs.Where(ps => ps.SongId == id);

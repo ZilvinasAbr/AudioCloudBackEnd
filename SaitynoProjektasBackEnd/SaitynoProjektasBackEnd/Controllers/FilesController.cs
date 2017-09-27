@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
@@ -12,18 +13,24 @@ namespace SaitynoProjektasBackEnd.Controllers
     public class FilesController : Controller
     {
         private readonly IDropBoxService _dropBoxService;
-        private readonly ISongsService _songsService;
+        private readonly IUsersService _usersService;
 
-        public FilesController(IDropBoxService dropBoxService)
+        public FilesController(IDropBoxService dropBoxService, IUsersService usersService)
         {
             _dropBoxService = dropBoxService;
+            _usersService = usersService;
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Upload(IFormFile toUpload)
         {
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
             if (toUpload == null)
-                return BadRequest("File is not attached");
+                return BadRequest(new[] {"File is not attached"});
 
             var fileMetadata = await _dropBoxService.UploadFile(toUpload);
 

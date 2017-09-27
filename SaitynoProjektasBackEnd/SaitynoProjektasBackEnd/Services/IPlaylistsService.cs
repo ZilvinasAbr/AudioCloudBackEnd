@@ -6,13 +6,13 @@ namespace SaitynoProjektasBackEnd.Services
 {
     public interface IPlaylistsService
     {
-        string[] GetPlaylists(string userName, out IEnumerable<PlaylistResponseModel> playlistsResult);
-        string[] GetPlaylistById(int id, string userName, out PlaylistResponseModel playlist);
-        string[] AddPlaylist(AddPlaylistRequestModel playlist);
-        string[] EditPlaylist(int id, EditPlaylistRequestModel playlist);
-        string[] DeletePlaylist(int id);
-        string[] GetUserPlaylists(string userNameOfPlaylists, string userName, out IEnumerable<PlaylistResponseModel> playlists);
-        string[] AddSong(int playlistId, int songId, string userName);
-        string[] RemoveSong(int playlistId, int songId, string userName);
+        string[] GetPlaylists(string authId, out IEnumerable<PlaylistResponseModel> playlistsResult);
+        string[] GetPlaylistById(int id, string authId, out PlaylistResponseModel playlist);
+        string[] AddPlaylist(AddPlaylistRequestModel playlist, string authId);
+        string[] EditPlaylist(int id, EditPlaylistRequestModel playlist, string authId);
+        string[] DeletePlaylist(int id, string authId);
+        string[] GetUserPlaylists(string userNameOfPlaylists, string authId, out IEnumerable<PlaylistResponseModel> playlists);
+        string[] AddSong(int playlistId, int songId, string authId);
+        string[] RemoveSong(int playlistId, int songId, string authId);
     }
 }

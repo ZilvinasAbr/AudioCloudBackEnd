@@ -17,11 +17,11 @@ namespace SaitynoProjektasBackEnd.Services
             _context = context;
         }
 
-        public string[] GetPlaylists(string userName, out IEnumerable<PlaylistResponseModel> playlistsResult)
+        public string[] GetPlaylists(string authId, out IEnumerable<PlaylistResponseModel> playlistsResult)
         {
             playlistsResult = null;
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
                 return new[] { "User is not found" };
@@ -38,7 +38,7 @@ namespace SaitynoProjektasBackEnd.Services
                     .ThenInclude(ps => ps.Song)
                         .ThenInclude(s => s.Likes)
                 .Include(p => p.Likes)
-                .Where(p => p.IsPublic || p.User.UserName == userName)
+                .Where(p => p.IsPublic || p.User.AuthId == authId)
                 .ToList();
 
             playlistsResult = playlists.Select(Mappers.PlaylistToPlaylistResponseModel)
@@ -47,11 +47,11 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] GetPlaylistById(int id, string userName, out PlaylistResponseModel playlistResult)
+        public string[] GetPlaylistById(int id, string authId, out PlaylistResponseModel playlistResult)
         {
             playlistResult = null;
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
                 return new[] { "User is not found" };
@@ -68,7 +68,7 @@ namespace SaitynoProjektasBackEnd.Services
                     .ThenInclude(ps => ps.Song)
                         .ThenInclude(s => s.Likes)
                 .Include(p => p.Likes)
-                .SingleOrDefault(p => p.Id == id && (p.IsPublic || p.User.UserName == userName));
+                .SingleOrDefault(p => p.Id == id && (p.IsPublic || p.User.AuthId == authId));
 
             if (playlist == null)
                 return new[] {"Playlist is not found"};
@@ -78,13 +78,20 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] AddPlaylist(AddPlaylistRequestModel playlistRequestModel)
+        public string[] AddPlaylist(AddPlaylistRequestModel playlistRequestModel, string authId)
         {
+            var user = _context.Users
+                .SingleOrDefault(u => u.AuthId == authId);
+
+            if (user == null)
+                return new[] {"User is not found"};
+
             var playlist = new Playlist
             {
                 Name = playlistRequestModel.Name,
                 Description = playlistRequestModel.Description,
-                IsPublic = playlistRequestModel.IsPublic
+                IsPublic = playlistRequestModel.IsPublic,
+                User = user
             };
 
             _context.Playlists.Add(playlist);
@@ -93,14 +100,21 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] EditPlaylist(int id, EditPlaylistRequestModel playlistRequestModel)
+        public string[] EditPlaylist(int id, EditPlaylistRequestModel playlistRequestModel, string authId)
         {
+            var user = _context.Users
+                .SingleOrDefault(u => u.AuthId == authId);
+
+            if (user == null)
+                return new[] {"User is not found"};
+
             var playlist = _context.Playlists
-                .SingleOrDefault(p => p.Id == id);
+                .Include(p => p.User)
+                .SingleOrDefault(p => p.Id == id && p.User.AuthId == authId);
 
             if (playlist == null)
             {
-                return new[] {"Playlist is not found"};
+                return new[] {"Playlist is not found or you have no permission to edit this playlist"};
             }
 
             if (!string.IsNullOrEmpty(playlistRequestModel.Name))
@@ -123,14 +137,21 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] DeletePlaylist(int id)
+        public string[] DeletePlaylist(int id, string authId)
         {
+            var user = _context.Users
+                .SingleOrDefault(u => u.AuthId == authId);
+
+            if (user == null)
+                return new[] {"User is not found"};
+
             var playlist = _context.Playlists
-                .SingleOrDefault(p => p.Id == id);
+                .Include(p => p.User)
+                .SingleOrDefault(p => p.Id == id && p.User.AuthId == authId);
 
             if (playlist == null)
             {
-                return new[] {"Playlist is not found"};
+                return new[] {"Playlist is not found or you have no permission to delete this playlist"};
             }
 
             var playlistSongs = _context.PlaylistSongs.Where(ps => ps.PlaylistId == id);
@@ -146,21 +167,23 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] GetUserPlaylists(string userNameOfPlaylists, string userName, out IEnumerable<PlaylistResponseModel> playlistsResult)
+        public string[] GetUserPlaylists(string userNameOfPlaylists, string authId, out IEnumerable<PlaylistResponseModel> playlistsResult)
         {
             playlistsResult = null;
-            var returnPrivatePlaylists = userNameOfPlaylists == userName;
+
+            var user = _context.Users
+                .SingleOrDefault(u => u.AuthId == authId);
+
+            if (user == null)
+                return new[] {"User is not found"};
+
+            var returnPrivatePlaylists = userNameOfPlaylists == user.UserName;
 
             var userOfPlaylists = _context.Users
                 .SingleOrDefault(u => u.UserName == userNameOfPlaylists);
 
-            var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
-
             if (userOfPlaylists == null)
                 return new[] { "User of playlists is not found" };
-            if (user == null)
-                return new[] { "User is not found" };
 
             var playlists = _context.Playlists
                 .Include(p => p.User)
@@ -196,10 +219,10 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] AddSong(int playlistId, int songId, string userName)
+        public string[] AddSong(int playlistId, int songId, string authId)
         {
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
                 return new[] {"User is not found"};
@@ -212,7 +235,7 @@ namespace SaitynoProjektasBackEnd.Services
 
             if (playlist == null)
                 return new[] {"Playlist is not found"};
-            if (playlist.User.UserName != userName)
+            if (playlist.User.AuthId != authId)
                 return new[] {"You are not the owner of this playlist"};
             if (song == null)
                 return new[] {"Song is not found"};
@@ -243,10 +266,10 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] RemoveSong(int playlistId, int songId, string userName)
+        public string[] RemoveSong(int playlistId, int songId, string authId)
         {
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
                 return new[] { "User is not found" };
@@ -259,7 +282,7 @@ namespace SaitynoProjektasBackEnd.Services
 
             if (playlist == null)
                 return new[] { "Playlist is not found" };
-            if (playlist.User.UserName != userName)
+            if (playlist.User.AuthId != authId)
                 return new[] { "You are not the owner of this playlist" };
             if (song == null)
                 return new[] { "Song is not found" };

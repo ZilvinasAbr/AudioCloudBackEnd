@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
@@ -12,14 +13,17 @@ namespace SaitynoProjektasBackEnd.Controllers
     public class PlaylistsController : Controller
     {
         private readonly IPlaylistsService _playlistsService;
+        private readonly IUsersService _usersService;
 
-        public PlaylistsController(IPlaylistsService playlistsService)
+        public PlaylistsController(IPlaylistsService playlistsService, IUsersService usersService)
         {
             _playlistsService = playlistsService;
+            _usersService = usersService;
         }
 
+        [Authorize]
         [HttpGet]
-        public IActionResult Get([FromHeader]string userName)
+        public IActionResult Get()
         {
             if (!ModelState.IsValid)
             {
@@ -28,7 +32,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _playlistsService.GetPlaylists(userName, out IEnumerable<PlaylistResponseModel> playlists);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _playlistsService.GetPlaylists(authId, out var playlists);
 
             if (errorMessages != null)
             {
@@ -38,8 +46,9 @@ namespace SaitynoProjektasBackEnd.Controllers
             return Ok(playlists);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
-        public IActionResult Get(int id, [FromHeader] string userName)
+        public IActionResult Get(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -48,7 +57,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _playlistsService.GetPlaylistById(id, userName, out PlaylistResponseModel playlist);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _playlistsService.GetPlaylistById(id, authId, out PlaylistResponseModel playlist);
 
             if (errorMessages != null)
             {
@@ -63,6 +76,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return Ok(playlist);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult Post([FromBody]AddPlaylistRequestModel playlist)
         {
@@ -73,7 +87,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _playlistsService.AddPlaylist(playlist);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _playlistsService.AddPlaylist(playlist, authId);
 
             if (errorMessages != null)
             {
@@ -83,6 +101,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]EditPlaylistRequestModel playlist)
         {
@@ -93,7 +112,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _playlistsService.EditPlaylist(id, playlist);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _playlistsService.EditPlaylist(id, playlist, authId);
 
             if (errorMessages != null)
             {
@@ -103,10 +126,15 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var errorMessages = _playlistsService.DeletePlaylist(id);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+            
+            var errorMessages = _playlistsService.DeletePlaylist(id, authId);
 
             if (errorMessages != null)
             {
@@ -116,8 +144,9 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpPost("{playlistId}/Song/{songId}")]
-        public IActionResult AddSong(int playlistId, int songId, [FromHeader]string userName)
+        public IActionResult AddSong(int playlistId, int songId)
         {
             if (!ModelState.IsValid)
             {
@@ -126,7 +155,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _playlistsService.AddSong(playlistId, songId, userName);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _playlistsService.AddSong(playlistId, songId, authId);
 
             if (errorMessages != null)
             {
@@ -136,8 +169,9 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpDelete("{playlistId}/Song/{songId}")]
-        public IActionResult RemoveSong(int playlistId, int songId, [FromHeader] string userName)
+        public IActionResult RemoveSong(int playlistId, int songId)
         {
             if (!ModelState.IsValid)
             {
@@ -146,7 +180,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            var errorMessages = _playlistsService.RemoveSong(playlistId, songId, userName);
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _playlistsService.RemoveSong(playlistId, songId, authId);
 
             if (errorMessages != null)
             {
@@ -156,8 +194,9 @@ namespace SaitynoProjektasBackEnd.Controllers
             return NoContent();
         }
 
+        [Authorize]
         [HttpGet("User/{userNameOfPlaylists}")]
-        public IActionResult GetUserPlaylists(string userNameOfPlaylists, [FromHeader] string userName)
+        public IActionResult GetUserPlaylists(string userNameOfPlaylists)
         {
             if (!ModelState.IsValid)
             {
@@ -166,9 +205,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(modelErrors.ToArray());
             }
 
-            IEnumerable<PlaylistResponseModel> playlists = null;
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
             
-            var errorMessages = _playlistsService.GetUserPlaylists(userNameOfPlaylists, userName, out playlists);
+            var errorMessages = _playlistsService.GetUserPlaylists(userNameOfPlaylists, authId, out var playlists);
 
             return Ok(playlists);
         }

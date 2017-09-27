@@ -14,10 +14,10 @@ namespace SaitynoProjektasBackEnd.Services
             _context = context;
         }
 
-        public string[] LikeASong(int songId, string userName)
+        public string[] LikeASong(int songId, string authId)
         {
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
                 return new[] {"User is not found"};
@@ -31,7 +31,7 @@ namespace SaitynoProjektasBackEnd.Services
             var songLikes = _context.Likes
                 .Include(l => l.User)
                 .Include(l => l.Song)
-                .SingleOrDefault(l => l.SongId == songId && l.User.UserName == userName);
+                .SingleOrDefault(l => l.SongId == songId && l.User.AuthId == authId);
 
             if (songLikes != null)
             {
@@ -50,10 +50,10 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] DislikeASong(int songId, string userName)
+        public string[] DislikeASong(int songId, string authId)
         {
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
                 return new[] { "User is not found" };
@@ -67,7 +67,7 @@ namespace SaitynoProjektasBackEnd.Services
             var songLike = _context.Likes
                 .Include(l => l.User)
                 .Include(l => l.Song)
-                .SingleOrDefault(l => l.SongId == songId && l.User.UserName == userName);
+                .SingleOrDefault(l => l.SongId == songId && l.User.AuthId == authId);
 
             if (songLike == null)
             {
@@ -80,10 +80,10 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] LikeAPlaylist(int playlistId, string userName)
+        public string[] LikeAPlaylist(int playlistId, string authId)
         {
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
                 return new[] { "User is not found" };
@@ -97,7 +97,7 @@ namespace SaitynoProjektasBackEnd.Services
             var playlistLikes = _context.Likes
                 .Include(l => l.User)
                 .Include(l => l.Playlist)
-                .SingleOrDefault(l => l.PlaylistId == playlistId && l.User.UserName == userName);
+                .SingleOrDefault(l => l.PlaylistId == playlistId && l.User.AuthId == authId);
 
             if (playlistLikes != null)
             {
@@ -116,10 +116,10 @@ namespace SaitynoProjektasBackEnd.Services
             return null;
         }
 
-        public string[] DislikeAPlaylist(int playlistId, string userName)
+        public string[] DislikeAPlaylist(int playlistId, string authId)
         {
             var user = _context.Users
-                .SingleOrDefault(u => u.UserName == userName);
+                .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
                 return new[] { "User is not found" };
@@ -133,7 +133,7 @@ namespace SaitynoProjektasBackEnd.Services
             var playlistLike = _context.Likes
                 .Include(l => l.User)
                 .Include(l => l.Playlist)
-                .SingleOrDefault(l => l.PlaylistId == playlistId && l.User.UserName == userName);
+                .SingleOrDefault(l => l.PlaylistId == playlistId && l.User.AuthId == authId);
 
             if (playlistLike == null)
                 return new[] {"Playlist is not liked"};
