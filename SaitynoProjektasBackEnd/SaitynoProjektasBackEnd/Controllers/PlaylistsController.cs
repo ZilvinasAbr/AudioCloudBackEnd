@@ -190,7 +190,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Liked")]
         public IActionResult GetUserLikedPlaylist()
         {
             var authId = _usersService.GetUserAuthId(User);
