@@ -22,7 +22,6 @@ namespace SaitynoProjektasBackEnd.Data
             var genres = AddGenres(context);
             var playlists = AddPlaylists(context, users);
             var songs = AddSongs(context, users, genres);
-            var comments = AddComments(context, users, songs);
             var playlistSongs = AddPlaylistSongs(context, songs, playlists);
             var likes = AddLikes(context, users, songs, playlists);
 
@@ -61,24 +60,6 @@ namespace SaitynoProjektasBackEnd.Data
 
             context.Events.AddRange(events);
             context.SaveChanges();
-        }
-
-        private static Comment[] AddComments(ApplicationDbContext context, User[] users, Song[] songs)
-        {
-            var comments = new[]
-            {
-                new Comment{Song = songs[0], User = users[3], Message = "Message 1", CreatedOn = DateTime.Now},
-                new Comment{Song = songs[0], User = users[4], Message = "Message 2", CreatedOn = DateTime.Now},
-                new Comment{Song = songs[0], User = users[3], Message = "Message 3", CreatedOn = DateTime.Now},
-                new Comment{Song = songs[0], User = users[4], Message = "Message 4", CreatedOn = DateTime.Now},
-                new Comment{Song = songs[0], User = users[3], Message = "Message 5", CreatedOn = DateTime.Now},
-                new Comment{Song = songs[0], User = users[4], Message = "Message 6", CreatedOn = DateTime.Now}
-            };
-
-            context.Comments.AddRange(comments);
-            context.SaveChanges();
-
-            return comments;
         }
 
         private static PlaylistSong[] AddPlaylistSongs(ApplicationDbContext context, Song[] songs, Playlist[] playlists)

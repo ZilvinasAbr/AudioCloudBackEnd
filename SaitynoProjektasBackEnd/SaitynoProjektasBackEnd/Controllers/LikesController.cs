@@ -23,11 +23,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult LikeASong(int songId)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -48,11 +44,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult DislikeASong(int songId)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -73,11 +65,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult LikeAPlaylist(int playlistId)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -98,11 +86,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult DislikeAPlaylist(int playlistId)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)

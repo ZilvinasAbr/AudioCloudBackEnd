@@ -18,7 +18,6 @@ namespace SaitynoProjektasBackEnd.Models
                 Title = song.Title,
                 UploadDate = song.UploadDate,
                 UploaderName = song.User.UserName,
-                Comments = song.Comments.Select(CommentToCommentResponseModel),
                 FilePath = song.FilePath
             };
 
@@ -46,15 +45,6 @@ namespace SaitynoProjektasBackEnd.Models
                 Location = user.Location,
                 ProfilePictureUrl = user.ProfilePictureUrl,
                 Description = user.Description
-            };
-
-        public static CommentResponseModel CommentToCommentResponseModel(Comment comment) =>
-            new CommentResponseModel
-            {
-                Id = comment.Id,
-                Message = comment.Message,
-                CreatedOn = comment.CreatedOn,
-                UserName = comment.User.UserName
             };
 
         public static PlaylistResponseModel PlaylistToPlaylistResponseModel(Playlist playlist) =>

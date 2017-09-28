@@ -12,7 +12,6 @@ namespace SaitynoProjektasBackEnd.Data
         public DbSet<PlaylistSong> PlaylistSongs { get; set; }
         public DbSet<Song> Songs { get; set; }
         public DbSet<Genre> Genres { get; set; }
-        public DbSet<Comment> Comments { get; set; }
         public DbSet<Event> Events { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -30,12 +29,6 @@ namespace SaitynoProjektasBackEnd.Data
                 .HasOne(f => f.Follower)
                 .WithMany(u => u.Following)
                 .HasForeignKey(f => f.FollowerId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Comment>()
-                .HasOne(c => c.User)
-                .WithMany(u => u.Comments)
-                .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Event>()

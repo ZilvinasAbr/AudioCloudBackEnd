@@ -25,6 +25,9 @@ namespace SaitynoProjektasBackEnd.Controllers
         [Authorize]
         public async Task<IActionResult> Upload(IFormFile toUpload)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});

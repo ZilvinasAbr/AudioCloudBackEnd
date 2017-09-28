@@ -27,8 +27,6 @@ namespace SaitynoProjektasBackEnd.Services
                 .Include(s => s.User)
                 .Include(s => s.Genre)
                 .Include(s => s.Likes)
-                .Include(s => s.Comments)
-                    .ThenInclude(c => c.User)
                 .Select(Mappers.SongToSongResponseModel);
 
             return songs;
@@ -47,8 +45,6 @@ namespace SaitynoProjektasBackEnd.Services
                 .Include(s => s.User)
                 .Include(s => s.Genre)
                 .Include(s => s.Likes)
-                .Include(s => s.Comments)
-                    .ThenInclude(c => c.User)
                 .Where(s => s.Genre.Name == genreName)
                 .Select(Mappers.SongToSongResponseModel);
 
@@ -185,5 +181,24 @@ namespace SaitynoProjektasBackEnd.Services
 
         private static bool IsFoundByQuery(Song song, string query) =>
             song.Title.ToUpperInvariant().Contains(query) || song.Description.ToUpperInvariant().Contains(query);
+
+        public string[] GetUserSongs(string userName, out IEnumerable<SongResponseModel> userSongs)
+        {
+            userSongs = null;
+            var user = _context.Users
+                .SingleOrDefault(u => u.UserName == userName);
+
+            if (user == null)
+                return new[] {"User is not found"};
+
+            userSongs = _context.Songs
+                .Include(s => s.User)
+                .Include(s => s.Genre)
+                .Include(s => s.Likes)
+                .Where(s => s.User.AuthId == user.AuthId)
+                .Select(Mappers.SongToSongResponseModel);
+
+            return null;
+        }
     }
 }

@@ -23,11 +23,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult Get()
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             string authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -47,11 +43,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult GetLastWeek()
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             string authId = _usersService.GetUserAuthId(User);
             if (authId == null)

@@ -26,11 +26,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult Get()
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -51,11 +47,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult Get(int id)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -81,11 +73,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult Post([FromBody]AddPlaylistRequestModel playlist)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -106,11 +94,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult Put(int id, [FromBody]EditPlaylistRequestModel playlist)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -120,7 +104,7 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             if (errorMessages != null)
             {
-                return Forbid(errorMessages);
+                return BadRequest(errorMessages);
             }
 
             return NoContent();
@@ -130,6 +114,9 @@ namespace SaitynoProjektasBackEnd.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
@@ -138,7 +125,7 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             if (errorMessages != null)
             {
-                return Forbid(errorMessages);
+                return BadRequest(errorMessages);
             }
 
             return NoContent();
@@ -149,11 +136,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult AddSong(int playlistId, int songId)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -174,11 +157,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult RemoveSong(int playlistId, int songId)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -198,12 +177,8 @@ namespace SaitynoProjektasBackEnd.Controllers
         [HttpGet("User/{userNameOfPlaylists}")]
         public IActionResult GetUserPlaylists(string userNameOfPlaylists)
         {
-            if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+           if (!ModelState.IsValid)
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)

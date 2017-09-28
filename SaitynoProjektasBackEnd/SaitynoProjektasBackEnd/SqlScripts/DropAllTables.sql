@@ -1,4 +1,3 @@
-DROP TABLE dbo.Comments
 DROP TABLE dbo.Events
 DROP TABLE dbo.Followings
 DROP TABLE dbo.Genres

@@ -14,5 +14,6 @@ namespace SaitynoProjektasBackEnd.Services
         Task<string[]> DeleteSong(int id, string authId);
         IEnumerable<SongResponseModel> SearchSongs(string query);
         string[] GetSongsByGenre(string genreName, out IEnumerable<SongResponseModel> songs);
+        string[] GetUserSongs(string userName, out IEnumerable<SongResponseModel> userSongs);
     }
 }

@@ -34,11 +34,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult GetByGenre([FromQuery] string genreName)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var errorMessages = _songsService.GetSongsByGenre(genreName, out IEnumerable<SongResponseModel> songs);
 
@@ -53,11 +49,14 @@ namespace SaitynoProjektasBackEnd.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+
             var song = _songsService.GetSongById(id);
             
             if (song == null)
             {
-                return NotFound();
+                return BadRequest();
             }
 
             return Ok(song);
@@ -68,11 +67,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public async Task<IActionResult> Post([FromBody]AddSongRequestModel song)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -82,7 +77,7 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             if (errorMessages != null)
             {
-                return Forbid(errorMessages);
+                return BadRequest(errorMessages);
             }
 
             return NoContent();
@@ -93,11 +88,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult Put(int id, [FromBody]EditSongRequestModel song)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -107,7 +98,7 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             if (errorMessages != null)
             {
-                return Forbid(errorMessages);
+                return BadRequest(errorMessages);
             }
 
             return NoContent();
@@ -118,11 +109,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
             
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -132,7 +119,7 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             if (errorMessages != null)
             {
-                return Forbid(errorMessages);
+                return BadRequest(errorMessages);
             }
 
             return NoContent();
@@ -142,15 +129,26 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult Search([FromBody] SongSearchRequestModel model)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var songs = _songsService.SearchSongs(model.Query);
 
             return Ok(songs);
+        }
+
+        [Authorize]
+        [HttpGet("user/{userName}")]
+        public IActionResult GetUserSongs(string userName)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+
+            var errorMessages = _songsService.GetUserSongs(userName, out var userSongs);
+
+            if (errorMessages != null)
+                return BadRequest(errorMessages);
+
+            return Ok(userSongs);
         }
     }
 }

@@ -57,6 +57,9 @@ namespace SaitynoProjektasBackEnd.Controllers
         [HttpGet("{name}")]
         public IActionResult Get(string name)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+
             var user = _usersService.GetUserByName(name);
 
             if (user == null)
@@ -72,11 +75,7 @@ namespace SaitynoProjektasBackEnd.Controllers
         public IActionResult Put([FromBody] EditUserRequestModel user)
         {
             if (!ModelState.IsValid)
-            {
-                var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-                return BadRequest(modelErrors.ToArray());
-            }
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
