@@ -113,11 +113,11 @@ namespace SaitynoProjektasBackEnd.Data
         {
             var likes = new[]
             {
-                new Like {User = users[0], Playlist = playlists[0]},
-                new Like {User = users[0], Song = songs[2]},
-                new Like {User = users[0], Song = songs[3]},
-                new Like {User = users[0], Song = songs[4]},
-                new Like {User = users[0], Playlist = playlists[2]}
+                new Like {User = users[0], Playlist = playlists[0], CreatedOn = DateTime.Now},
+                new Like {User = users[0], Song = songs[2], CreatedOn = DateTime.Now},
+                new Like {User = users[0], Song = songs[3], CreatedOn = DateTime.Now},
+                new Like {User = users[0], Song = songs[4], CreatedOn = DateTime.Now},
+                new Like {User = users[0], Playlist = playlists[2], CreatedOn = DateTime.Now}
             };
 
             context.Likes.AddRange(likes);

@@ -311,5 +311,30 @@ namespace SaitynoProjektasBackEnd.Services
 
             return null;
         }
+
+        public string[] GetUserLikedPlaylist(string authId, out PlaylistResponseModel playlist)
+        {
+            playlist = null;
+            var user = _context.Users
+                .SingleOrDefault(u => u.AuthId == authId);
+
+            if (user == null)
+                return new[] { "User is not found" };
+
+            var likedSongs = _context.Likes
+                .Where(l => l.User.AuthId == authId && l.Song != null)
+                .Select(l => l.Song);
+
+            playlist = new PlaylistResponseModel
+            {
+                Name = "Liked songs playlist",
+                Description = "",
+                IsPublic = false,
+                UserName = user.UserName,
+                Songs = likedSongs.Select(Mappers.SongToSongResponseModel)
+            };
+
+            return null;
+        }
     }
 }

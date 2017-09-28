@@ -188,5 +188,21 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             return Ok(playlists);
         }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult GetUserLikedPlaylist()
+        {
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            var errorMessages = _playlistsService.GetUserLikedPlaylist(authId, out var playlist);
+
+            if (errorMessages != null)
+                return BadRequest(errorMessages);
+
+            return Ok(playlist);
+        }
     }
 }

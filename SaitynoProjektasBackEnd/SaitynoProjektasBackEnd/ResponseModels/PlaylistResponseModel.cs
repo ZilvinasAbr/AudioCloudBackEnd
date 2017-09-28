@@ -10,6 +10,6 @@ namespace SaitynoProjektasBackEnd.ResponseModels
         public bool IsPublic { get; set; }
         public string UserName { get; set; }
         public IEnumerable<SongResponseModel> Songs { get; set; }
-        public int Likes { get; set; }
+        public int? Likes { get; set; }
     }
 }
