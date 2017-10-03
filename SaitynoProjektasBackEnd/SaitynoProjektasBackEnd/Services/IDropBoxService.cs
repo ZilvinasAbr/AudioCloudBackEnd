@@ -9,7 +9,7 @@ namespace SaitynoProjektasBackEnd.Services
     {
         Task<FileMetadata> UploadFileAsync(IFormFile file);
         Task<bool> DoesFileExistAsync(string filePath);
-        Task<string[]> DeleteFileAsync(string filePath);
+        Task<bool> DeleteFileAsync(string filePath);
         Task<Stream> DownloadFileAsync(string filePath);
     }
 }

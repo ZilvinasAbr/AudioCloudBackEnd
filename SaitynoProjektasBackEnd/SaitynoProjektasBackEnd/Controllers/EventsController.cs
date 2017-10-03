@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,14 +30,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new []{"Invalid access token"});
 
-            var errorMessages = _eventsService.GetEvents(authId, out var events);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
-            }
+                var events = _eventsService.GetEvents(authId);
 
-            return Ok(events);
+                return Ok(events);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[]{e.Message});
+            }
         }
 
         [HttpGet("LastWeek")]
@@ -45,18 +48,19 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
-            string authId = _usersService.GetUserAuthId(User);
+            var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
                 return BadRequest(new []{"Invalid access token"});
 
-            var errorMessages = _eventsService.GetEventsLastWeek(authId, out var events);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
+                var events = _eventsService.GetEventsLastWeek(authId);
+                return Ok(events);
             }
-
-            return Ok(events);
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
     }
 }

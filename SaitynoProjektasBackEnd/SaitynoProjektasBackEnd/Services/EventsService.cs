@@ -17,14 +17,13 @@ namespace SaitynoProjektasBackEnd.Services
             _context = context;
         }
 
-        public string[] GetEvents(string authId, out IEnumerable<EventResponseModel> eventsResult)
+        public IEnumerable<EventResponseModel> GetEvents(string authId)
         {
-            eventsResult = null;
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
 
             var followedUserNames = _context.Followings
                 .Include(f => f.Follower)
@@ -33,24 +32,23 @@ namespace SaitynoProjektasBackEnd.Services
                 .Select(f => f.Followed.UserName)
                 .ToList();
 
-            eventsResult = _context.Events
+            var events = _context.Events
                 .Include(e => e.User)
                 .Include(e => e.Song)
                 .Where(e => followedUserNames.Contains(e.User.UserName))
                 .ToList()
                 .Select(Mappers.EventToEventResponseModel);
 
-            return null;
+            return events;
         }
 
-        public string[] GetEventsLastWeek(string authId, out IEnumerable<EventResponseModel> eventsResult)
+        public IEnumerable<EventResponseModel> GetEventsLastWeek(string authId)
         {
-            eventsResult = null;
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] { "User is not found" };
+                throw new Exception("User is not found");
 
             var followedAuthIds = _context.Followings
                 .Include(f => f.Follower)
@@ -61,7 +59,7 @@ namespace SaitynoProjektasBackEnd.Services
             
             // TODO: Where, then ToList, and then Where again is used because somehow if I use two Where's one after another ant then ToList OR
             // TODO: if I put those Where's to one Where, sql exception happens. Should be investigated what's wrong with this.
-            eventsResult = _context.Events
+            var events = _context.Events
                 .Include(e => e.User)
                 .Include(e => e.Song)
                 .Where(e => followedAuthIds.Contains(e.User.AuthId))
@@ -69,7 +67,7 @@ namespace SaitynoProjektasBackEnd.Services
                 .Where(e => e.CreatedOn + TimeSpan.FromDays(7) > DateTime.Now)
                 .Select(Mappers.EventToEventResponseModel);
 
-            return null;
+            return events;
         }
     }
 }

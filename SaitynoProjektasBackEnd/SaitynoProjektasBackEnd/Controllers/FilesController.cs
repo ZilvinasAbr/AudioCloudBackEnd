@@ -44,7 +44,7 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             var fileName = fileMetadata.Name;
 
-            return Ok(fileName);
+            return Created($"api/files/{fileName}", fileName);
         }
 
         [HttpGet("{filePath}")]

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
@@ -11,8 +10,8 @@ namespace SaitynoProjektasBackEnd.Services
     {
         IEnumerable<UserResponseModel> GetUsers();
         UserResponseModel GetUserByName(string name);
-        string[] EditUser(string authId, EditUserRequestModel user);
-        string[] RegisterUser(string authId);
+        void EditUser(string authId, EditUserRequestModel user);
+        User RegisterUser(string authId);
         string GetUserAuthId(ClaimsPrincipal claimsPrincipal);
     }
 }

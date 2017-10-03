@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SaitynoProjektasBackEnd.Data;
@@ -17,14 +18,13 @@ namespace SaitynoProjektasBackEnd.Services
             _context = context;
         }
 
-        public string[] GetPlaylists(string authId, out IEnumerable<PlaylistResponseModel> playlistsResult)
+        public IEnumerable<PlaylistResponseModel> GetPlaylists(string authId)
         {
-            playlistsResult = null;
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] { "User is not found" };
+                throw new Exception("User is not found");
 
             var playlists = _context.Playlists
                 .Include(p => p.User)
@@ -39,22 +39,20 @@ namespace SaitynoProjektasBackEnd.Services
                         .ThenInclude(s => s.Likes)
                 .Include(p => p.Likes)
                 .Where(p => p.IsPublic || p.User.AuthId == authId)
+                .AsEnumerable()
+                .Select(Mappers.PlaylistToPlaylistResponseModel)
                 .ToList();
 
-            playlistsResult = playlists.Select(Mappers.PlaylistToPlaylistResponseModel)
-                .ToList();
-
-            return null;
+            return playlists;
         }
 
-        public string[] GetPlaylistById(int id, string authId, out PlaylistResponseModel playlistResult)
+        public PlaylistResponseModel GetPlaylistById(int id, string authId)
         {
-            playlistResult = null;
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] { "User is not found" };
+                throw new Exception("User is not found");
 
             var playlist = _context.Playlists
                 .Include(p => p.User)
@@ -71,20 +69,20 @@ namespace SaitynoProjektasBackEnd.Services
                 .SingleOrDefault(p => p.Id == id && (p.IsPublic || p.User.AuthId == authId));
 
             if (playlist == null)
-                return new[] {"Playlist is not found"};
+                throw new Exception("Playlist is not found");
 
-            playlistResult = Mappers.PlaylistToPlaylistResponseModel(playlist);
+            var playlistResponseModel = Mappers.PlaylistToPlaylistResponseModel(playlist);
 
-            return null;
+            return playlistResponseModel;
         }
 
-        public string[] AddPlaylist(AddPlaylistRequestModel playlistRequestModel, string authId)
+        public Playlist AddPlaylist(AddPlaylistRequestModel playlistRequestModel, string authId)
         {
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
 
             var playlist = new Playlist
             {
@@ -96,17 +94,17 @@ namespace SaitynoProjektasBackEnd.Services
 
             _context.Playlists.Add(playlist);
             _context.SaveChanges();
-
-            return null;
+            
+            return playlist;
         }
 
-        public string[] EditPlaylist(int id, EditPlaylistRequestModel playlistRequestModel, string authId)
+        public void EditPlaylist(int id, EditPlaylistRequestModel playlistRequestModel, string authId)
         {
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
 
             var playlist = _context.Playlists
                 .Include(p => p.User)
@@ -114,7 +112,7 @@ namespace SaitynoProjektasBackEnd.Services
 
             if (playlist == null)
             {
-                return new[] {"Playlist is not found or you have no permission to edit this playlist"};
+                throw new Exception("Playlist is not found or you have no permission to edit this playlist");
             }
 
             if (!string.IsNullOrEmpty(playlistRequestModel.Name))
@@ -133,26 +131,22 @@ namespace SaitynoProjektasBackEnd.Services
             }
 
             _context.SaveChanges();
-
-            return null;
         }
 
-        public string[] DeletePlaylist(int id, string authId)
+        public void DeletePlaylist(int id, string authId)
         {
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
 
             var playlist = _context.Playlists
                 .Include(p => p.User)
                 .SingleOrDefault(p => p.Id == id && p.User.AuthId == authId);
 
             if (playlist == null)
-            {
-                return new[] {"Playlist is not found or you have no permission to delete this playlist"};
-            }
+                throw new Exception("Playlist is not found or you have no permission to delete this playlist");
 
             var playlistSongs = _context.PlaylistSongs.Where(ps => ps.PlaylistId == id);
             _context.PlaylistSongs.RemoveRange(playlistSongs);
@@ -163,19 +157,15 @@ namespace SaitynoProjektasBackEnd.Services
             _context.Playlists.Remove(playlist);
 
             _context.SaveChanges();
-
-            return null;
         }
 
-        public string[] GetUserPlaylists(string userNameOfPlaylists, string authId, out IEnumerable<PlaylistResponseModel> playlistsResult)
+        public IEnumerable<PlaylistResponseModel> GetUserPlaylists(string userNameOfPlaylists, string authId)
         {
-            playlistsResult = null;
-
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
 
             var returnPrivatePlaylists = userNameOfPlaylists == user.UserName;
 
@@ -183,7 +173,7 @@ namespace SaitynoProjektasBackEnd.Services
                 .SingleOrDefault(u => u.UserName == userNameOfPlaylists);
 
             if (userOfPlaylists == null)
-                return new[] { "User of playlists is not found" };
+                throw new Exception("User of playlists is not found");
 
             var playlists = _context.Playlists
                 .Include(p => p.User)
@@ -214,18 +204,16 @@ namespace SaitynoProjektasBackEnd.Services
             })
             .ToList();
 
-            playlistsResult = playlistResponseModels;
-
-            return null;
+            return playlistResponseModels;
         }
 
-        public string[] AddSong(int playlistId, int songId, string authId)
+        public PlaylistSong AddSong(int playlistId, int songId, string authId)
         {
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
 
             var playlist = _context.Playlists
                 .Include(p => p.User)
@@ -234,11 +222,11 @@ namespace SaitynoProjektasBackEnd.Services
                 .SingleOrDefault(s => s.Id == songId);
 
             if (playlist == null)
-                return new[] {"Playlist is not found"};
+                throw new Exception("Playlist is not found");
             if (playlist.User.AuthId != authId)
-                return new[] {"You are not the owner of this playlist"};
+                throw new Exception("You are not the owner of this playlist");
             if (song == null)
-                return new[] {"Song is not found"};
+                throw new Exception("Song is not found");
 
             var playlistSongs = _context.PlaylistSongs
                 .Where(ps => ps.PlaylistId == playlistId);
@@ -247,7 +235,7 @@ namespace SaitynoProjektasBackEnd.Services
                 .Any(ps => ps.SongId == songId);
 
             if (isAlreadyInPlaylist)
-                return new[] {"Song is already in the playlist"};
+                throw new Exception("Song is already in the playlist");
 
             var lastPlaylistSong = playlistSongs
                 .OrderByDescending(ps => ps.Number)
@@ -263,16 +251,16 @@ namespace SaitynoProjektasBackEnd.Services
             _context.PlaylistSongs.Add(playlistSong);
             _context.SaveChanges();
 
-            return null;
+            return playlistSong;
         }
 
-        public string[] RemoveSong(int playlistId, int songId, string authId)
+        public void RemoveSong(int playlistId, int songId, string authId)
         {
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] { "User is not found" };
+                throw new Exception("User is not found");
 
             var playlist = _context.Playlists
                 .Include(p => p.User)
@@ -281,18 +269,18 @@ namespace SaitynoProjektasBackEnd.Services
                 .SingleOrDefault(s => s.Id == songId);
 
             if (playlist == null)
-                return new[] { "Playlist is not found" };
+                throw new Exception("Playlist is not found");
             if (playlist.User.AuthId != authId)
-                return new[] { "You are not the owner of this playlist" };
+                throw new Exception("You are not the owner of this playlist");
             if (song == null)
-                return new[] { "Song is not found" };
+                throw new Exception("Song is not found");
 
             var playlistSongToRemove = _context.PlaylistSongs
                 .Where(ps => ps.PlaylistId == playlistId)
                 .SingleOrDefault(ps => ps.SongId == songId);
 
             if (playlistSongToRemove == null)
-                return new[] {"Song is not in the playlist"};
+                throw new Exception("Song is not in the playlist");
 
             _context.PlaylistSongs.Remove(playlistSongToRemove);
             _context.SaveChanges();
@@ -308,24 +296,22 @@ namespace SaitynoProjektasBackEnd.Services
             }
 
             _context.SaveChanges();
-
-            return null;
         }
 
-        public string[] GetUserLikedPlaylist(string authId, out PlaylistResponseModel playlist)
+        public PlaylistResponseModel GetUserLikedPlaylist(string authId)
         {
-            playlist = null;
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
-                return new[] { "User is not found" };
+                throw new Exception("User is not found");
 
             var likedSongs = _context.Likes
                 .Where(l => l.User.AuthId == authId && l.Song != null)
-                .Select(l => l.Song);
+                .Select(l => l.Song)
+                .ToList();
 
-            playlist = new PlaylistResponseModel
+            var playlist = new PlaylistResponseModel
             {
                 Name = "Liked songs playlist",
                 Description = "",
@@ -334,7 +320,7 @@ namespace SaitynoProjektasBackEnd.Services
                 Songs = likedSongs.Select(Mappers.SongToSongResponseModel)
             };
 
-            return null;
+            return playlist;
         }
     }
 }

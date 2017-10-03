@@ -34,14 +34,14 @@ namespace SaitynoProjektasBackEnd.Services
             return user == null ? null : Mappers.UserToUserResponseModel(user);
         }
 
-        public string[] EditUser(string authId, EditUserRequestModel userRequestModel)
+        public void EditUser(string authId, EditUserRequestModel userRequestModel)
         {
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (user == null)
             {
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
             }
 
             if (!string.IsNullOrEmpty(userRequestModel.Name))
@@ -49,7 +49,7 @@ namespace SaitynoProjektasBackEnd.Services
                 var isUserNameUsed = _context.Users.Any(u => u.UserName == userRequestModel.Name);
 
                 if (isUserNameUsed)
-                    return new[] {"UserName is already used"};
+                    throw new Exception("UserName is already used");
 
                 user.UserName = userRequestModel.Name;
             }
@@ -70,8 +70,6 @@ namespace SaitynoProjektasBackEnd.Services
             }
 
             _context.SaveChanges();
-
-            return null;
         }
 
         public string GetUserAuthId(ClaimsPrincipal claimsPrincipal)
@@ -90,13 +88,13 @@ namespace SaitynoProjektasBackEnd.Services
             return authId;
         }
 
-        public string[] RegisterUser(string authId)
+        public User RegisterUser(string authId)
         {
             var userIsFound = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (userIsFound!= null)
-                return new[] {"User is already registered"};
+                throw new Exception("User is already registered");
 
             // TODO: Generates random username. Might need to change logic of this.
             var user = new User
@@ -107,8 +105,8 @@ namespace SaitynoProjektasBackEnd.Services
 
             _context.Users.Add(user);
             _context.SaveChanges();
-
-            return null;
+            
+            return user;
         }
     }
 }

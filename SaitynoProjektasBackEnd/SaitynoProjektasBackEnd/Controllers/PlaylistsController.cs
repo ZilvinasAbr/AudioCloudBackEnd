@@ -79,14 +79,14 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _playlistsService.AddPlaylist(playlist, authId);
+            var errorMessages = _playlistsService.AddPlaylist(playlist, authId, out var playlistCreated);
 
             if (errorMessages != null)
             {
                 return BadRequest(errorMessages);
             }
 
-            return NoContent();
+            return Created($"api/playlists/{playlistCreated.Id}", playlistCreated.Id);
         }
 
         [Authorize]
@@ -128,7 +128,7 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(errorMessages);
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [Authorize]
@@ -142,14 +142,14 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _playlistsService.AddSong(playlistId, songId, authId);
+            var errorMessages = _playlistsService.AddSong(playlistId, songId, authId, out var playlistSongAdded);
 
             if (errorMessages != null)
             {
                 return BadRequest(errorMessages);
             }
 
-            return NoContent();
+            return Created($"{playlistId}/Song/{songId}", new { playlistSongAdded.PlaylistId, playlistSongAdded.SongId });
         }
 
         [Authorize]
@@ -170,7 +170,7 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(errorMessages);
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [Authorize]

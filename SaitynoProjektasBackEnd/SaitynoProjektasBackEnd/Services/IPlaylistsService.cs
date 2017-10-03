@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
 using SaitynoProjektasBackEnd.ResponseModels;
 
@@ -6,14 +7,14 @@ namespace SaitynoProjektasBackEnd.Services
 {
     public interface IPlaylistsService
     {
-        string[] GetPlaylists(string authId, out IEnumerable<PlaylistResponseModel> playlistsResult);
-        string[] GetPlaylistById(int id, string authId, out PlaylistResponseModel playlist);
-        string[] AddPlaylist(AddPlaylistRequestModel playlist, string authId);
-        string[] EditPlaylist(int id, EditPlaylistRequestModel playlist, string authId);
-        string[] DeletePlaylist(int id, string authId);
-        string[] GetUserPlaylists(string userNameOfPlaylists, string authId, out IEnumerable<PlaylistResponseModel> playlists);
-        string[] AddSong(int playlistId, int songId, string authId);
-        string[] RemoveSong(int playlistId, int songId, string authId);
-        string[] GetUserLikedPlaylist(string authId, out PlaylistResponseModel playlist);
+        IEnumerable<PlaylistResponseModel> GetPlaylists(string authId);
+        PlaylistResponseModel GetPlaylistById(int id, string authId);
+        Playlist AddPlaylist(AddPlaylistRequestModel playlist, string authId);
+        void EditPlaylist(int id, EditPlaylistRequestModel playlist, string authId);
+        void DeletePlaylist(int id, string authId);
+        IEnumerable<PlaylistResponseModel> GetUserPlaylists(string userNameOfPlaylists, string authId);
+        PlaylistSong AddSong(int playlistId, int songId, string authId);
+        void RemoveSong(int playlistId, int songId, string authId);
+        PlaylistResponseModel GetUserLikedPlaylist(string authId);
     }
 }

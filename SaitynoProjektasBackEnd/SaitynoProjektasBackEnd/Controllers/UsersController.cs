@@ -46,12 +46,12 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Invalid token provided"});
 
-            var errorMessages = _usersService.RegisterUser(authId);
+            var errorMessages = _usersService.RegisterUser(authId, out var userCreated);
 
             if (errorMessages != null)
                 return BadRequest(errorMessages);
 
-            return NoContent();
+            return Created($"api/users/${userCreated.UserName}", userCreated.UserName);
         }
 
         [HttpGet("{name}")]

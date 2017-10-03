@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
@@ -29,14 +30,15 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _likesService.LikeASong(songId, authId);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
+                var like = _likesService.LikeASong(songId, authId);
+                return Created($"api/likes/{like.Id}", like.Id);
             }
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -50,14 +52,15 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _likesService.DislikeASong(songId, authId);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
+                _likesService.DislikeASong(songId, authId);
+                return Ok();
             }
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -71,14 +74,15 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _likesService.LikeAPlaylist(playlistId, authId);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
+                var like = _likesService.LikeAPlaylist(playlistId, authId);
+                return Created($"api/likes/{like.Id}", like.Id);
             }
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -92,14 +96,15 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _likesService.DislikeAPlaylist(playlistId, authId);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
+                _likesService.DislikeAPlaylist(playlistId, authId);
+                return Ok();
             }
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new[]{e.Message});
+            }
         }
     }
 }

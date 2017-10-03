@@ -17,19 +17,19 @@ namespace SaitynoProjektasBackEnd.Services
             _accessToken = "<INSERT HERE DROPBOX ACCESS TOKEN>";
         }
 
-        public async Task<string[]> DeleteFileAsync(string filePath)
+        public async Task<bool> DeleteFileAsync(string filePath)
         {
             using (var dbx = new DropboxClient(_accessToken))
             {
                 if (string.IsNullOrEmpty(filePath))
-                    return new[] {"Song was deleted, but song file does not exist in the file storage"};
+                    throw new Exception("Song was deleted, but song file does not exist in the file storage");
 
                 var result = await dbx.Files.DeleteV2Async($"/{filePath}");
 
                 if (!result.Metadata.IsFile)
-                    return new[] {"Could not find song file in the file storage"};
+                    throw new Exception("Could not find song file in the file storage");
 
-                return null;
+                return true;
             }
         }
 

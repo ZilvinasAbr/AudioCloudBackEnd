@@ -32,23 +32,23 @@ namespace SaitynoProjektasBackEnd.Services
             return songs;
         }
 
-        public string[] GetSongsByGenre(string genreName, out IEnumerable<SongResponseModel> songsResult)
+        public IEnumerable<SongResponseModel> GetSongsByGenre(string genreName)
         {
-            songsResult = null;
             var genre = _context.Genres
                 .SingleOrDefault(g => g.Name == genreName);
 
             if (genre == null)
-                return new[] { "Genre is not found" };
+                throw new Exception("Genre is not found");
 
-            songsResult = _context.Songs
+            var songs = _context.Songs
                 .Include(s => s.User)
                 .Include(s => s.Genre)
                 .Include(s => s.Likes)
                 .Where(s => s.Genre.Name == genreName)
+                .ToList()
                 .Select(Mappers.SongToSongResponseModel);
 
-            return null;
+            return songs;
         }
 
         public SongResponseModel GetSongById(int id)
@@ -69,27 +69,26 @@ namespace SaitynoProjektasBackEnd.Services
             return songResponseModel;
         }
 
-        public async Task<string[]> AddSong(AddSongRequestModel songRequestModel, string authId)
+        public async Task<Song> AddSong(AddSongRequestModel songRequestModel, string authId)
         {
             var genre = _context.Genres
                 .SingleOrDefault(g => g.Name == songRequestModel.Genre);
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
             var isFilePathUsed = _context.Songs
-                .Where(s => s.FilePath == songRequestModel.FilePath)
-                .Any();
+                .Any(s => s.FilePath == songRequestModel.FilePath);
 
             if (genre == null)
-                return new[] {"Genre is not found"};
+                throw new Exception("Genre is not found");
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
             if (isFilePathUsed)
-                return new[] {"Invalid file path"};
+                throw new Exception("Invalid file path");
 
             var fileIsFound = await _dropBoxService.DoesFileExistAsync(songRequestModel.FilePath);
 
             if (!fileIsFound)
-                return new[] {"File specified is not found in the file storage"};
+                throw new Exception("File specified is not found in the file storage");
 
             var song = new Song
             {
@@ -105,12 +104,12 @@ namespace SaitynoProjektasBackEnd.Services
             };
 
             _context.Songs.Add(song);
-            var result = _context.SaveChanges();
-
-            return result == 0 ? new[] {"Could not add song"} : null;
+            _context.SaveChanges();
+            
+            return song;
         }
 
-        public string[] EditSong(int id, EditSongRequestModel songRequestModel, string authId)
+        public void EditSong(int id, EditSongRequestModel songRequestModel, string authId)
         {
             var song = _context.Songs
                 .Include(s => s.User)
@@ -119,11 +118,11 @@ namespace SaitynoProjektasBackEnd.Services
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (song == null)
-                return new[] {"Song is not found"};
+                throw new Exception("Song is not found");
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
             if (song.User.AuthId != authId)
-                return new[] {"User is not the owner of the song"};
+                throw new Exception("User is not the owner of the song");
 
             if (!string.IsNullOrEmpty(songRequestModel.Title))
             {
@@ -136,11 +135,9 @@ namespace SaitynoProjektasBackEnd.Services
             }
 
             _context.SaveChanges();
-
-            return null;
         }
 
-        public async Task<string[]> DeleteSong(int id, string authId)
+        public async Task<bool> DeleteSong(int id, string authId)
         {
             var song = _context.Songs
                 .Include(s => s.User)
@@ -149,11 +146,11 @@ namespace SaitynoProjektasBackEnd.Services
                 .SingleOrDefault(u => u.AuthId == authId);
 
             if (song == null)
-                return new[] {"Song is not found"};
+                throw new Exception("Song is not found");
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
             if (song.User.AuthId != authId)
-                return new[] {"User is not the owner of the song"};
+                throw new Exception("User is not the owner of the song");
 
             var playlistSongs = _context.PlaylistSongs.Where(ps => ps.SongId == id);
             _context.PlaylistSongs.RemoveRange(playlistSongs);
@@ -167,7 +164,7 @@ namespace SaitynoProjektasBackEnd.Services
 
             var result = await _dropBoxService.DeleteFileAsync(song.FilePath);
 
-            return null;
+            return result;
         }
 
         public IEnumerable<SongResponseModel> SearchSongs(string query) =>
@@ -182,23 +179,23 @@ namespace SaitynoProjektasBackEnd.Services
         private static bool IsFoundByQuery(Song song, string query) =>
             song.Title.ToUpperInvariant().Contains(query) || song.Description.ToUpperInvariant().Contains(query);
 
-        public string[] GetUserSongs(string userName, out IEnumerable<SongResponseModel> userSongs)
+        public IEnumerable<SongResponseModel> GetUserSongs(string userName)
         {
-            userSongs = null;
             var user = _context.Users
                 .SingleOrDefault(u => u.UserName == userName);
 
             if (user == null)
-                return new[] {"User is not found"};
+                throw new Exception("User is not found");
 
-            userSongs = _context.Songs
+            var userSongs = _context.Songs
                 .Include(s => s.User)
                 .Include(s => s.Genre)
                 .Include(s => s.Likes)
                 .Where(s => s.User.AuthId == user.AuthId)
+                .ToList()
                 .Select(Mappers.SongToSongResponseModel);
 
-            return null;
+            return userSongs;
         }
     }
 }

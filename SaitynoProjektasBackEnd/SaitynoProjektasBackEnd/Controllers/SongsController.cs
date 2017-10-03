@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -73,14 +74,15 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = await _songsService.AddSong(song, authId);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
+                var songCreated = await _songsService.AddSong(song, authId);
+                return Created($"api/songs/{songCreated.Id}", songCreated.Id);
             }
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new[]{e.Message});
+            }
         }
 
         [Authorize]
@@ -122,7 +124,7 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(errorMessages);
             }
 
-            return NoContent();
+            return Ok();
         }
 
         [HttpPost("Search")]
