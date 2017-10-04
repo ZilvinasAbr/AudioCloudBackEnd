@@ -37,14 +37,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
-            var errorMessages = _songsService.GetSongsByGenre(genreName, out IEnumerable<SongResponseModel> songs);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
-            }
+                var songs = _songsService.GetSongsByGenre(genreName);
 
-            return Ok(songs);
+                return Ok(songs);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] {e.Message});
+            }
         }
 
         [HttpGet("{id}")]
@@ -96,14 +98,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _songsService.EditSong(id, song, authId);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
-            }
+                _songsService.EditSong(id, song, authId);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -117,14 +121,18 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = await _songsService.DeleteSong(id, authId);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
-            }
+                var success = await _songsService.DeleteSong(id, authId);
 
-            return Ok();
+                if (success)
+                    return Ok();
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [HttpPost("Search")]
@@ -144,13 +152,17 @@ namespace SaitynoProjektasBackEnd.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+            
+            try
+            {
+                var userSongs = _songsService.GetUserSongs(userName);
 
-            var errorMessages = _songsService.GetUserSongs(userName, out var userSongs);
-
-            if (errorMessages != null)
-                return BadRequest(errorMessages);
-
-            return Ok(userSongs);
+                return Ok(userSongs);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] {e.Message});
+            }
         }
     }
 }

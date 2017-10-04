@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
@@ -46,12 +47,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Invalid token provided"});
 
-            var errorMessages = _usersService.RegisterUser(authId, out var userCreated);
+            try
+            {
+                var user = _usersService.RegisterUser(authId);
 
-            if (errorMessages != null)
-                return BadRequest(errorMessages);
-
-            return Created($"api/users/${userCreated.UserName}", userCreated.UserName);
+                return Created($"api/users/${user.UserName}", user.UserName);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] {e.Message});
+            }
         }
 
         [HttpGet("{name}")]
@@ -81,14 +86,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _usersService.EditUser(authId, user);
-
-            if (errorMessages != null)
+            try
             {
-                return NotFound(errorMessages);
-            }
+                _usersService.EditUser(authId, user);
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
     }
 }

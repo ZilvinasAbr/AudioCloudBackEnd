@@ -2,7 +2,6 @@
 using System.Linq;
 using SaitynoProjektasBackEnd.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 
 namespace SaitynoProjektasBackEnd.Data
 {
@@ -150,25 +149,21 @@ namespace SaitynoProjektasBackEnd.Data
             // On seed data AuthId equals a random string value, it is not possible to use these users.
             var users = new[]
             {
-                new User {UserName = "Antanas", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "Petras", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "Petras2", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "Jonas", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "Antanas2", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "Petras3", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "Vardenis", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "Antanas3", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "tadas1", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "tadas2", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "tadas3", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "tadas4", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "user1", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "user2", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "user3", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "user4", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "user5", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "user6", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()},
-                new User {UserName = "user7", Description = "Description", Location = "Location", AuthId = Guid.NewGuid().ToString()}
+                new User {UserName = "User 1", Description = "Description", Location = "Location", AuthId = "auth0|59d527e6a83e933c763fb5e4"},
+                new User {UserName = "User 2", Description = "Description", Location = "Location", AuthId = "auth0|59d52843ea7eb262c0566c60"},
+                new User {UserName = "User 3", Description = "Description", Location = "Location", AuthId = "auth0|59d52855a83e933c763fb602"},
+                new User {UserName = "User 4", Description = "Description", Location = "Location", AuthId = "auth0|59d52865ea7eb262c0566c66"},
+                new User {UserName = "User 5", Description = "Description", Location = "Location", AuthId = "auth0|59d5287da83e933c763fb60e"},
+                new User {UserName = "User 6", Description = "Description", Location = "Location", AuthId = "auth0|59d5288eea7eb262c0566c78"},
+                new User {UserName = "User 7", Description = "Description", Location = "Location", AuthId = "auth0|59d5289da83e933c763fb628"},
+                new User {UserName = "User 8", Description = "Description", Location = "Location", AuthId = "auth0|59d528aba83e933c763fb62e"},
+                new User {UserName = "User 9", Description = "Description", Location = "Location", AuthId = "auth0|59d528b5ea7eb262c0566c87"},
+                new User {UserName = "User 10", Description = "Description", Location = "Location", AuthId = "auth0|59d528bfa83e933c763fb638"},
+                new User {UserName = "User 11", Description = "Description", Location = "Location", AuthId = "auth0|59d52986a83e933c763fb65b"},
+                new User {UserName = "User 12", Description = "Description", Location = "Location", AuthId = "auth0|59d52995a83e933c763fb65d"},
+                new User {UserName = "User 13", Description = "Description", Location = "Location", AuthId = "auth0|59d529a2a83e933c763fb65e"},
+                new User {UserName = "User 14", Description = "Description", Location = "Location", AuthId = "auth0|59d529afa83e933c763fb661"},
+                new User {UserName = "User 15", Description = "Description", Location = "Location", AuthId = "auth0|59d529c0591a282330989334"}
             };
 
             context.Users.AddRange(users);

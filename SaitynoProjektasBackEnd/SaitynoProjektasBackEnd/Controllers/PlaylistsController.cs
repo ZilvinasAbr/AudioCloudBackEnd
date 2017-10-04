@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,14 +33,15 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _playlistsService.GetPlaylists(authId, out var playlists);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
+                var playlists = _playlistsService.GetPlaylists(authId);
+                return Ok(playlists);
             }
-
-            return Ok(playlists);
+            catch (Exception e)
+            {
+                return BadRequest(new[] {e.Message});
+            }
         }
 
         [Authorize]
@@ -53,19 +55,19 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _playlistsService.GetPlaylistById(id, authId, out PlaylistResponseModel playlist);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
-            }
+                var playlist = _playlistsService.GetPlaylistById(id, authId);
 
-            if (playlist == null)
+                if (playlist == null)
+                    return NotFound();
+
+                return Ok(playlist);
+            }
+            catch (Exception e)
             {
-                return NotFound();
+                return BadRequest(new[] {e.Message});
             }
-
-            return Ok(playlist);
         }
 
         [Authorize]
@@ -79,14 +81,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _playlistsService.AddPlaylist(playlist, authId, out var playlistCreated);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
-            }
+                var playlistCreated = _playlistsService.AddPlaylist(playlist, authId);
 
-            return Created($"api/playlists/{playlistCreated.Id}", playlistCreated.Id);
+                return Created($"api/playlists/{playlistCreated.Id}", playlistCreated.Id);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -100,14 +104,15 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _playlistsService.EditPlaylist(id, playlist, authId);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
+                _playlistsService.EditPlaylist(id, playlist, authId);
+                return NoContent();
             }
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -120,15 +125,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
-            
-            var errorMessages = _playlistsService.DeletePlaylist(id, authId);
 
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
+                _playlistsService.DeletePlaylist(id, authId);
+                return Ok();
             }
-
-            return Ok();
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -142,14 +148,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _playlistsService.AddSong(playlistId, songId, authId, out var playlistSongAdded);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
-            }
+                var playlistSongAdded = _playlistsService.AddSong(playlistId, songId, authId);
 
-            return Created($"{playlistId}/Song/{songId}", new { playlistSongAdded.PlaylistId, playlistSongAdded.SongId });
+                return Created($"{playlistId}/Song/{songId}", new { playlistSongAdded.PlaylistId, playlistSongAdded.SongId });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -163,14 +171,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _playlistsService.RemoveSong(playlistId, songId, authId);
-
-            if (errorMessages != null)
+            try
             {
-                return BadRequest(errorMessages);
-            }
+                _playlistsService.RemoveSong(playlistId, songId, authId);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -183,10 +193,17 @@ namespace SaitynoProjektasBackEnd.Controllers
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
-            
-            var errorMessages = _playlistsService.GetUserPlaylists(userNameOfPlaylists, authId, out var playlists);
 
-            return Ok(playlists);
+            try
+            {
+                var playlists = _playlistsService.GetUserPlaylists(userNameOfPlaylists, authId);
+
+                return Ok(playlists);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
 
         [Authorize]
@@ -197,12 +214,16 @@ namespace SaitynoProjektasBackEnd.Controllers
             if (authId == null)
                 return BadRequest(new[] {"Bad access token provided"});
 
-            var errorMessages = _playlistsService.GetUserLikedPlaylist(authId, out var playlist);
+            try
+            {
+                var playlist = _playlistsService.GetUserLikedPlaylist(authId);
 
-            if (errorMessages != null)
-                return BadRequest(errorMessages);
-
-            return Ok(playlist);
+                return Ok(playlist);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
         }
     }
 }
