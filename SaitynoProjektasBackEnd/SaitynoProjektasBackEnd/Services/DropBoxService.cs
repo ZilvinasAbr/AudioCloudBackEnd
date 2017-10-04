@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Dropbox.Api;
 using Dropbox.Api.Files;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace SaitynoProjektasBackEnd.Services
 {
@@ -12,9 +13,9 @@ namespace SaitynoProjektasBackEnd.Services
     {
         private readonly string _accessToken;
 
-        public DropBoxService()
+        public DropBoxService(IConfiguration configuration)
         {
-            _accessToken = "<INSERT HERE DROPBOX ACCESS TOKEN>";
+            _accessToken = configuration.GetConnectionString("DropBox");
         }
 
         public async Task<bool> DeleteFileAsync(string filePath)
