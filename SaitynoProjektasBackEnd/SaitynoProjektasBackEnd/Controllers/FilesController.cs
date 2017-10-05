@@ -48,7 +48,6 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [HttpGet("{filePath}")]
-        [Authorize]
         public async Task<IActionResult> Download(string filePath)
         {
             var stream = await _dropBoxService.DownloadFileAsync(filePath);
