@@ -64,14 +64,14 @@ namespace SaitynoProjektasBackEnd.Services
         {
             using (var dbx = new DropboxClient(_accessToken))
             {
-                var fileName = "/" + Guid.NewGuid() + file.FileName;
-                var data = new MemoryStream();
-                file.CopyTo(data);
+                var fileName = $"/{Guid.NewGuid()}{file.FileName}";
+
+                var readStream = file.OpenReadStream();
 
                 var fileMetaData = await dbx.Files.UploadAsync(
                     fileName,
                     WriteMode.Overwrite.Instance,
-                    body: data);
+                    body: readStream);
                 return fileMetaData;
             }
         }
