@@ -199,7 +199,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[0],
-                    FilePath = "",
+                    FilePath = "audio1.mp3",
                     Title = "Song 1",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -211,7 +211,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[0],
-                    FilePath = "",
+                    FilePath = "audio2.mp3",
                     Title = "Song 2",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -223,7 +223,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[1],
                     User = users[1],
-                    FilePath = "",
+                    FilePath = "audio3.mp3",
                     Title = "Song 3",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -235,7 +235,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[2],
                     User = users[2],
-                    FilePath = "",
+                    FilePath = "audio4.mp3",
                     Title = "Song 4",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -247,7 +247,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[3],
                     User = users[3],
-                    FilePath = "",
+                    FilePath = "audio5.mp3",
                     Title = "Song 5",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -259,7 +259,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[0],
-                    FilePath = "",
+                    FilePath = "audio6.mp3",
                     Title = "Song 6",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -271,7 +271,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[1],
-                    FilePath = "",
+                    FilePath = "audio7.mp3",
                     Title = "Song 7",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -283,7 +283,7 @@ namespace SaitynoProjektasBackEnd.Data
                 {
                     Genre = genres[0],
                     User = users[1],
-                    FilePath = "",
+                    FilePath = "audio8.mp3",
                     Title = "Song 8 Should not appear event",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
