@@ -66,6 +66,7 @@ namespace SaitynoProjektasBackEnd
             services.AddTransient<ILikesService, LikesService>();
             services.AddTransient<IEventsService, EventsService>();
             services.AddTransient<IDropBoxService, DropBoxService>();
+            services.AddTransient<IGenresService, GenresService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
