@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SaitynoProjektasBackEnd.Models
 {
@@ -7,7 +8,10 @@ namespace SaitynoProjektasBackEnd.Models
         public static string SongAdded = "Song Added";
         public int Id { get; set; }
 
+        [Required]
         public DateTime CreatedOn { get; set; }
+        
+        [Required]
         public string EventType { get; set; }
 
         public int SongId { get; set; }

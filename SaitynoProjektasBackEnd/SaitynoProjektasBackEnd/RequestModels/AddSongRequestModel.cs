@@ -5,9 +5,11 @@ namespace SaitynoProjektasBackEnd.RequestModels
     public class AddSongRequestModel
     {
         [Required]
+        [MaxLength(255)]
         public string Title { get; set; }
 
         [Required]
+        [MaxLength(5000)]
         public string Description { get; set; }
 
         public string PictureUrl { get; set; }

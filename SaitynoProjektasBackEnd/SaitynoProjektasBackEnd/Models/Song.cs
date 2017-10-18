@@ -9,11 +9,11 @@ namespace SaitynoProjektasBackEnd.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(255)]
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(500)]
+        [MaxLength(5000)]
         public string Description { get; set; }
 
         [Required]
@@ -24,7 +24,6 @@ namespace SaitynoProjektasBackEnd.Models
 
         public string PictureUrl { get; set; }
 
-        [Required]
         public int Duration { get; set; }
 
         [Required]
@@ -35,6 +34,8 @@ namespace SaitynoProjektasBackEnd.Models
 
         [Required]
         public int GenreId { get; set; }
+
+        [Required]
         public Genre Genre { get; set; }
   
         public ICollection<PlaylistSong> PlaylistSongs { get; set; }
