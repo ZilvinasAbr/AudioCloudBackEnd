@@ -34,7 +34,9 @@ namespace SaitynoProjektasBackEnd.Data
                 new Following {Follower=users[0], Followed=users[1]},
                 new Following {Follower=users[0], Followed=users[2]},
                 new Following {Follower=users[0], Followed=users[3]},
-                new Following {Follower=users[0], Followed=users[4]}
+                new Following {Follower=users[0], Followed=users[4]},
+                new Following {Follower=users[11], Followed=users[0]},
+                new Following {Follower=users[10], Followed=users[0]},
             };
 
             context.Followings.AddRange(followings);
@@ -116,7 +118,8 @@ namespace SaitynoProjektasBackEnd.Data
                 new Like {User = users[0], Song = songs[2], CreatedOn = DateTime.Now},
                 new Like {User = users[0], Song = songs[3], CreatedOn = DateTime.Now},
                 new Like {User = users[0], Song = songs[4], CreatedOn = DateTime.Now},
-                new Like {User = users[0], Playlist = playlists[2], CreatedOn = DateTime.Now}
+                new Like {User = users[0], Playlist = playlists[2], CreatedOn = DateTime.Now},
+                new Like {User = users[10], Song = songs[0], CreatedOn = DateTime.Now}
             };
 
             context.Likes.AddRange(likes);
@@ -149,6 +152,7 @@ namespace SaitynoProjektasBackEnd.Data
             // On seed data AuthId equals a random string value, it is not possible to use these users.
             var users = new[]
             {
+                new User {UserName = "Test Client", Description = "Description", Location = "Location", AuthId = "user-d3485b16-4e00-4b31-81e5-90de84a9ef1f"},
                 new User {UserName = "User 1", Description = "Description", Location = "Location", AuthId = "auth0|59d527e6a83e933c763fb5e4"},
                 new User {UserName = "User 2", Description = "Description", Location = "Location", AuthId = "auth0|59d52843ea7eb262c0566c60"},
                 new User {UserName = "User 3", Description = "Description", Location = "Location", AuthId = "auth0|59d52855a83e933c763fb602"},
