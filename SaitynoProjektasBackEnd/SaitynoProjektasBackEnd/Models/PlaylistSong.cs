@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace SaitynoProjektasBackEnd.Models
+﻿namespace SaitynoProjektasBackEnd.Models
 {
     public class PlaylistSong
     {
@@ -10,7 +8,6 @@ namespace SaitynoProjektasBackEnd.Models
         public int SongId { get; set; }
         public Song Song { get; set; }
 
-        [Required]
         public int Number { get; set; }
     }
 }

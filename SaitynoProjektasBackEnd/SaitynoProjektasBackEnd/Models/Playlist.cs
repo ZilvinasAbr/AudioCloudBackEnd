@@ -17,8 +17,9 @@ namespace SaitynoProjektasBackEnd.Models
 
         public bool IsPublic { get; set; }
 
-        [Required]
+        public int UserId { get; set; }
         public User User { get; set; }
+
         public ICollection<PlaylistSong> PlaylistSongs { get; set; }
         public ICollection<Like> Likes { get; set; }
     }
