@@ -135,13 +135,13 @@ namespace SaitynoProjektasBackEnd.Controllers
             }
         }
 
-        [HttpPost("Search")]
-        public IActionResult Search([FromBody] SongSearchRequestModel model)
+        [HttpGet("Search/{query}")]
+        public IActionResult Search(string query)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
-            var songs = _songsService.SearchSongs(model.Query);
+            var songs = _songsService.SearchSongs(query);
 
             return Ok(songs);
         }
