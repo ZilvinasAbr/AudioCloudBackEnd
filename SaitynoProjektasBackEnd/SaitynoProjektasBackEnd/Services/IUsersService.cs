@@ -13,5 +13,6 @@ namespace SaitynoProjektasBackEnd.Services
         void EditUser(string authId, EditUserRequestModel user);
         User RegisterUser(string authId);
         string GetUserAuthId(ClaimsPrincipal claimsPrincipal);
+        IEnumerable<UserResponseModel> GetUserFollowings(string userName);
     }
 }

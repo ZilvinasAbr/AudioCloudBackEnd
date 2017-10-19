@@ -97,5 +97,21 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(new[] { e.Message });
             }
         }
+
+        [HttpGet("{userName}/Followings")]
+        public IActionResult GetFollowings(string userName)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+            
+            try {
+                var followings = _usersService.GetUserFollowings(userName);
+
+                return Ok(followings);
+            } catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
+        }
     }
 }

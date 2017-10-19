@@ -16,5 +16,6 @@ namespace SaitynoProjektasBackEnd.Services
         IEnumerable<SongResponseModel> SearchSongs(string query);
         IEnumerable<SongResponseModel> GetSongsByGenre(string genreName);
         IEnumerable<SongResponseModel> GetUserSongs(string userName);
+        IEnumerable<SongResponseModel> GetTrendingSongs();
     }
 }

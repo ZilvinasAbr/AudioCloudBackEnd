@@ -17,7 +17,7 @@ namespace SaitynoProjektasBackEnd.Models
                 Plays = song.Plays,
                 Title = song.Title,
                 UploadDate = song.UploadDate,
-                UploaderName = song.User.UserName,
+                User = UserToUserResponseModel(song.User),
                 FilePath = song.FilePath
             };
 
@@ -32,7 +32,7 @@ namespace SaitynoProjektasBackEnd.Models
                 PictureUrl = playlistSong.Song.PictureUrl,
                 Duration = playlistSong.Song.Duration,
                 Plays = playlistSong.Song.Plays,
-                UploaderName = playlistSong.Song.User.UserName,
+                User = UserToUserResponseModel(playlistSong.Song.User),
                 Genre = playlistSong.Song.Genre.Name,
                 Likes = playlistSong.Song.Likes.Count,
                 FilePath = playlistSong.Song.FilePath
@@ -41,6 +41,7 @@ namespace SaitynoProjektasBackEnd.Models
         public static UserResponseModel UserToUserResponseModel(User user) =>
             new UserResponseModel
             {
+                Id = user.Id,
                 Name = user.UserName,
                 Location = user.Location,
                 ProfilePictureUrl = user.ProfilePictureUrl,

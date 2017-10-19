@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
@@ -107,6 +108,25 @@ namespace SaitynoProjektasBackEnd.Services
             _context.SaveChanges();
             
             return user;
+        }
+
+        public IEnumerable<UserResponseModel> GetUserFollowings(string userName)
+        {
+             var user = _context.Users
+                .Include(u => u.Following)
+                .SingleOrDefault(u => u.UserName == userName);
+
+            if (user == null)
+                throw new Exception("User is not found");
+
+            var followings = _context.Followings
+                .Include(f => f.Followed)
+                .Where(f => f.FollowerId == user.Id)
+                .Select(f => f.Followed)
+                .Select(Mappers.UserToUserResponseModel)
+                .ToList();
+
+            return followings;
         }
     }
 }

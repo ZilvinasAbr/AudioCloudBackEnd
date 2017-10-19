@@ -49,6 +49,24 @@ namespace SaitynoProjektasBackEnd.Controllers
             }
         }
 
+        [HttpGet("Trending")]
+        public IActionResult GetTrending()
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+
+            try
+            {
+                var songs = _songsService.GetTrendingSongs();
+
+                return Ok(songs);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] {e.Message});
+            }
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {

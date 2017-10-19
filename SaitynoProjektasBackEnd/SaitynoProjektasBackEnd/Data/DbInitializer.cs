@@ -152,22 +152,22 @@ namespace SaitynoProjektasBackEnd.Data
             // On seed data AuthId equals a random string value, it is not possible to use these users.
             var users = new[]
             {
-                new User {UserName = "Test Client", Description = "Description", Location = "Location", AuthId = "user-d3485b16-4e00-4b31-81e5-90de84a9ef1f"},
-                new User {UserName = "User 1", Description = "Description", Location = "Location", AuthId = "auth0|59d527e6a83e933c763fb5e4"},
-                new User {UserName = "User 2", Description = "Description", Location = "Location", AuthId = "auth0|59d52843ea7eb262c0566c60"},
-                new User {UserName = "User 3", Description = "Description", Location = "Location", AuthId = "auth0|59d52855a83e933c763fb602"},
-                new User {UserName = "User 4", Description = "Description", Location = "Location", AuthId = "auth0|59d52865ea7eb262c0566c66"},
-                new User {UserName = "User 5", Description = "Description", Location = "Location", AuthId = "auth0|59d5287da83e933c763fb60e"},
-                new User {UserName = "User 6", Description = "Description", Location = "Location", AuthId = "auth0|59d5288eea7eb262c0566c78"},
-                new User {UserName = "User 7", Description = "Description", Location = "Location", AuthId = "auth0|59d5289da83e933c763fb628"},
-                new User {UserName = "User 8", Description = "Description", Location = "Location", AuthId = "auth0|59d528aba83e933c763fb62e"},
-                new User {UserName = "User 9", Description = "Description", Location = "Location", AuthId = "auth0|59d528b5ea7eb262c0566c87"},
-                new User {UserName = "User 10", Description = "Description", Location = "Location", AuthId = "auth0|59d528bfa83e933c763fb638"},
-                new User {UserName = "User 11", Description = "Description", Location = "Location", AuthId = "auth0|59d52986a83e933c763fb65b"},
-                new User {UserName = "User 12", Description = "Description", Location = "Location", AuthId = "auth0|59d52995a83e933c763fb65d"},
-                new User {UserName = "User 13", Description = "Description", Location = "Location", AuthId = "auth0|59d529a2a83e933c763fb65e"},
-                new User {UserName = "User 14", Description = "Description", Location = "Location", AuthId = "auth0|59d529afa83e933c763fb661"},
-                new User {UserName = "User 15", Description = "Description", Location = "Location", AuthId = "auth0|59d529c0591a282330989334"}
+                new User {UserName = "Test Client", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "lr7qwwgZlzvfQbC89SKPo4YiQ85UcCsk@clients"},
+                new User {UserName = "User 1", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d527e6a83e933c763fb5e4"},
+                new User {UserName = "User 2", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d52843ea7eb262c0566c60"},
+                new User {UserName = "User 3", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d52855a83e933c763fb602"},
+                new User {UserName = "User 4", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d52865ea7eb262c0566c66"},
+                new User {UserName = "User 5", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d5287da83e933c763fb60e"},
+                new User {UserName = "User 6", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d5288eea7eb262c0566c78"},
+                new User {UserName = "User 7", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d5289da83e933c763fb628"},
+                new User {UserName = "User 8", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d528aba83e933c763fb62e"},
+                new User {UserName = "User 9", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d528b5ea7eb262c0566c87"},
+                new User {UserName = "User 10", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d528bfa83e933c763fb638"},
+                new User {UserName = "User 11", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d52986a83e933c763fb65b"},
+                new User {UserName = "User 12", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d52995a83e933c763fb65d"},
+                new User {UserName = "User 13", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d529a2a83e933c763fb65e"},
+                new User {UserName = "User 14", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d529afa83e933c763fb661"},
+                new User {UserName = "User 15", ProfilePictureUrl="/image.png", Description = "Description", Location = "Location", AuthId = "auth0|59d529c0591a282330989334"}
             };
 
             context.Users.AddRange(users);
@@ -204,6 +204,7 @@ namespace SaitynoProjektasBackEnd.Data
                     Genre = genres[0],
                     User = users[0],
                     FilePath = "audio1.mp3",
+                    PictureUrl = "/image.png",
                     Title = "Song 1",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -216,6 +217,7 @@ namespace SaitynoProjektasBackEnd.Data
                     Genre = genres[0],
                     User = users[0],
                     FilePath = "audio2.mp3",
+                    PictureUrl = "/image.png",
                     Title = "Song 2",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -228,6 +230,7 @@ namespace SaitynoProjektasBackEnd.Data
                     Genre = genres[1],
                     User = users[1],
                     FilePath = "audio3.mp3",
+                    PictureUrl = "/image.png",
                     Title = "Song 3",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -240,6 +243,7 @@ namespace SaitynoProjektasBackEnd.Data
                     Genre = genres[2],
                     User = users[2],
                     FilePath = "audio4.mp3",
+                    PictureUrl = "/image.png",
                     Title = "Song 4",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -252,6 +256,7 @@ namespace SaitynoProjektasBackEnd.Data
                     Genre = genres[3],
                     User = users[3],
                     FilePath = "audio5.mp3",
+                    PictureUrl = "/image.png",
                     Title = "Song 5",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -264,6 +269,7 @@ namespace SaitynoProjektasBackEnd.Data
                     Genre = genres[0],
                     User = users[0],
                     FilePath = "audio6.mp3",
+                    PictureUrl = "/image.png",
                     Title = "Song 6",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -276,6 +282,7 @@ namespace SaitynoProjektasBackEnd.Data
                     Genre = genres[0],
                     User = users[1],
                     FilePath = "audio7.mp3",
+                    PictureUrl = "/image.png",
                     Title = "Song 7",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -288,6 +295,7 @@ namespace SaitynoProjektasBackEnd.Data
                     Genre = genres[0],
                     User = users[1],
                     FilePath = "audio8.mp3",
+                    PictureUrl = "/image.png",
                     Title = "Song 8 Should not appear event",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
