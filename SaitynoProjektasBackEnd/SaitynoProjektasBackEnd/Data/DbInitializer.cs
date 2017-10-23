@@ -35,6 +35,10 @@ namespace SaitynoProjektasBackEnd.Data
                 new Following {Follower=users[0], Followed=users[2]},
                 new Following {Follower=users[0], Followed=users[3]},
                 new Following {Follower=users[0], Followed=users[4]},
+                new Following {Follower=users[1], Followed=users[0]},
+                new Following {Follower=users[1], Followed=users[2]},
+                new Following {Follower=users[1], Followed=users[3]},
+                new Following {Follower=users[1], Followed=users[4]},
                 new Following {Follower=users[11], Followed=users[0]},
                 new Following {Follower=users[10], Followed=users[0]},
             };
