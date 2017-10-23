@@ -84,7 +84,11 @@ namespace SaitynoProjektasBackEnd
                 builder.WithOrigins(
                     "http://localhost:3000",
                     "https://audiocloud.surge.sh"
-                ));
+                )
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+            );
 
 
             app.UseMvc();
