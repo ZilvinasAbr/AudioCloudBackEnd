@@ -66,8 +66,8 @@ namespace SaitynoProjektasBackEnd.Models
                 Id = e.Id,
                 CreatedOn = e.CreatedOn,
                 EventType = e.EventType,
-                SongTitle = e.Song.Title,
-                UserName = e.User.UserName
+                User = UserToUserResponseModel(e.User),
+                Song = SongToSongResponseModel(e.Song)
             };
     }
 }

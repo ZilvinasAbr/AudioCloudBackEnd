@@ -9,5 +9,7 @@ namespace SaitynoProjektasBackEnd.ResponseModels
         public string EventType { get; set; }
         public string SongTitle { get; set; }
         public string UserName { get; set; }
+        public SongResponseModel Song { get; set; }
+        public UserResponseModel User { get; set; }
     }
 }
