@@ -198,13 +198,12 @@ namespace SaitynoProjektasBackEnd.Services
             return userSongs;
         }
 
-        public IEnumerable<SongResponseModel> GetTrendingSongs()
+        public IEnumerable<SongResponseModel> GetPopularSongs()
         {
             var songs = _context.Songs
                 .Include(s => s.User)
                 .Include(s => s.Genre)
                 .Include(s => s.Likes)
-                .Where(s => DateTime.Now - s.UploadDate < TimeSpan.FromDays(7))
                 .OrderByDescending(s => s.Plays)
                 .Select(Mappers.SongToSongResponseModel)
                 .Take(20);

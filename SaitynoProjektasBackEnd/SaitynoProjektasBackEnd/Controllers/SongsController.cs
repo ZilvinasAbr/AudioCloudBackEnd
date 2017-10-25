@@ -49,15 +49,15 @@ namespace SaitynoProjektasBackEnd.Controllers
             }
         }
 
-        [HttpGet("Trending")]
-        public IActionResult GetTrending()
+        [HttpGet("Popular")]
+        public IActionResult GetPopular()
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
             try
             {
-                var songs = _songsService.GetTrendingSongs();
+                var songs = _songsService.GetPopularSongs();
 
                 return Ok(songs);
             }
