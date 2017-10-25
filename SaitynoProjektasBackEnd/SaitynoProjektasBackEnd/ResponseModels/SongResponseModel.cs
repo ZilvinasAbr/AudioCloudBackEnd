@@ -16,8 +16,8 @@ namespace SaitynoProjektasBackEnd.ResponseModels
         public int Duration { get; set; }
         public int Plays { get; set; }
         public int Likes { get; set; }
+        public string Genre { get; set; }
 
-        public GenreResponseModel Genre { get; set; }
         public UserResponseModel User { get; set; }
     }
 }

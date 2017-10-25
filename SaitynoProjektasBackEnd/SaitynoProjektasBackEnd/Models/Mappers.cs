@@ -11,7 +11,7 @@ namespace SaitynoProjektasBackEnd.Models
                 Id = song.Id,
                 Description = song.Description,
                 Duration = song.Duration,
-                Genre = GenreToGenreResponseModel(song.Genre),
+                Genre = song.Genre.Name,
                 Likes = song.Likes.Count,
                 PictureUrl = song.PictureUrl,
                 Plays = song.Plays,
@@ -33,7 +33,7 @@ namespace SaitynoProjektasBackEnd.Models
                 Duration = playlistSong.Song.Duration,
                 Plays = playlistSong.Song.Plays,
                 User = UserToUserResponseModel(playlistSong.Song.User),
-                Genre = GenreToGenreResponseModel(playlistSong.Song.Genre),
+                Genre = playlistSong.Song.Genre.Name,
                 Likes = playlistSong.Song.Likes.Count,
                 FilePath = playlistSong.Song.FilePath
             };
@@ -68,13 +68,6 @@ namespace SaitynoProjektasBackEnd.Models
                 EventType = e.EventType,
                 User = UserToUserResponseModel(e.User),
                 Song = SongToSongResponseModel(e.Song)
-            };
-
-        public static GenreResponseModel GenreToGenreResponseModel(Genre genre) =>
-            new GenreResponseModel
-            {
-                Id = genre.Id,
-                Name = genre.Name
             };
     }
 }
