@@ -31,8 +31,8 @@ namespace SaitynoProjektasBackEnd.Controllers
             return Ok(songs);
         }
 
-        [HttpGet("Genre")]
-        public IActionResult GetByGenre([FromQuery] string genreName)
+        [HttpGet("Genre/{genreName}")]
+        public IActionResult GetByGenre(string genreName)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));

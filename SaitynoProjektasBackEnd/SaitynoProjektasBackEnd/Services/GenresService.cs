@@ -17,6 +17,6 @@ namespace SaitynoProjektasBackEnd.Services
             _context = context;
         }
 
-        public IEnumerable<string> GetGenres() => _context.Genres.Select(genre => genre.Name).ToList();
+        public IEnumerable<GenreResponseModel> GetGenres() => _context.Genres.Select(Mappers.GenreToGenreResponseModel).ToList();
     }
 }

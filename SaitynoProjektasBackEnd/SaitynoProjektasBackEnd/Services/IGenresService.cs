@@ -7,6 +7,6 @@ namespace SaitynoProjektasBackEnd.Services
 {
     public interface IGenresService
     {
-        IEnumerable<string> GetGenres();
+        IEnumerable<GenreResponseModel> GetGenres();
     }
 }
