@@ -187,6 +187,7 @@ namespace SaitynoProjektasBackEnd.Services
                     .ThenInclude(ps => ps.Song)
                         .ThenInclude(s => s.Likes)
                 .Include(p => p.Likes)
+                .Where(p => p.User.AuthId == userOfPlaylists.AuthId)
                 .ToList();
 
             if (!returnPrivatePlaylists) {
