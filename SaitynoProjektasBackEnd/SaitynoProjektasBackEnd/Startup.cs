@@ -42,6 +42,12 @@ namespace SaitynoProjektasBackEnd
 
             services.AddMvc();
 
+            // Add this if circular referencing happens.
+            // services.AddMvc().AddJsonOptions(options => {
+            //     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            //     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            // });
+
             string domain = $"https://{Configuration["Auth0:Domain"]}/";
             services.AddAuthentication(options =>
             {
