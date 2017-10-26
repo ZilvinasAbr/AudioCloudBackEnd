@@ -5,8 +5,9 @@ namespace SaitynoProjektasBackEnd.Models
 {
     public class Mappers
     {
-        public static SongResponseModel SongToSongResponseModel(Song song) =>
-            new SongResponseModel
+        public static SongResponseModel SongToSongResponseModel(Song song)
+        {
+            return new SongResponseModel
             {
                 Id = song.Id,
                 Description = song.Description,
@@ -20,6 +21,7 @@ namespace SaitynoProjektasBackEnd.Models
                 User = UserToUserResponseModel(song.User),
                 FilePath = song.FilePath
             };
+        }
 
         public static SongResponseModel PlaylistSongToSongResponseModel(PlaylistSong playlistSong) =>
             new SongResponseModel
@@ -56,8 +58,7 @@ namespace SaitynoProjektasBackEnd.Models
                 Description = playlist.Description,
                 IsPublic = playlist.IsPublic,
                 UserName = playlist.User.UserName,
-                Likes = playlist.Likes.Count,
-                Songs = playlist.PlaylistSongs.Select(PlaylistSongToSongResponseModel)
+                Songs = playlist.PlaylistSongs.Select(PlaylistSongToSongResponseModel).ToList()
             };
 
         public static EventResponseModel EventToEventResponseModel(Event e) =>

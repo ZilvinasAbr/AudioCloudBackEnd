@@ -63,48 +63,48 @@ namespace SaitynoProjektasBackEnd.Controllers
             }
         }
 
-        [Authorize]
-        [HttpPost("Playlist/{playlistId}")]
-        public IActionResult LikeAPlaylist(int playlistId)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+        // [Authorize]
+        // [HttpPost("Playlist/{playlistId}")]
+        // public IActionResult LikeAPlaylist(int playlistId)
+        // {
+        //     if (!ModelState.IsValid)
+        //         return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
-            var authId = _usersService.GetUserAuthId(User);
-            if (authId == null)
-                return BadRequest(new[] {"Bad access token provided"});
+        //     var authId = _usersService.GetUserAuthId(User);
+        //     if (authId == null)
+        //         return BadRequest(new[] {"Bad access token provided"});
 
-            try
-            {
-                var like = _likesService.LikeAPlaylist(playlistId, authId);
-                return Created($"api/likes/{like.Id}", like.Id);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new[] { e.Message });
-            }
-        }
+        //     try
+        //     {
+        //         var like = _likesService.LikeAPlaylist(playlistId, authId);
+        //         return Created($"api/likes/{like.Id}", like.Id);
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return BadRequest(new[] { e.Message });
+        //     }
+        // }
 
-        [Authorize]
-        [HttpDelete("Playlist/{playlistId}")]
-        public IActionResult DislikeAPlaylist(int playlistId)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+        // [Authorize]
+        // [HttpDelete("Playlist/{playlistId}")]
+        // public IActionResult DislikeAPlaylist(int playlistId)
+        // {
+        //     if (!ModelState.IsValid)
+        //         return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
 
-            var authId = _usersService.GetUserAuthId(User);
-            if (authId == null)
-                return BadRequest(new[] {"Bad access token provided"});
+        //     var authId = _usersService.GetUserAuthId(User);
+        //     if (authId == null)
+        //         return BadRequest(new[] {"Bad access token provided"});
 
-            try
-            {
-                _likesService.DislikeAPlaylist(playlistId, authId);
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new[]{e.Message});
-            }
-        }
+        //     try
+        //     {
+        //         _likesService.DislikeAPlaylist(playlistId, authId);
+        //         return Ok();
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return BadRequest(new[]{e.Message});
+        //     }
+        // }
     }
 }

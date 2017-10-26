@@ -118,11 +118,11 @@ namespace SaitynoProjektasBackEnd.Data
         {
             var likes = new[]
             {
-                new Like {User = users[0], Playlist = playlists[0], CreatedOn = DateTime.Now},
+                // new Like {User = users[0], Playlist = playlists[0], CreatedOn = DateTime.Now},
                 new Like {User = users[0], Song = songs[2], CreatedOn = DateTime.Now},
                 new Like {User = users[0], Song = songs[3], CreatedOn = DateTime.Now},
                 new Like {User = users[0], Song = songs[4], CreatedOn = DateTime.Now},
-                new Like {User = users[0], Playlist = playlists[2], CreatedOn = DateTime.Now},
+                // new Like {User = users[0], Playlist = playlists[2], CreatedOn = DateTime.Now},
                 new Like {User = users[10], Song = songs[0], CreatedOn = DateTime.Now}
             };
 

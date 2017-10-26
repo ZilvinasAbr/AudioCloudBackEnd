@@ -94,7 +94,7 @@ namespace SaitynoProjektasBackEnd.Services
 
             _context.Playlists.Add(playlist);
             _context.SaveChanges();
-            
+
             return playlist;
         }
 
@@ -151,9 +151,6 @@ namespace SaitynoProjektasBackEnd.Services
             var playlistSongs = _context.PlaylistSongs.Where(ps => ps.PlaylistId == id);
             _context.PlaylistSongs.RemoveRange(playlistSongs);
 
-            var likes = _context.Likes.Where(l => l.PlaylistId == id);
-            _context.Likes.RemoveRange(likes);
-
             _context.Playlists.Remove(playlist);
 
             _context.SaveChanges();
@@ -190,7 +187,8 @@ namespace SaitynoProjektasBackEnd.Services
                 .Where(p => p.User.AuthId == userOfPlaylists.AuthId)
                 .ToList();
 
-            if (!returnPrivatePlaylists) {
+            if (!returnPrivatePlaylists)
+            {
                 playlists = playlists.Where(p => p.IsPublic).ToList();
             }
 
@@ -200,8 +198,7 @@ namespace SaitynoProjektasBackEnd.Services
                 Description = p.Description,
                 IsPublic = p.IsPublic,
                 UserName = p.User.UserName,
-                Likes = p.Likes.Count,
-                Songs = p.PlaylistSongs.Select(Mappers.PlaylistSongToSongResponseModel)
+                Songs = p.PlaylistSongs.Select(Mappers.PlaylistSongToSongResponseModel).ToList()
             })
             .ToList();
 
@@ -308,7 +305,14 @@ namespace SaitynoProjektasBackEnd.Services
                 throw new Exception("User is not found");
 
             var likedSongs = _context.Likes
+                .Include(l => l.User)
+                .Include(l => l.Song)
+                    .ThenInclude(s => s.Genre)
+                .Include(l => l.Song)
+                    .ThenInclude(s => s.User)
                 .Where(l => l.User.AuthId == authId && l.Song != null)
+                .OrderByDescending(l => l.CreatedOn)
+                .ToList()
                 .Select(l => l.Song)
                 .ToList();
 
@@ -318,8 +322,14 @@ namespace SaitynoProjektasBackEnd.Services
                 Description = "",
                 IsPublic = false,
                 UserName = user.UserName,
-                Songs = likedSongs.Select(Mappers.SongToSongResponseModel)
+                Songs = likedSongs.Select(Mappers.SongToSongResponseModel).ToList()
             };
+
+            var count = playlist.Songs.Count;
+            for (var i = 0; i < count; i++)
+            {
+                playlist.Songs[i].TrackNumber = i + 1;
+            }
 
             return playlist;
         }
