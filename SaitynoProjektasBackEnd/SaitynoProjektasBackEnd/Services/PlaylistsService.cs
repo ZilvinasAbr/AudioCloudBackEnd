@@ -197,7 +197,7 @@ namespace SaitynoProjektasBackEnd.Services
                 Name = p.Name,
                 Description = p.Description,
                 IsPublic = p.IsPublic,
-                UserName = p.User.UserName,
+                User = Mappers.UserToUserResponseModel(p.User),
                 Songs = p.PlaylistSongs.Select(Mappers.PlaylistSongToSongResponseModel).ToList()
             })
             .ToList();
@@ -321,7 +321,7 @@ namespace SaitynoProjektasBackEnd.Services
                 Name = "Liked songs playlist",
                 Description = "",
                 IsPublic = false,
-                UserName = user.UserName,
+                User = Mappers.UserToUserResponseModel(user),
                 Songs = likedSongs.Select(Mappers.SongToSongResponseModel).ToList()
             };
 

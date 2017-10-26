@@ -8,7 +8,7 @@ namespace SaitynoProjektasBackEnd.ResponseModels
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsPublic { get; set; }
-        public string UserName { get; set; }
+        public UserResponseModel User { get; set; }
         public IList<SongResponseModel> Songs { get; set; }
     }
 }

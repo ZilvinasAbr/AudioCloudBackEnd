@@ -57,7 +57,7 @@ namespace SaitynoProjektasBackEnd.Models
                 Name = playlist.Name,
                 Description = playlist.Description,
                 IsPublic = playlist.IsPublic,
-                UserName = playlist.User.UserName,
+                User = UserToUserResponseModel(playlist.User),
                 Songs = playlist.PlaylistSongs.Select(PlaylistSongToSongResponseModel).ToList()
             };
 
