@@ -170,7 +170,6 @@ namespace SaitynoProjektasBackEnd.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
-            
             try
             {
                 var userSongs = _songsService.GetUserSongs(userName);

@@ -14,5 +14,6 @@ namespace SaitynoProjektasBackEnd.Services
         User RegisterUser(string authId);
         string GetUserAuthId(ClaimsPrincipal claimsPrincipal);
         IEnumerable<UserResponseModel> GetUserFollowings(string userName);
+        UserResponseModel GetCurrentUser(ClaimsPrincipal user);
     }
 }

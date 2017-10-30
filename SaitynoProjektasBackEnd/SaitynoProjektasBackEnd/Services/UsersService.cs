@@ -27,6 +27,15 @@ namespace SaitynoProjektasBackEnd.Services
             return users.Select(Mappers.UserToUserResponseModel);
         }
 
+        public UserResponseModel GetCurrentUser(ClaimsPrincipal userClaimsPrincipal)
+        {
+            var authId = GetUserAuthId(userClaimsPrincipal);
+            var user = _context.Users
+                .SingleOrDefault(u => u.AuthId == authId);
+
+            return Mappers.UserToUserResponseModel(user);
+        }
+
         public UserResponseModel GetUserByName(string name)
         {
             var user = _context.Users

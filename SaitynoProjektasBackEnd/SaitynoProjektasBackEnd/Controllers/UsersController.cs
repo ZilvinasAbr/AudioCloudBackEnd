@@ -27,6 +27,20 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [Authorize]
+        [HttpGet("Current")]
+        public IActionResult GetCurrentUser()
+        {
+            try
+            {
+                var user = _usersService.GetCurrentUser(User);
+                return Ok(user);    
+            } catch (Exception e)
+            {
+                return BadRequest(new[] {e.Message});
+            }
+        }
+
+        [Authorize]
         [HttpGet("Claims")]
         public object Claims()
         {
