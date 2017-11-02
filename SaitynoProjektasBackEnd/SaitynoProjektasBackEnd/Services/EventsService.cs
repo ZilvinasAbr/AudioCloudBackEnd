@@ -61,6 +61,7 @@ namespace SaitynoProjektasBackEnd.Services
                 .Select(f => f.Followed.AuthId)
                 .ToList();
 
+            // TODO: Filtering is done on the backend, not on the database, because SQL Server does not support conversion from TimeSpan to DateTime.
             var events = _context.Events
                 .Include(e => e.User)
                 .Include(e => e.Song)
@@ -68,12 +69,14 @@ namespace SaitynoProjektasBackEnd.Services
                 .Include(e => e.Song)
                     .ThenInclude(s => s.Likes)
                 .Where(e => followedAuthIds.Contains(e.User.AuthId))
-                .Where(e => e.CreatedOn + TimeSpan.FromDays(7) > DateTime.Now)
                 .OrderByDescending(e => e.CreatedOn)
                 .Select(Mappers.EventToEventResponseModel)
                 .ToList();
 
-            return events;
+            var filteredEvents = events
+                .Where(e => e.CreatedOn + TimeSpan.FromDays(7) > DateTime.Now);
+
+            return filteredEvents;
         }
     }
 }
