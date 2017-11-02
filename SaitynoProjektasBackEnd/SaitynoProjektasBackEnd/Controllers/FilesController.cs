@@ -56,20 +56,5 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             return response;
         }
-
-        // TODO: Remove completely if not needed.
-        // [HttpGet("{query}")]
-        // public async Task<IActionResult> DoesFileExist(string query)
-        // {
-        //     if (!ModelState.IsValid)
-        //     {
-        //         var modelErrors = ModelStateHandler.GetModelStateErrors(ModelState);
-
-        //         return BadRequest(modelErrors.ToArray());
-        //     }
-
-        //     var result = await _dropBoxService.DoesFileExist(query);
-        //     return Ok(result);
-        // }
     }
 }
