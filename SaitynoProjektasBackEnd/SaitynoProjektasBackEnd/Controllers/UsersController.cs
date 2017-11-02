@@ -127,5 +127,11 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(new[] { e.Message });
             }
         }
+
+        [HttpGet("Test")]
+        public IActionResult Test()
+        {
+            return Ok("Test");
+        }
     }
 }
