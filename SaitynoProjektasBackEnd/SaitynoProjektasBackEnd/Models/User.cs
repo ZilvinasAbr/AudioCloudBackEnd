@@ -28,5 +28,6 @@ namespace SaitynoProjektasBackEnd.Models
         public ICollection<Following> Followers { get; set; }
         public ICollection<Following> Following { get; set; }
         public ICollection<Event> Events { get; set; }
+        public ICollection<Like> Likes { get; set; }
     }
 }

@@ -57,6 +57,12 @@ namespace SaitynoProjektasBackEnd.Data
                 .WithMany(p => p.PlaylistSongs)
                 .HasForeignKey(ps => ps.SongId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.User)
+                .WithMany(u => u.Likes)
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
