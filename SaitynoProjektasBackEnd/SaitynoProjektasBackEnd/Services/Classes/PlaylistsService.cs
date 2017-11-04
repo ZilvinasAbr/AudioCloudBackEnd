@@ -6,8 +6,9 @@ using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
 using SaitynoProjektasBackEnd.ResponseModels;
+using SaitynoProjektasBackEnd.Services.Interfaces;
 
-namespace SaitynoProjektasBackEnd.Services
+namespace SaitynoProjektasBackEnd.Services.Classes
 {
     public class PlaylistsService : IPlaylistsService
     {

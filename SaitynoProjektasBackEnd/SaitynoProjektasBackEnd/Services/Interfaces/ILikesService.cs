@@ -1,6 +1,6 @@
 ﻿using SaitynoProjektasBackEnd.Models;
 
-namespace SaitynoProjektasBackEnd.Services
+namespace SaitynoProjektasBackEnd.Services.Interfaces
 {
     public interface ILikesService
     {

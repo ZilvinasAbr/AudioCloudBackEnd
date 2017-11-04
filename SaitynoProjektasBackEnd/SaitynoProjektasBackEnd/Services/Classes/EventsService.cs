@@ -5,8 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.ResponseModels;
+using SaitynoProjektasBackEnd.Services.Interfaces;
 
-namespace SaitynoProjektasBackEnd.Services
+namespace SaitynoProjektasBackEnd.Services.Classes
 {
     public class EventsService : IEventsService
     {

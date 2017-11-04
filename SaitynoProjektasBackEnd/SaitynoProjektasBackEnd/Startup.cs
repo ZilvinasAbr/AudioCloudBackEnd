@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Services;
+using SaitynoProjektasBackEnd.Services.Classes;
+using SaitynoProjektasBackEnd.Services.Interfaces;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace SaitynoProjektasBackEnd

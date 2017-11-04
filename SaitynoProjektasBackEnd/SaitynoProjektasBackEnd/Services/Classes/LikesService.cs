@@ -3,8 +3,9 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using SaitynoProjektasBackEnd.Data;
 using SaitynoProjektasBackEnd.Models;
+using SaitynoProjektasBackEnd.Services.Interfaces;
 
-namespace SaitynoProjektasBackEnd.Services
+namespace SaitynoProjektasBackEnd.Services.Classes
 {
     public class LikesService : ILikesService
     {

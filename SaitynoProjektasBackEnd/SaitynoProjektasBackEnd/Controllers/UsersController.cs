@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
 using SaitynoProjektasBackEnd.Services;
+using SaitynoProjektasBackEnd.Services.Interfaces;
 
 namespace SaitynoProjektasBackEnd.Controllers
 {

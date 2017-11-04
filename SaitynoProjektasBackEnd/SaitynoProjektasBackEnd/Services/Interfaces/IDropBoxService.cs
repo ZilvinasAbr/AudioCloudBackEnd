@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Dropbox.Api.Files;
 using Microsoft.AspNetCore.Http;
 
-namespace SaitynoProjektasBackEnd.Services
+namespace SaitynoProjektasBackEnd.Services.Interfaces
 {
     public interface IDropBoxService
     {

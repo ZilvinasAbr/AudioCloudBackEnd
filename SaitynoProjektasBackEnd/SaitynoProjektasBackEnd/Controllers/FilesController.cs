@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.Services;
+using SaitynoProjektasBackEnd.Services.Interfaces;
 
 namespace SaitynoProjektasBackEnd.Controllers
 {
@@ -50,11 +51,17 @@ namespace SaitynoProjektasBackEnd.Controllers
         [HttpGet("{filePath}")]
         public async Task<IActionResult> Download(string filePath)
         {
-            var stream = await _dropBoxService.DownloadFileAsync(filePath);
-            
-            var response = File(stream, "application/octet-stream");
+            try
+            {
+                var stream = await _dropBoxService.DownloadFileAsync(filePath);
+                var response = File(stream, "application/octet-stream");
 
-            return response;
+                return response;
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] {e.Message});
+            }
         }
     }
 }

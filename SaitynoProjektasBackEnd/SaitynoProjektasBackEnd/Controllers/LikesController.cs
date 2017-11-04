@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.Services;
+using SaitynoProjektasBackEnd.Services.Interfaces;
 
 namespace SaitynoProjektasBackEnd.Controllers
 {

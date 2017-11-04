@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using SaitynoProjektasBackEnd.ResponseModels;
 
-namespace SaitynoProjektasBackEnd.Services
+namespace SaitynoProjektasBackEnd.Services.Interfaces
 {
     public interface IEventsService
     {

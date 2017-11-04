@@ -6,8 +6,9 @@ using Dropbox.Api;
 using Dropbox.Api.Files;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using SaitynoProjektasBackEnd.Services.Interfaces;
 
-namespace SaitynoProjektasBackEnd.Services
+namespace SaitynoProjektasBackEnd.Services.Classes
 {
     public class DropBoxService : IDropBoxService
     {
