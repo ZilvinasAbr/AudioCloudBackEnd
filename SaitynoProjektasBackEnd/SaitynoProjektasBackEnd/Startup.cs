@@ -63,7 +63,10 @@ namespace SaitynoProjektasBackEnd
 
             if (_environment.IsDevelopment())
             {
-                services.AddSwaggerGen(c => c.SwaggerDoc("AudioCloud", new Info()));
+                services.AddSwaggerGen(c => {
+                    c.SwaggerDoc("AudioCloud", new Info());
+                    c.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Please insert JWT with Bearer into field", Name = "Authorization", Type = "apiKey" });
+                });
             }
 
             services.AddTransient<ISongsService, SongsService>();
