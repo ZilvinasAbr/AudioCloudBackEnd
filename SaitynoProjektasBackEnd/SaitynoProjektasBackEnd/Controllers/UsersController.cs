@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SaitynoProjektasBackEnd.Models;
 using SaitynoProjektasBackEnd.RequestModels;
-using SaitynoProjektasBackEnd.Services;
 using SaitynoProjektasBackEnd.Services.Interfaces;
 
 namespace SaitynoProjektasBackEnd.Controllers
@@ -41,17 +39,18 @@ namespace SaitynoProjektasBackEnd.Controllers
             }
         }
 
-        [Authorize]
-        [HttpGet("Claims")]
-        public object Claims()
-        {
-            return User.Claims.Select(c =>
-                new
-                {
-                    c.Type,
-                    c.Value
-                });
-        }
+        // Not needed endpoint, is left for reference.
+//        [Authorize]
+//        [HttpGet("Claims")]
+//        public object Claims()
+//        {
+//            return User.Claims.Select(c =>
+//                new
+//                {
+//                    c.Type,
+//                    c.Value
+//                });
+//        }
 
         [Authorize]
         [HttpPost("Register")]
@@ -127,12 +126,6 @@ namespace SaitynoProjektasBackEnd.Controllers
             {
                 return BadRequest(new[] { e.Message });
             }
-        }
-
-        [HttpGet("Test")]
-        public IActionResult Test()
-        {
-            return Ok("Test");
         }
     }
 }
