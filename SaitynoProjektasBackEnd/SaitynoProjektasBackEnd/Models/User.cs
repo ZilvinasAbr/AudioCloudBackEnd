@@ -10,11 +10,11 @@ namespace SaitynoProjektasBackEnd.Models
         [Required]
         public string AuthId { get; set; }
         
-        [MaxLength(30)]
+        [MaxLength(60)]
         public string UserName { get; set; }
         
         
-        [MaxLength(60)]
+        [MaxLength(50)]
         public string Location { get; set; }
         
         
