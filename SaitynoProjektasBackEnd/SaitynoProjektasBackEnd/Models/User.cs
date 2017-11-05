@@ -14,7 +14,7 @@ namespace SaitynoProjektasBackEnd.Models
         public string UserName { get; set; }
         
         
-        [MaxLength(50)]
+        [MaxLength(60)]
         public string Location { get; set; }
         
         
