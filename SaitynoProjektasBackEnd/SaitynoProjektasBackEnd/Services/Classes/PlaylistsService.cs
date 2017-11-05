@@ -193,14 +193,8 @@ namespace SaitynoProjektasBackEnd.Services.Classes
                 playlists = playlists.Where(p => p.IsPublic).ToList();
             }
 
-            var playlistResponseModels = playlists.Select(p => new PlaylistResponseModel
-            {
-                Name = p.Name,
-                Description = p.Description,
-                IsPublic = p.IsPublic,
-                User = Mappers.UserToUserResponseModel(p.User),
-                Songs = p.PlaylistSongs.Select(Mappers.PlaylistSongToSongResponseModel).ToList()
-            })
+            var playlistResponseModels = playlists
+            .Select(Mappers.PlaylistToPlaylistResponseModel)
             .ToList();
 
             return playlistResponseModels;

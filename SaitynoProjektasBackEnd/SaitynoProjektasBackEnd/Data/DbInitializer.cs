@@ -186,13 +186,13 @@ namespace SaitynoProjektasBackEnd.Data
         {
             var genres = new[]
             {
-                new Genre {Name = "Genre 1"},
-                new Genre {Name = "Genre 2"},
-                new Genre {Name = "Genre 3"},
-                new Genre {Name = "Genre 4"},
-                new Genre {Name = "Genre 5"},
-                new Genre {Name = "Genre 6"},
-                new Genre {Name = "Genre 7"}
+                new Genre {Name = "Ambient"},
+                new Genre {Name = "Deep House"},
+                new Genre {Name = "Electronic"},
+                new Genre {Name = "House"},
+                new Genre {Name = "Techno"},
+                new Genre {Name = "Trance"},
+                new Genre {Name = "PsyTrance"}
             };
 
             context.Genres.AddRange(genres);
@@ -211,7 +211,7 @@ namespace SaitynoProjektasBackEnd.Data
                     User = users[0],
                     FilePath = "audio1.mp3",
                     PictureUrl = "/image.png",
-                    Title = "Song 1",
+                    Title = "Artist - Song Title 1",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
@@ -224,7 +224,7 @@ namespace SaitynoProjektasBackEnd.Data
                     User = users[0],
                     FilePath = "audio2.mp3",
                     PictureUrl = "/image.png",
-                    Title = "Song 2",
+                    Title = "Artist - Song Title 2",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
@@ -237,7 +237,7 @@ namespace SaitynoProjektasBackEnd.Data
                     User = users[1],
                     FilePath = "audio3.mp3",
                     PictureUrl = "/image.png",
-                    Title = "Song 3",
+                    Title = "Artist - Song Title 3",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
@@ -250,7 +250,7 @@ namespace SaitynoProjektasBackEnd.Data
                     User = users[2],
                     FilePath = "audio4.mp3",
                     PictureUrl = "/image.png",
-                    Title = "Song 4",
+                    Title = "Artist - Song Title 4",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
@@ -263,7 +263,7 @@ namespace SaitynoProjektasBackEnd.Data
                     User = users[3],
                     FilePath = "audio5.mp3",
                     PictureUrl = "/image.png",
-                    Title = "Song 5",
+                    Title = "Artist - Song Title 5",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
@@ -276,7 +276,7 @@ namespace SaitynoProjektasBackEnd.Data
                     User = users[0],
                     FilePath = "audio6.mp3",
                     PictureUrl = "/image.png",
-                    Title = "Song 6",
+                    Title = "Artist - Song Title 6",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
@@ -289,7 +289,7 @@ namespace SaitynoProjektasBackEnd.Data
                     User = users[1],
                     FilePath = "audio7.mp3",
                     PictureUrl = "/image.png",
-                    Title = "Song 7",
+                    Title = "Artist - Song Title 7",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
@@ -302,7 +302,7 @@ namespace SaitynoProjektasBackEnd.Data
                     User = users[1],
                     FilePath = "audio8.mp3",
                     PictureUrl = "/image.png",
-                    Title = "Song 8 Should not appear event",
+                    Title = "Artist - Song Title 8",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now - TimeSpan.FromDays(8),
