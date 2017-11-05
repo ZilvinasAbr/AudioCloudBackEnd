@@ -78,7 +78,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             
             if (song == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
             return Ok(song);
