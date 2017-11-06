@@ -13,6 +13,6 @@ namespace SaitynoProjektasBackEnd.RequestModels
         public string Description { get; set; }
 
         [Required]
-        public bool IsPublic { get; set; }
+        public bool? IsPublic { get; set; }
     }
 }

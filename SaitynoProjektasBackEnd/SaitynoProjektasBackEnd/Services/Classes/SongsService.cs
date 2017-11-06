@@ -163,9 +163,11 @@ namespace SaitynoProjektasBackEnd.Services.Classes
 
             _context.SaveChanges();
 
-            var result = await _dropBoxService.DeleteFileAsync(song.FilePath);
-
-            return result;
+            // TODO: Commented out for development purposes
+            // var result = await _dropBoxService.DeleteFileAsync(song.FilePath);
+            // 
+            // return result;
+            return true;
         }
 
         public IEnumerable<SongResponseModel> SearchSongs(string query) =>
