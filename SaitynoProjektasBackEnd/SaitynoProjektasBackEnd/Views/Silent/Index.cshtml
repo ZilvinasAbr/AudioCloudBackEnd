@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
+  <script>
+    var webAuth = new auth0.WebAuth({
+      domain: 'audiocloud.eu.auth0.com',
+      clientID: 'BEeX4kOf2D8EPcaODbNEQ4jFX5gacBSb',
+      scope: 'openid profile offline_access',
+      responseType: 'token id_token',
+      redirectUri: '@ViewData["FrontEndUrl"]'
+    });
+  </script>
+  <script>
+    webAuth.parseHash(window.location.hash, function (err, response) {
+      parent.postMessage(err || response, '@ViewData["FrontEndUrl"]');
+    });
+  </script>
+</head>
+<body></body>
+</html>
