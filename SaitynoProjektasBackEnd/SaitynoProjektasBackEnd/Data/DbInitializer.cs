@@ -216,7 +216,7 @@ namespace SaitynoProjektasBackEnd.Data
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
                     Duration = 300,
-                    Plays = 1000
+                    Plays = 55717
                 },
                 new Song
                 {
@@ -229,7 +229,7 @@ namespace SaitynoProjektasBackEnd.Data
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
                     Duration = 300,
-                    Plays = 1000
+                    Plays = 142145
                 },
                 new Song
                 {
@@ -242,7 +242,7 @@ namespace SaitynoProjektasBackEnd.Data
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
                     Duration = 300,
-                    Plays = 1000
+                    Plays = 4545
                 },
                 new Song
                 {
@@ -255,7 +255,7 @@ namespace SaitynoProjektasBackEnd.Data
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
                     Duration = 300,
-                    Plays = 1000
+                    Plays = 4545
                 },
                 new Song
                 {
@@ -268,7 +268,7 @@ namespace SaitynoProjektasBackEnd.Data
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
                     Duration = 300,
-                    Plays = 1000
+                    Plays = 68668688
                 },
                 new Song
                 {
@@ -281,7 +281,7 @@ namespace SaitynoProjektasBackEnd.Data
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
                     Duration = 300,
-                    Plays = 1000
+                    Plays = 77788578
                 },
                 new Song
                 {
@@ -294,7 +294,7 @@ namespace SaitynoProjektasBackEnd.Data
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now,
                     Duration = 300,
-                    Plays = 1000
+                    Plays = 51
                 },
                 new Song
                 {
@@ -307,7 +307,7 @@ namespace SaitynoProjektasBackEnd.Data
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                     UploadDate = DateTime.Now - TimeSpan.FromDays(8),
                     Duration = 300,
-                    Plays = 1000
+                    Plays = 1
                 }
             };
 

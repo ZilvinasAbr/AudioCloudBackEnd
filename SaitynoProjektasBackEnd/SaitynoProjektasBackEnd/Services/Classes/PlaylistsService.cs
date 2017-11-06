@@ -70,7 +70,7 @@ namespace SaitynoProjektasBackEnd.Services.Classes
                 .SingleOrDefault(p => p.Id == id && (p.IsPublic || p.User.AuthId == authId));
 
             if (playlist == null)
-                throw new Exception("Playlist is not found");
+                return null;
 
             var playlistResponseModel = Mappers.PlaylistToPlaylistResponseModel(playlist);
 
@@ -89,7 +89,7 @@ namespace SaitynoProjektasBackEnd.Services.Classes
             {
                 Name = playlistRequestModel.Name,
                 Description = playlistRequestModel.Description,
-                IsPublic = playlistRequestModel.IsPublic,
+                IsPublic = playlistRequestModel.IsPublic.Value,
                 User = user
             };
 
