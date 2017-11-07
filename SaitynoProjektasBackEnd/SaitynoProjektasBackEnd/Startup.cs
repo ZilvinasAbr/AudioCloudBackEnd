@@ -61,13 +61,13 @@ namespace SaitynoProjektasBackEnd
                 options.Audience = Configuration["Auth0:ApiIdentifier"];
             });
 
-            if (_environment.IsDevelopment())
-            {
+            // if (_environment.IsDevelopment())
+            // {
                 services.AddSwaggerGen(c => {
                     c.SwaggerDoc("AudioCloud", new Info());
                     c.AddSecurityDefinition("Bearer", new ApiKeyScheme { In = "header", Description = "Please insert JWT with Bearer into field", Name = "Authorization", Type = "apiKey" });
                 });
-            }
+            // }
 
             services.AddTransient<ISongsService, SongsService>();
             services.AddTransient<IPlaylistsService, PlaylistsService>();
@@ -104,8 +104,8 @@ namespace SaitynoProjektasBackEnd
 
             app.UseMvc();
 
-            if (env.IsDevelopment())
-            {
+            // if (env.IsDevelopment())
+            // {
                 const string swaggerUrl = "/swagger/AudioCloud/swagger.json";
                 app.UseSwagger()
                     .UseSwaggerUI(c =>
@@ -113,7 +113,7 @@ namespace SaitynoProjektasBackEnd
                         c.DocExpansion("none");
                         c.SwaggerEndpoint(swaggerUrl, "AudioCloud");
                     });
-            }
+            // }
         }
     }
 }
