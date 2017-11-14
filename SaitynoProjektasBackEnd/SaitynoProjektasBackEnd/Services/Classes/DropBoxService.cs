@@ -6,6 +6,7 @@ using Dropbox.Api;
 using Dropbox.Api.Files;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using SaitynoProjektasBackEnd.OtherModels;
 using SaitynoProjektasBackEnd.Services.Interfaces;
 
 namespace SaitynoProjektasBackEnd.Services.Classes
@@ -49,15 +50,31 @@ namespace SaitynoProjektasBackEnd.Services.Classes
             }
         }
 
-        public async Task<Stream> DownloadFileAsync(string filePath)
+        public async Task<FileModel> DownloadFileAsync(string filePath)
         {
             using (var dbx = new DropboxClient(_accessToken))
             {
-                var response = await dbx.Files.DownloadAsync($"/{filePath}");
+                var path = $"/{filePath}";
 
-                var stream = await response.GetContentAsStreamAsync();
+                var metaData = await dbx.Files.GetMetadataAsync(path);
 
-                return stream;
+                var size = metaData.AsFile.Size;
+
+                var response = await dbx.Files.DownloadAsync(path);
+
+                // var stream = await response.GetContentAsStreamAsync();
+
+                var data = await response.GetContentAsByteArrayAsync();
+
+                var stream = new MemoryStream(data);
+
+                var fileModel = new FileModel
+                {
+                    Stream = stream,
+                    Size = size
+                };
+
+                return fileModel;
             }
         }
 

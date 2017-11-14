@@ -167,6 +167,9 @@ namespace SaitynoProjektasBackEnd.Services.Classes
             // var result = await _dropBoxService.DeleteFileAsync(song.FilePath);
             // 
             // return result;
+            await new Task(() => {
+                
+            });
             return true;
         }
 
