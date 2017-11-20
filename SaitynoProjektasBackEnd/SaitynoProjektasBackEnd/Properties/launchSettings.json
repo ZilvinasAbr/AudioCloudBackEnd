@@ -17,11 +17,11 @@
     },
     "SaitynoProjektasBackEnd": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:54991/"
+      "applicationUrl": "http://localhost:5000/"
     }
   }
 }

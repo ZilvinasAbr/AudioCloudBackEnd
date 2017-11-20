@@ -89,7 +89,7 @@ namespace SaitynoProjektasBackEnd.Services.Classes
             {
                 Name = playlistRequestModel.Name,
                 Description = playlistRequestModel.Description,
-                IsPublic = playlistRequestModel.IsPublic.Value,
+                IsPublic = playlistRequestModel.IsPublic != null && playlistRequestModel.IsPublic.Value,
                 User = user
             };
 

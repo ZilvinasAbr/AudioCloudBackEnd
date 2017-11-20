@@ -86,7 +86,7 @@ namespace SaitynoProjektasBackEnd.Controllers
             {
                 var playlistCreated = _playlistsService.AddPlaylist(playlist, authId);
 
-                return Created($"api/playlists/{playlistCreated.Id}", playlistCreated.Id);
+                return Created($"api/playlists/{playlistCreated.Id}", playlistCreated);
             }
             catch (Exception e)
             {
