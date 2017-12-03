@@ -212,7 +212,7 @@ namespace SaitynoProjektasBackEnd.Services.Classes
                 .Include(s => s.Likes)
                 .OrderByDescending(s => s.Plays)
                 .Select(Mappers.SongToSongResponseModel)
-                .Take(20);
+                .Take(10);
 
             return songs;
         }
