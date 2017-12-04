@@ -157,7 +157,7 @@ namespace SaitynoProjektasBackEnd.Services.Classes
             _context.SaveChanges();
         }
 
-        public IEnumerable<PlaylistResponseModel> GetUserPlaylists(string userNameOfPlaylists, string authId)
+        public IEnumerable<PlaylistResponseModel> GetUserPlaylists(string userNameOfPlaylists, string authId, int? amount)
         {
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
@@ -196,6 +196,10 @@ namespace SaitynoProjektasBackEnd.Services.Classes
             var playlistResponseModels = playlists
             .Select(Mappers.PlaylistToPlaylistResponseModel)
             .ToList();
+
+            if (amount != null) {
+                playlistResponseModels = playlistResponseModels.Take(amount.Value).ToList();
+            }
 
             return playlistResponseModels;
         }
@@ -291,7 +295,7 @@ namespace SaitynoProjektasBackEnd.Services.Classes
             _context.SaveChanges();
         }
 
-        public PlaylistResponseModel GetUserLikedPlaylist(string authId)
+        public PlaylistResponseModel GetUserLikedPlaylist(string authId, int? amount)
         {
             var user = _context.Users
                 .SingleOrDefault(u => u.AuthId == authId);
@@ -310,6 +314,10 @@ namespace SaitynoProjektasBackEnd.Services.Classes
                 .ToList()
                 .Select(l => l.Song)
                 .ToList();
+
+            if (amount != null) {
+                likedSongs = likedSongs.Take(amount.Value).ToList();
+            }
 
             var playlist = new PlaylistResponseModel
             {

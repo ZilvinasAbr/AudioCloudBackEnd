@@ -185,7 +185,7 @@ namespace SaitynoProjektasBackEnd.Services.Classes
         private static bool IsFoundByQuery(Song song, string query) =>
             song.Title.ToUpperInvariant().Contains(query) || song.Description.ToUpperInvariant().Contains(query);
 
-        public IEnumerable<SongResponseModel> GetUserSongs(string userName)
+        public IEnumerable<SongResponseModel> GetUserSongs(string userName, int? amount)
         {
             var user = _context.Users
                 .SingleOrDefault(u => u.UserName == userName);
@@ -200,6 +200,10 @@ namespace SaitynoProjektasBackEnd.Services.Classes
                 .Where(s => s.User.AuthId == user.AuthId)
                 .ToList()
                 .Select(Mappers.SongToSongResponseModel);
+
+            if (amount != null) {
+                userSongs = userSongs.Take(amount.Value);
+            }
 
             return userSongs;
         }

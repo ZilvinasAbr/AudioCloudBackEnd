@@ -186,13 +186,13 @@ namespace SaitynoProjektasBackEnd.Data
         {
             var genres = new[]
             {
-                new Genre {Name = "Ambient"},
-                new Genre {Name = "Deep House"},
-                new Genre {Name = "Electronic"},
-                new Genre {Name = "House"},
-                new Genre {Name = "Techno"},
-                new Genre {Name = "Trance"},
-                new Genre {Name = "PsyTrance"}
+                new Genre {Name = "Genre 1"},
+                new Genre {Name = "Genre 2"},
+                new Genre {Name = "Genre 3"},
+                new Genre {Name = "Genre 4"},
+                new Genre {Name = "Genre 5"},
+                new Genre {Name = "Genre 6"},
+                new Genre {Name = "Genre 7"}
             };
 
             context.Genres.AddRange(genres);

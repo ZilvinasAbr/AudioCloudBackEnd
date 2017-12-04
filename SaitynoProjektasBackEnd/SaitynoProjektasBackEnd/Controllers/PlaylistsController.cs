@@ -185,8 +185,8 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [Authorize]
-        [HttpGet("User/{userNameOfPlaylists}")]
-        public IActionResult GetUserPlaylists(string userNameOfPlaylists)
+        [HttpGet("User/{userNameOfPlaylists}/{amount?}")]
+        public IActionResult GetUserPlaylists(string userNameOfPlaylists, int? amount)
         {
            if (!ModelState.IsValid)
                 return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
@@ -197,7 +197,7 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             try
             {
-                var playlists = _playlistsService.GetUserPlaylists(userNameOfPlaylists, authId);
+                var playlists = _playlistsService.GetUserPlaylists(userNameOfPlaylists, authId, amount);
 
                 return Ok(playlists);
             }
@@ -208,8 +208,8 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [Authorize]
-        [HttpGet("Liked")]
-        public IActionResult GetUserLikedPlaylist()
+        [HttpGet("Liked/{amount?}")]
+        public IActionResult GetUserLikedPlaylist(int? amount)
         {
             var authId = _usersService.GetUserAuthId(User);
             if (authId == null)
@@ -217,7 +217,7 @@ namespace SaitynoProjektasBackEnd.Controllers
 
             try
             {
-                var playlist = _playlistsService.GetUserLikedPlaylist(authId);
+                var playlist = _playlistsService.GetUserLikedPlaylist(authId, amount);
 
                 return Ok(playlist);
             }

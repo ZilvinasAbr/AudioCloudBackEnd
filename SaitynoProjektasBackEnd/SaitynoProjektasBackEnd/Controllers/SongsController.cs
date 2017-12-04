@@ -166,14 +166,14 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [Authorize]
-        [HttpGet("user/{userName}")]
-        public IActionResult GetUserSongs(string userName)
+        [HttpGet("user/{userName}/{amount?}")]
+        public IActionResult GetUserSongs(string userName, int? amount)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
             try
             {
-                var userSongs = _songsService.GetUserSongs(userName);
+                var userSongs = _songsService.GetUserSongs(userName, amount);
 
                 return Ok(userSongs);
             }
