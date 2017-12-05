@@ -21,6 +21,28 @@ namespace SaitynoProjektasBackEnd.Controllers
         }
 
         [Authorize]
+        [HttpGet("Song/{songId}")]
+        public IActionResult GetIsSongLiked(int songId)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
+
+            var authId = _usersService.GetUserAuthId(User);
+            if (authId == null)
+                return BadRequest(new[] {"Bad access token provided"});
+
+            try
+            {
+                var isLiked = _likesService.GetIsSongLiked(songId, authId);
+                return Ok(isLiked);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new[] { e.Message });
+            }
+        }
+
+        [Authorize]
         [HttpPost("Song/{songId}")]
         public IActionResult LikeASong(int songId)
         {
@@ -63,49 +85,5 @@ namespace SaitynoProjektasBackEnd.Controllers
                 return BadRequest(new[] { e.Message });
             }
         }
-
-        // [Authorize]
-        // [HttpPost("Playlist/{playlistId}")]
-        // public IActionResult LikeAPlaylist(int playlistId)
-        // {
-        //     if (!ModelState.IsValid)
-        //         return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
-
-        //     var authId = _usersService.GetUserAuthId(User);
-        //     if (authId == null)
-        //         return BadRequest(new[] {"Bad access token provided"});
-
-        //     try
-        //     {
-        //         var like = _likesService.LikeAPlaylist(playlistId, authId);
-        //         return Created($"api/likes/{like.Id}", like.Id);
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return BadRequest(new[] { e.Message });
-        //     }
-        // }
-
-        // [Authorize]
-        // [HttpDelete("Playlist/{playlistId}")]
-        // public IActionResult DislikeAPlaylist(int playlistId)
-        // {
-        //     if (!ModelState.IsValid)
-        //         return BadRequest(ModelStateHandler.GetModelStateErrors(ModelState));
-
-        //     var authId = _usersService.GetUserAuthId(User);
-        //     if (authId == null)
-        //         return BadRequest(new[] {"Bad access token provided"});
-
-        //     try
-        //     {
-        //         _likesService.DislikeAPlaylist(playlistId, authId);
-        //         return Ok();
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return BadRequest(new[]{e.Message});
-        //     }
-        // }
     }
 }
